@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:swecha/misc/palette.dart';
 import 'package:swecha/misc/widget_utils.dart';
@@ -136,7 +135,7 @@ class _MoreInfoPageState extends State<MoreInfoPage> {
                     margin: EdgeInsets.only(
                       left: 20.0,
                       right: 20.0,
-                      bottom: 5.0,
+                      bottom: 8.0,
                     ),
                     color: Colors.white,
                     child: Opacity(
@@ -148,45 +147,7 @@ class _MoreInfoPageState extends State<MoreInfoPage> {
                           child: TextField(
                             onSubmitted: (value) {},
                             decoration: InputDecoration.collapsed(
-                              hintText: "User Name", //unique
-                              filled: true,
-                              fillColor: Colors.white,
-                              border: InputBorder.none,
-                            ),
-                            keyboardType: TextInputType.text,
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              fontFamily: "Roboto",
-                              color: Color(0xFF000000),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Material(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(10.0),
-                  ),
-                  child: Container(
-                    margin: EdgeInsets.only(
-                      left: 20.0,
-                      right: 20.0,
-                      bottom: 5.0,
-                    ),
-                    color: Colors.white,
-                    child: Opacity(
-                      opacity: 0.5,
-                      child: Card(
-                        elevation: 5.0,
-                        child: Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: TextField(
-                            onSubmitted: (value) {},
-                            decoration: InputDecoration.collapsed(
-                              hintText: "Phone",
+                              hintText: "Phone", //unique
                               filled: true,
                               fillColor: Colors.white,
                               border: InputBorder.none,
@@ -224,7 +185,7 @@ class _MoreInfoPageState extends State<MoreInfoPage> {
                       ),
                       color: Palette.textBlack,
                       onPressed: () {
-                        // WidgetUtils.showDiscoverPage(context, replaceAll: true);
+                        WidgetUtils.showFeedPage(context,);
                       },
                     ),
                   ),

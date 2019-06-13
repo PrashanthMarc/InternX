@@ -20,6 +20,12 @@ class Palette {
   static Color blue = Color(0xff2196F3);
   static Color appBlack = Color(0xff000000);
   static Color textBlack = Color(0xff44464d);
+  static Color textTabHeader = Color(0xFF44464d); // Tab Text Color
+  static Color imageBlack = Color(0xFF44464d); // Icons Color
+  static Color starBlack = Color(0xFF44464d); // Rating Stars color
+  static Color dividerBlack = Color(0xFF44464d); // Divider Color
+  static Color lightGrey = Color(0x6144464d);
+  
   static Color rating = Color(0xFFf39c12);
   static Color appGrey = Color(0xff44464d);
 

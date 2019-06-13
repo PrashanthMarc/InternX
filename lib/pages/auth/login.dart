@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:swecha/misc/palette.dart';
 import 'package:swecha/misc/widget_utils.dart';
@@ -14,9 +13,9 @@ class LogInPage extends StatefulWidget {
 class _LogInPageState extends State<LogInPage> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
-  TapGestureRecognizer _tapGestureRecognizer;
-  TextEditingController _smsController = TextEditingController();
-  TextEditingController _phoneNumberController = TextEditingController();
+  // TapGestureRecognizer _tapGestureRecognizer;
+  // TextEditingController _smsController = TextEditingController();
+  // TextEditingController _phoneNumberController = TextEditingController();
 
   final hintStyle = TextStyle(color: Colors.white24);
 
@@ -148,7 +147,9 @@ class _LogInPageState extends State<LogInPage> {
                       ),
                       color: Palette.textBlack,
                       onPressed: () {
-                        // WidgetUtils.showDiscoverPage(context, replaceAll: true);
+                        WidgetUtils.showMoreInfoPage(
+                          context,
+                        );
                       },
                     ),
                   ),

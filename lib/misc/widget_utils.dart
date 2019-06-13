@@ -2,34 +2,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:swecha/pages/auth/login.dart';
 import 'package:swecha/pages/auth/moreinfo.dart';
+import 'package:swecha/pages/home/home.dart';
 
 class WidgetUtils {
   static const String TAG = "WIDGET_UTILS";
   String tag = LogInPage.TAG;
   Widget page = LogInPage();
 
-  
-
-    // if (await Prefs.getBool("loggedIn")) {
-    // tag = HomePage.TAG;
-    // page = HomePage();
-    // } else {
-    // tag = LogInPage.TAG;
-    // page = LogInPage();
-    // }
-
-   
-
-  // static void showHomePage(BuildContext context) async {
-  //   String tag = HomePage.TAG;
-  //   Widget page = HomePage();
-
-  //   final route = CupertinoPageRoute<bool>(
-  //     maintainState: true,
-  //     settings: RouteSettings(name: tag),
-  //     builder: (context) => page,
-  //   );
-  //   Navigator.of(context).pushAndRemoveUntil(route, (route) => false);
+  // if (await Prefs.getBool("loggedIn")) {
+  // tag = HomePage.TAG;
+  // page = HomePage();
+  // } else {
+  // tag = LogInPage.TAG;
+  // page = LogInPage();
   // }
 
   // static void showMapPage(BuildContext context) async {
@@ -59,6 +44,18 @@ class WidgetUtils {
   static void showMoreInfoPage(BuildContext context) async {
     String tag = MoreInfoPage.TAG;
     Widget page = MoreInfoPage();
+
+    final route = CupertinoPageRoute<bool>(
+      maintainState: true,
+      settings: RouteSettings(name: tag),
+      builder: (context) => page,
+    );
+    Navigator.of(context).pushAndRemoveUntil(route, (route) => false);
+  }
+
+  static void showFeedPage(BuildContext context) async {
+    String tag = FeedPage.TAG;
+    Widget page = FeedPage();
 
     final route = CupertinoPageRoute<bool>(
       maintainState: true,

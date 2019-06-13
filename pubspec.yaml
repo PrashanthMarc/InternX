@@ -24,6 +24,12 @@ dependencies:
 flutter_localizations:
     sdk: flutter
     timeago: ^2.0.8
+    # flutter_advanced_networkimage: ^0.4.15
+    flutter_advanced_networkimage:
+    git:
+      url: https://github.com/kentcb/flutter_advanced_networkimage.git
+      ref: fix/104
+flutter_cache_manager: any
   
 
 dependency_overrides:

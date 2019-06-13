@@ -40,7 +40,7 @@ class _MoreInfoPageState extends State<MoreInfoPage> {
                 "More About Me",
                 style: TextStyle(
                   fontSize: 34.0,
-                  fontFamily: "Roboto",
+                  fontFamily: "Nunito",
                   color: Colors.black,
                   fontWeight: FontWeight.w500,
                 ),
@@ -79,7 +79,7 @@ class _MoreInfoPageState extends State<MoreInfoPage> {
                             keyboardType: TextInputType.text,
                             style: TextStyle(
                               fontSize: 16.0,
-                              fontFamily: "Roboto",
+                              fontFamily: "Nunito",
                               color: Color(0xFF000000),
                             ),
                           ),
@@ -117,7 +117,7 @@ class _MoreInfoPageState extends State<MoreInfoPage> {
                             keyboardType: TextInputType.text,
                             style: TextStyle(
                               fontSize: 16.0,
-                              fontFamily: "Roboto",
+                              fontFamily: "Nunito",
                               color: Color(0xFF000000),
                             ),
                           ),
@@ -155,7 +155,7 @@ class _MoreInfoPageState extends State<MoreInfoPage> {
                             keyboardType: TextInputType.text,
                             style: TextStyle(
                               fontSize: 16.0,
-                              fontFamily: "Roboto",
+                              fontFamily: "Nunito",
                               color: Color(0xFF000000),
                             ),
                           ),
@@ -180,10 +180,10 @@ class _MoreInfoPageState extends State<MoreInfoPage> {
                           style: TextStyle(
                               fontSize: 14.0,
                               color: Color(0xFFFFFFFF),
-                              fontFamily: "RobotoSlab"),
+                              fontFamily: "Nunito"),
                         ),
                       ),
-                      color: Palette.textBlack,
+                      color: Colors.blue,
                       onPressed: () {
                         WidgetUtils.showFeedPage(context,);
                       },

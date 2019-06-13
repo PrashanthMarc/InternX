@@ -18,7 +18,7 @@ class Palette {
   static Color grey = Colors.grey[600];
 
   static Color blue = Color(0xff2196F3);
-  static Color appBlack = Color(0xff000000);
+  static Color appBlack = Color(0xff44464d);
   static Color textBlack = Color(0xff44464d);
   static Color textTabHeader = Color(0xFF44464d); // Tab Text Color
   static Color imageBlack = Color(0xFF44464d); // Icons Color

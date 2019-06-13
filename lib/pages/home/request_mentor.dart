@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:swecha/widgets/white_app_bar.dart';
 import 'package:swecha/misc/widget_utils.dart';
+import 'package:swecha/misc/palette.dart';
 
 class RequestMentorPage extends StatefulWidget {
 
@@ -19,6 +20,7 @@ class _RequestMentorPageState extends State<RequestMentorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: WhiteAppBar(
         title: Text("Request A Mentor"),
         centerTitle: true,
@@ -26,7 +28,7 @@ class _RequestMentorPageState extends State<RequestMentorPage> {
       body: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
@@ -44,7 +46,6 @@ class _RequestMentorPageState extends State<RequestMentorPage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
               child: TextField(
-                maxLength: 32,
                 textCapitalization: TextCapitalization.words,
                 controller: _trackController,
                 decoration: InputDecoration(
@@ -71,10 +72,36 @@ class _RequestMentorPageState extends State<RequestMentorPage> {
                 decoration: InputDecoration(
                     labelText: "Notes",
                     hintText: "eg: I need explanation for python classes"),
-                maxLength: 10,
+                maxLength: 120,
                 keyboardType: TextInputType.text,
               ),
             ),
+            Padding(
+                  padding: const EdgeInsets.only(
+                    top: 14.0,
+                  ),
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.7,
+                    child: RaisedButton(
+                      shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(30.0)),
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 14.0, bottom: 14.0),
+                        child: Text(
+                          "CONTINUE", //I'm In
+                          style: TextStyle(
+                              fontSize: 14.0,
+                              color: Color(0xFFFFFFFF),
+                              fontFamily: "RobotoSlab"),
+                        ),
+                      ),
+                      color: Palette.textBlack,
+                      onPressed: () { },
+                        
+                      
+                    ),
+                  ),
+                ),
           ],
         ),
       ),

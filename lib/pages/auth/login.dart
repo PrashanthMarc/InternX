@@ -36,13 +36,33 @@ class _LogInPageState extends State<LogInPage> {
             Positioned(
               top: 10.0,
               left: 20.0,
-              child: Text(
-                "SwechaInternX",
-                style: TextStyle(
-                  fontSize: 34.0,
-                  fontFamily: "Roboto",
-                  color: Colors.black,
-                  fontWeight: FontWeight.w500,
+            
+              child: RichText(
+                text: new TextSpan(
+                  style: new TextStyle(
+                    fontSize: 14.0,
+                    color: Colors.black,
+                  ),
+                  children: <TextSpan>[
+                    new TextSpan(
+                      text: 'Swecha',
+                      style: TextStyle(
+                        fontSize: 44.0,
+                        fontFamily: "Nunito",
+                        color: Colors.blue,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    TextSpan(
+                      text: 'InternX',
+                      style: TextStyle(
+                        fontSize: 44.0,
+                        fontFamily: "Nunito",
+                        color: Colors.green,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                   ],
                 ),
               ),
             ),
@@ -71,7 +91,7 @@ class _LogInPageState extends State<LogInPage> {
                           child: TextField(
                             onSubmitted: (value) {},
                             decoration: InputDecoration.collapsed(
-                              hintText: "USER ID",
+                              hintText: "Username",
                               filled: true,
                               fillColor: Colors.white,
                               border: InputBorder.none,
@@ -79,8 +99,9 @@ class _LogInPageState extends State<LogInPage> {
                             keyboardType: TextInputType.text,
                             style: TextStyle(
                               fontSize: 16.0,
-                              fontFamily: "Roboto",
+                              fontFamily: "Nunito",
                               color: Color(0xFF000000),
+                              // fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
@@ -109,7 +130,7 @@ class _LogInPageState extends State<LogInPage> {
                           child: TextField(
                             onSubmitted: (value) {},
                             decoration: InputDecoration.collapsed(
-                              hintText: "PASSWORD",
+                              hintText: "Password",
                               filled: true,
                               fillColor: Colors.white,
                               border: InputBorder.none,
@@ -117,7 +138,7 @@ class _LogInPageState extends State<LogInPage> {
                             keyboardType: TextInputType.text,
                             style: TextStyle(
                               fontSize: 16.0,
-                              fontFamily: "Roboto",
+                              fontFamily: "Nunito",
                               color: Color(0xFF000000),
                             ),
                           ),
@@ -131,21 +152,24 @@ class _LogInPageState extends State<LogInPage> {
                     top: 14.0,
                   ),
                   child: SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.7,
+                    width: MediaQuery.of(context).size.width * 0.5,
                     child: RaisedButton(
                       shape: new RoundedRectangleBorder(
                           borderRadius: new BorderRadius.circular(30.0)),
                       child: Padding(
                         padding: const EdgeInsets.only(top: 14.0, bottom: 14.0),
                         child: Text(
-                          "CONTINUE", //I'm In
+                          "Login",
                           style: TextStyle(
-                              fontSize: 14.0,
+                              fontSize: 18.0,
                               color: Color(0xFFFFFFFF),
-                              fontFamily: "RobotoSlab"),
+                              fontFamily: "Nunito",
+                              fontWeight: FontWeight.w700,
+                              ),
+                            
                         ),
                       ),
-                      color: Palette.textBlack,
+                      color: Colors.blue,
                       onPressed: () {
                         WidgetUtils.showMoreInfoPage(
                           context,

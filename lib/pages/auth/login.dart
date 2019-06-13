@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:swecha/misc/palette.dart';
 import 'package:swecha/misc/widget_utils.dart';
@@ -24,15 +25,14 @@ class _LogInPageState extends State<LogInPage> {
   // bool isSmsSent = false;
   // bool isCodeVerify = false;
 
-  var loginState;
-
   void _showSnackBar(String msg) {
     _scaffoldKey.currentState.showSnackBar(SnackBar(
       content: Text(msg),
     ));
   }
 
-  void _performLogin() async {
+  void _performLogin(var lState) async {
+    SystemChannels.textInput.invokeMethod('TextInput.hide');
     if (_usernameController.text.isEmpty) {
       _showSnackBar("Username cannot be empty");
       return;
@@ -42,14 +42,20 @@ class _LogInPageState extends State<LogInPage> {
       return;
     }
 
-    await loginState.loginUser(
+    bool loginResult = await lState.loginUser(
         _usernameController.text, _passwordController.text);
+
+    if (loginResult) {
+      _showSnackBar("Invalid Login details.");
+      return;
+    } else {
+      _showSnackBar("Login Success");
+      WidgetUtils.showFeedPage(context);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    loginState = Provider.of<LoginState>(context);
-
     return ChangeNotifierProvider<LoginState>(
       builder: (_) => LoginState(),
       child: Scaffold(
@@ -115,23 +121,25 @@ class _LogInPageState extends State<LogInPage> {
                           elevation: 5.0,
                           child: Padding(
                             padding: const EdgeInsets.all(12.0),
-                            child: TextField(
-                              enabled: !loginState.isFetching,
-                              controller: _usernameController,
-                              onSubmitted: (value) {},
-                              decoration: InputDecoration.collapsed(
-                                hintText: "Username",
-                                filled: true,
-                                fillColor: Colors.white,
-                                border: InputBorder.none,
-                              ),
-                              keyboardType: TextInputType.text,
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                fontFamily: "Nunito",
-                                color: Color(0xFF000000),
-                                // fontWeight: FontWeight.bold,
-                              ),
+                            child: Consumer<LoginState>(
+                              builder: (context, lState, child) => TextField(
+                                    enabled: !lState.isFetching,
+                                    controller: _usernameController,
+                                    onSubmitted: (value) {},
+                                    decoration: InputDecoration.collapsed(
+                                      hintText: "Username",
+                                      filled: true,
+                                      fillColor: Colors.white,
+                                      border: InputBorder.none,
+                                    ),
+                                    keyboardType: TextInputType.text,
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                      fontFamily: "Nunito",
+                                      color: Color(0xFF000000),
+                                      // fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                             ),
                           ),
                         ),
@@ -156,22 +164,25 @@ class _LogInPageState extends State<LogInPage> {
                           elevation: 5.0,
                           child: Padding(
                             padding: const EdgeInsets.all(12.0),
-                            child: TextField(
-                              enabled: !loginState.isFetching,
-                              controller: _passwordController,
-                              onSubmitted: (value) {},
-                              decoration: InputDecoration.collapsed(
-                                hintText: "Password",
-                                filled: true,
-                                fillColor: Colors.white,
-                                border: InputBorder.none,
-                              ),
-                              keyboardType: TextInputType.text,
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                fontFamily: "Nunito",
-                                color: Color(0xFF000000),
-                              ),
+                            child: Consumer<LoginState>(
+                              builder: (context, lState, child) => TextField(
+                                    enabled: !lState.isFetching,
+                                    controller: _passwordController,
+                                    obscureText: true,
+                                    onSubmitted: (value) {},
+                                    decoration: InputDecoration.collapsed(
+                                      hintText: "Password",
+                                      filled: true,
+                                      fillColor: Colors.white,
+                                      border: InputBorder.none,
+                                    ),
+                                    keyboardType: TextInputType.text,
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                      fontFamily: "Nunito",
+                                      color: Color(0xFF000000),
+                                    ),
+                                  ),
                             ),
                           ),
                         ),
@@ -184,33 +195,36 @@ class _LogInPageState extends State<LogInPage> {
                     ),
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width * 0.5,
-                      child: RaisedButton(
-                        shape: new RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(30.0)),
-                        child: Padding(
-                          padding:
-                              const EdgeInsets.only(top: 14.0, bottom: 14.0),
-                          child: loginState.isFetching
-                              ? CircularProgressIndicator()
-                              : Text(
-                                  "Login",
-                                  style: TextStyle(
-                                    fontSize: 18.0,
-                                    color: Color(0xFFFFFFFF),
-                                    fontFamily: "Nunito",
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                        ),
-                        color: Colors.blue,
-                        onPressed: loginState.isFetching
-                            ? null
-                            : () {
-                                _performLogin();
-                                // WidgetUtils.showMoreInfoPage(
-                                //   context,
-                                // );
-                              },
+                      child: Consumer<LoginState>(
+                        builder: (context, lState, child) => RaisedButton(
+                              shape: new RoundedRectangleBorder(
+                                  borderRadius:
+                                      new BorderRadius.circular(30.0)),
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 14.0, bottom: 14.0),
+                                child: lState.isFetching
+                                    ? CircularProgressIndicator()
+                                    : Text(
+                                        "Login",
+                                        style: TextStyle(
+                                          fontSize: 18.0,
+                                          color: Color(0xFFFFFFFF),
+                                          fontFamily: "Nunito",
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                              ),
+                              color: Colors.blue,
+                              onPressed: lState.isFetching
+                                  ? null
+                                  : () {
+                                      _performLogin(lState);
+                                      // WidgetUtils.showMoreInfoPage(
+                                      //   context,
+                                      // );
+                                    },
+                            ),
                       ),
                     ),
                   ),

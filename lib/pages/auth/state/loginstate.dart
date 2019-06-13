@@ -24,9 +24,10 @@ class LoginState with ChangeNotifier {
     bool _error = false;
 
     var response = await http.post(
-      "${ConstUtils.baseUrl}token",
+      "${ConstUtils.baseUrl}token/",
       body: userLogins,
     );
+
     if (response.statusCode == 200) {
       _jsonResonse = response.body;
 
@@ -39,7 +40,11 @@ class LoginState with ChangeNotifier {
           await Prefs.setString("refresh", json["refresh"]);
           _error = false;
         }
+      } else {
+        _error = true;
       }
+    } else {
+      _error = true;
     }
 
     _isFetching = false;

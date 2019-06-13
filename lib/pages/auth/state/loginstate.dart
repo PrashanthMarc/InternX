@@ -36,6 +36,11 @@ class LoginState with ChangeNotifier {
         if (json["detail"] != null) {
           _error = true;
         } else {
+          try {
+            Map<String, dynamic> payload = ConstUtils.parseJwt(json["access"]);
+            await Prefs.setInt("userId", payload["user_id"]);
+            await Prefs.setInt("exp", payload["exp"]);
+          } catch (er) {}
           await Prefs.setString("token", json["access"]);
           await Prefs.setString("refresh", json["refresh"]);
           _error = false;

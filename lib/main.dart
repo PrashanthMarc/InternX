@@ -1,70 +1,43 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+// import 'package:swecha/i18n/translation.dart';
+import 'package:swecha/misc/palette.dart';
+import 'package:swecha/pages/splash_screen.dart';
+void main() {
+  runApp(App());
+}
 
-void main() => runApp(MyApp());
+class App extends StatefulWidget {
+  @override
+  _AppState createState() => _AppState();
+}
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class _AppState extends State<App> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-       _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-   
-    return Scaffold(
-      appBar: AppBar(
-        
-        title: Text(widget.title),
-      ),
-      body: Center(
+      debugShowCheckedModeBanner: false,
+      localizationsDelegates: [
       
-        child: Column(
-        
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
-            ),
-          ],
-        ),
+    
+      ],
+      supportedLocales: const <Locale>[
+        const Locale('en', ''),
+      ],
+      theme: ThemeData(
+//        primaryColorBrightness: Brightness.dark,
+        primaryColor: Palette.primary,
+        accentColor: Palette.primary,
+        cursorColor: Palette.primary,
+        buttonColor: Palette.primary,
+        fontFamily: 'Nunito',
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), 
+        home: SplashScreen(),
     );
   }
 }

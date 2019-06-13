@@ -37,7 +37,10 @@ dependencies:
     git:
       url: https://github.com/kentcb/flutter_advanced_networkimage.git
       ref: fix/104
-flutter_cache_manager: any
+  flutter_cache_manager: any
+  provider: ^3.0.0+1
+  http: ^0.12.0+2
+  shared_preferences: ^0.5.3+1
 
 dependency_overrides:
   path_provider: ^0.4.0
@@ -86,10 +89,6 @@ flutter:
         - asset: fonts/Quicksand-Light.ttf
         - asset: fonts/Quicksand-Medium.ttf
         - asset: fonts/Quicksand-Bold.ttf
-
-   
-     
- 
   # fonts:
   #   - family: Schyler
   #     fonts:

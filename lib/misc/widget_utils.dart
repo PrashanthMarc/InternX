@@ -27,10 +27,10 @@ class WidgetUtils {
 
     String token = await Prefs.getString("token");
 
-    if (token != "") {
-      tag = FeedPage.TAG;
-      page = FeedPage();
-    }
+    // if (token != "") {
+    //   tag = FeedPage.TAG;
+    //   page = FeedPage();
+    // }
 
     var route;
 

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:swecha/misc/prefs.dart';
 import 'package:swecha/pages/auth/login.dart';
 import 'package:swecha/pages/auth/moreinfo.dart';
 import 'package:swecha/pages/home/home.dart';
@@ -9,6 +10,47 @@ class WidgetUtils {
   static const String TAG = "WIDGET_UTILS";
   String tag = LogInPage.TAG;
   Widget page = LogInPage();
+
+  static void proceedToAuth(
+    BuildContext context, {
+    bool replaceAll = false,
+    String invite,
+  }) async {
+    String tag;
+    Widget page;
+
+//    tag = MeetupOwnerPage.TAG;
+//    page = MeetupOwnerPage();
+
+    tag = LogInPage.TAG;
+    page = LogInPage();
+
+    String token = await Prefs.getString("token");
+
+    if (token != "") {
+      tag = FeedPage.TAG;
+      page = FeedPage();
+    }
+
+    var route;
+
+    route = CupertinoPageRoute(
+      maintainState: true,
+      settings: RouteSettings(name: tag),
+      builder: (context) => page,
+    );
+
+    if (replaceAll) {
+      Navigator.of(context).pushAndRemoveUntil(
+        route,
+        (route) => false,
+      );
+    } else {
+      Navigator.of(context).push(
+        route,
+      );
+    }
+  }
 
   // if (await Prefs.getBool("loggedIn")) {
   // tag = HomePage.TAG;
@@ -65,8 +107,6 @@ class WidgetUtils {
     );
     Navigator.of(context).pushAndRemoveUntil(route, (route) => false);
   }
-
-
 
 // Drawer Items
 
@@ -183,4 +223,27 @@ class WidgetUtils {
             r"^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$")
         .hasMatch(url);
   }
+}
+
+class FadeRoute extends PageRouteBuilder {
+  final Widget page;
+  FadeRoute({this.page})
+      : super(
+          pageBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+          ) =>
+              page,
+          transitionsBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+            Widget child,
+          ) =>
+              FadeTransition(
+                opacity: animation,
+                child: child,
+              ),
+        );
 }

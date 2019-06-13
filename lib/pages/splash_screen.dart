@@ -20,18 +20,18 @@ class _SplashScreenState extends State<SplashScreen> {
 
   NavigatorState _navigator;
 
-  // @override
-  // void initState() {
-  //   _init();
-  //   super.initState();
-  // }
+  @override
+  void initState() {
+    _init();
+    super.initState();
+  }
 
-  // _init() async {
-  //   await Future.delayed(
-  //     Duration(seconds: 2),
-  //     () async => WidgetUtils.proceedToAuth(context, replaceAll: true),
-  //   );
-  // }
+  _init() async {
+    await Future.delayed(
+      Duration(seconds: 2),
+      () async => WidgetUtils.proceedToAuth(context, replaceAll: true),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

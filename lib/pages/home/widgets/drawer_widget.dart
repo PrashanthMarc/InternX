@@ -92,11 +92,11 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                           ),
                         ),
                         DrawerMenuItem(
-                          iconRes: "images/icon_meetme.png",
-                          title: "MEETME",
+                          iconRes: "",
+                          title: "Request Mentor",
                           onClicked: () {
                             Navigator.of(context).pop();
-                            // WidgetUtils.showMeetmeActivePage(context);
+                            WidgetUtils.showRequestMentorPage(context);
                           },
                         ),
                         Padding(

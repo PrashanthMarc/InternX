@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:swecha/pages/auth/login.dart';
 import 'package:swecha/pages/auth/moreinfo.dart';
 import 'package:swecha/pages/home/home.dart';
+import 'package:swecha/pages/home/request_mentor.dart';
 
 class WidgetUtils {
   static const String TAG = "WIDGET_UTILS";
@@ -65,17 +66,21 @@ class WidgetUtils {
     Navigator.of(context).pushAndRemoveUntil(route, (route) => false);
   }
 
-  // static void showHostelsIAddedPage(BuildContext context) async {
-  //   String tag = HostelsIAddedPage.TAG;
-  //   Widget page = HostelsIAddedPage();
 
-  //   final route = CupertinoPageRoute<bool>(
-  //     maintainState: true,
-  //     settings: RouteSettings(name: tag),
-  //     builder: (context) => page,
-  //   );
-  //   Navigator.of(context).push(route);
-  // }
+
+// Drawer Items
+
+  static void showRequestMentorPage(BuildContext context) async {
+    String tag = RequestMentorPage.TAG;
+    Widget page = RequestMentorPage();
+
+    final route = CupertinoPageRoute<bool>(
+      maintainState: true,
+      settings: RouteSettings(name: tag),
+      builder: (context) => page,
+    );
+    Navigator.of(context).push(route);
+  }
 
   // static void showMyCreditsPage(BuildContext context) async {
   //   String tag = MyCreditsPage.TAG;

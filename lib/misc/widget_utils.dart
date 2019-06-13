@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:swecha/pages/auth/login.dart';
-// import 'package:swecha/pages/auth/signup.dart';
+import 'package:swecha/pages/auth/moreinfo.dart';
 
 class WidgetUtils {
   static const String TAG = "WIDGET_UTILS";
@@ -56,17 +56,17 @@ class WidgetUtils {
     Navigator.of(context).pushAndRemoveUntil(route, (route) => false);
   }
 
-  // static void showSignUpPage(BuildContext context) async {
-  //   String tag = SignUpPage.TAG;
-  //   Widget page = SignUpPage();
+  static void showMoreInfoPage(BuildContext context) async {
+    String tag = MoreInfoPage.TAG;
+    Widget page = MoreInfoPage();
 
-  //   final route = CupertinoPageRoute<bool>(
-  //     maintainState: true,
-  //     settings: RouteSettings(name: tag),
-  //     builder: (context) => page,
-  //   );
-  //   Navigator.of(context).pushAndRemoveUntil(route, (route) => false);
-  // }
+    final route = CupertinoPageRoute<bool>(
+      maintainState: true,
+      settings: RouteSettings(name: tag),
+      builder: (context) => page,
+    );
+    Navigator.of(context).pushAndRemoveUntil(route, (route) => false);
+  }
 
   // static void showHostelsIAddedPage(BuildContext context) async {
   //   String tag = HostelsIAddedPage.TAG;

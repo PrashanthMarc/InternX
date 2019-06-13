@@ -4,19 +4,19 @@ import 'package:swecha/misc/palette.dart';
 import 'package:swecha/misc/widget_utils.dart';
 import 'package:swecha/widgets/white_app_bar.dart';
 
-class LogInPage extends StatefulWidget {
+class MoreInfoPage extends StatefulWidget {
   static String TAG = "LOGIN";
 
   @override
-  _LogInPageState createState() => _LogInPageState();
+  _MoreInfoPageState createState() => _MoreInfoPageState();
 }
 
-class _LogInPageState extends State<LogInPage> {
+class _MoreInfoPageState extends State<MoreInfoPage> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
-  TapGestureRecognizer _tapGestureRecognizer;
-  TextEditingController _smsController = TextEditingController();
-  TextEditingController _phoneNumberController = TextEditingController();
+  // TapGestureRecognizer _tapGestureRecognizer;
+  // TextEditingController _smsController = TextEditingController();
+  // TextEditingController _phoneNumberController = TextEditingController();
 
   final hintStyle = TextStyle(color: Colors.white24);
 
@@ -38,7 +38,7 @@ class _LogInPageState extends State<LogInPage> {
               top: 10.0,
               left: 20.0,
               child: Text(
-                "SwechaInternX",
+                "More About Me",
                 style: TextStyle(
                   fontSize: 34.0,
                   fontFamily: "Roboto",
@@ -72,7 +72,7 @@ class _LogInPageState extends State<LogInPage> {
                           child: TextField(
                             onSubmitted: (value) {},
                             decoration: InputDecoration.collapsed(
-                              hintText: "USER ID",
+                              hintText: "First Name",
                               filled: true,
                               fillColor: Colors.white,
                               border: InputBorder.none,
@@ -110,7 +110,83 @@ class _LogInPageState extends State<LogInPage> {
                           child: TextField(
                             onSubmitted: (value) {},
                             decoration: InputDecoration.collapsed(
-                              hintText: "PASSWORD",
+                              hintText: "Last Name",
+                              filled: true,
+                              fillColor: Colors.white,
+                              border: InputBorder.none,
+                            ),
+                            keyboardType: TextInputType.text,
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              fontFamily: "Roboto",
+                              color: Color(0xFF000000),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Material(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10.0),
+                  ),
+                  child: Container(
+                    margin: EdgeInsets.only(
+                      left: 20.0,
+                      right: 20.0,
+                      bottom: 5.0,
+                    ),
+                    color: Colors.white,
+                    child: Opacity(
+                      opacity: 0.5,
+                      child: Card(
+                        elevation: 5.0,
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: TextField(
+                            onSubmitted: (value) {},
+                            decoration: InputDecoration.collapsed(
+                              hintText: "User Name", //unique
+                              filled: true,
+                              fillColor: Colors.white,
+                              border: InputBorder.none,
+                            ),
+                            keyboardType: TextInputType.text,
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              fontFamily: "Roboto",
+                              color: Color(0xFF000000),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Material(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10.0),
+                  ),
+                  child: Container(
+                    margin: EdgeInsets.only(
+                      left: 20.0,
+                      right: 20.0,
+                      bottom: 5.0,
+                    ),
+                    color: Colors.white,
+                    child: Opacity(
+                      opacity: 0.5,
+                      child: Card(
+                        elevation: 5.0,
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: TextField(
+                            onSubmitted: (value) {},
+                            decoration: InputDecoration.collapsed(
+                              hintText: "Phone",
                               filled: true,
                               fillColor: Colors.white,
                               border: InputBorder.none,
@@ -139,7 +215,7 @@ class _LogInPageState extends State<LogInPage> {
                       child: Padding(
                         padding: const EdgeInsets.only(top: 14.0, bottom: 14.0),
                         child: Text(
-                          "CONTINUE", //I'm In
+                          "Let me In", //I'm In
                           style: TextStyle(
                               fontSize: 14.0,
                               color: Color(0xFFFFFFFF),

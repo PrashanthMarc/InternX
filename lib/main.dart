@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 // import 'package:swecha/i18n/translation.dart';
 import 'package:swecha/misc/palette.dart';
+import 'package:swecha/pages/auth/login.dart';
 import 'package:swecha/pages/splash_screen.dart';
 void main() {
   runApp(App());
@@ -37,7 +38,7 @@ class _AppState extends State<App> {
         buttonColor: Palette.primary,
         fontFamily: 'Nunito',
       ),
-        home: SplashScreen(),
+        home: LogInPage(),
     );
   }
 }

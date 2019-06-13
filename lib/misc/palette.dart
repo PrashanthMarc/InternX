@@ -19,6 +19,7 @@ class Palette {
 
   static Color blue = Color(0xff2196F3);
   static Color appBlack = Color(0xff000000);
+  static Color textBlack = Color(0xff44464d);
   static Color rating = Color(0xFFf39c12);
   static Color appGrey = Color(0xff44464d);
 

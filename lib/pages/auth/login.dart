@@ -4,7 +4,6 @@ import 'package:swecha/misc/palette.dart';
 import 'package:swecha/misc/widget_utils.dart';
 import 'package:swecha/pages/auth/state/loginstate.dart';
 import 'package:swecha/widgets/white_app_bar.dart';
-import 'package:provide/provide.dart';
 
 class LogInPage extends StatefulWidget {
   static String TAG = "LOGIN";

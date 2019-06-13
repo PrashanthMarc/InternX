@@ -42,6 +42,9 @@ class _FeedPostWidgetState extends State<FeedPostWidget> {
               controller: _commentController,
               decoration: InputDecoration.collapsed(
                 hintText: "Give your opinion",
+                hintStyle: TextStyle(
+                  fontFamily: "Nunito"
+                )
               ),
             ),
           ),

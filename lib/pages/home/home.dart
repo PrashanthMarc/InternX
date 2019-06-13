@@ -60,7 +60,7 @@ _showFeedPostPopup() {
                               fontSize: 17.0,
                               fontWeight: FontWeight.w500,
                               color: Color(0xff0a57d2),
-                            ),
+                              fontFamily: "Nunito",                            ),
                           ),
                         ),
                       ),
@@ -69,7 +69,7 @@ _showFeedPostPopup() {
                       padding: const EdgeInsets.only(
                           top: 16.0, bottom: 8.0, left: 16.0, right: 16.0),
                       child: Text(
-                        "Review",
+                        "",//heading
                         style: TextStyle(
                           fontSize: 17.0,
                           fontWeight: FontWeight.bold,
@@ -90,6 +90,7 @@ _showFeedPostPopup() {
                                 fontSize: 17.0,
                                 fontWeight: FontWeight.w500,
                                 color: Color(0xff0a57d2),
+                                fontFamily: "Nunito",
                               ),
                             ),
                             onTap: () {
@@ -109,7 +110,6 @@ _showFeedPostPopup() {
       },
     );
   }
-
 
   @override
   Widget build(BuildContext context) {

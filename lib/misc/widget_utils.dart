@@ -22,8 +22,12 @@ class WidgetUtils {
 //    tag = MeetupOwnerPage.TAG;
 //    page = MeetupOwnerPage();
 
-    tag = LogInPage.TAG;
-    page = LogInPage();
+    // tag = LogInPage.TAG;
+    // page = LogInPage();
+
+    tag = FeedPage.TAG;
+  page = FeedPage();
+  
 
     String token = await Prefs.getString("token");
 

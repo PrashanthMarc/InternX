@@ -20,7 +20,7 @@ class FullAppLogo extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Image.asset(
-                "images/hmlogotext300.png",
+                "images/feedback.png",
                 height: 300.0,
               ),
               SizedBox(height: 8.0),
@@ -54,7 +54,7 @@ class SizedAppLogo extends StatelessWidget {
               SizedBox(
                   height: 100.0,
                   child: Image.asset(
-                    "images/hmlogotext300.png",
+                    "images/feedback.png",
                   )),
               SizedBox(height: 8.0),
             

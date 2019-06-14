@@ -1,3 +1,5 @@
+import 'dart:math';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:swecha/misc/prefs.dart';
@@ -11,6 +13,14 @@ import 'package:swecha/widgets/full_app_logo.dart';
 import 'package:swecha/widgets/white_app_bar.dart';
 import 'package:swecha/misc/palette.dart';
 import 'package:swecha/pages/home/widgets/feedpost.dart';
+import 'package:swecha/misc/palette.dart';
+import 'package:swecha/misc/widget_utils.dart';
+import 'package:swecha/pages/home/widgets/drawer_widget.dart';
+import 'package:swecha/widgets/white_app_bar.dart';
+import 'package:flutter_advanced_networkimage/provider.dart';
+// import 'package:fudy/pages/meetme/widget/star_widget.dart';
+import 'package:swecha/pages/home/widgets/drawer_widget.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class FeedPage extends StatefulWidget {
   @override
@@ -31,6 +41,10 @@ class _FeedPageState extends State<FeedPage> {
 // REVIEW WRITE
   _buildFeedPost() {
     return FeedPostWidget(context: context);
+  }
+
+  _refreshList() {
+    setState(() {});
   }
 
 // FEED POST
@@ -200,20 +214,140 @@ class _FeedPageState extends State<FeedPage> {
               _scaffoldKey.currentState.openDrawer();
             },
           ),
-          actions: <Widget>[],
-        ),
-        body: _buildFeedList(),
-        floatingActionButton: FloatingActionButton(
-          child: Icon(
-            Icons.add,
-            color: Colors.red,
-          ),
-          backgroundColor: Colors.green,
-          onPressed: () {
-            _showFeedPostPopup();
+//           actions: <Widget>[],
+//         ),
+//         body: _buildFeedList(),
+//         floatingActionButton: FloatingActionButton(
+//           child: Icon(
+//             Icons.add,
+//             color: Colors.red,
+//           ),
+//           backgroundColor: Colors.green,
+//           onPressed: () {
+//             _showFeedPostPopup();
+//           },
+//         ),
+
+        actions: <Widget>[],
+      ),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          await Future.delayed(Duration(seconds: 2), () {
+            _refreshList();
+          });
+        },
+        child: ListView.builder(
+//                  padding: const EdgeInsets.all(10.0),
+          physics: const AlwaysScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            return _buildCardPost(context);
           },
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(
+          Icons.add,
+          color: Colors.red,
+        ),
+        backgroundColor: Colors.green,
+        onPressed: () {
+          _showFeedPostPopup();
+        },
+      ),
     );
+  }
+
+  Widget _buildCardPost(BuildContext context) {
+    return Padding(
+        padding: const EdgeInsets.only(
+          top: 5.0,
+          bottom: 5.0,
+          left: 8.0,
+          right: 8.0,
+        ),
+        // padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
+        child: GestureDetector(
+          child: Container(
+            child: Card(
+              elevation: 5.0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Expanded(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 4.0,
+                                    top: 4.0,
+                                    bottom: 4.0,
+                                    right: 8.0),
+                                child: CircleAvatar(
+                                  child: Image(
+                                    image: AdvancedNetworkImage(
+                                      "https://source.unsplash.com/480x${300 + Random().nextInt(100)}/?user",
+                                      useDiskCache: true,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      "Prashanth Marc",
+                                      style: TextStyle(
+                                        fontSize: 17.0,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                    Text("May 2nd 2019 5:30 pm"),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        ClipRRect(
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(8.0),
+                            bottomRight: Radius.circular(8.0),
+                          ),
+                          child: Stack(
+                            children: <Widget>[
+                              AspectRatio(
+                                aspectRatio: 16 / 9,
+                                child: Image(
+                                  fit: BoxFit.fill,
+                                  image: AdvancedNetworkImage(
+                                    "https://source.unsplash.com/480x${300 + Random().nextInt(100)}/?food,veg",
+                                    useDiskCache: true,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ));
   }
 }

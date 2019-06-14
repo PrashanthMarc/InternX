@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:swecha/misc/const_utils.dart';
 import 'package:swecha/misc/date_utils.dart';
 import 'package:swecha/misc/prefs.dart';
 import 'package:swecha/misc/widget_utils.dart';
@@ -193,6 +194,7 @@ class _FeedPageState extends State<FeedPage> {
   }
 
   Widget _buildCardPost(Feeds feed) {
+    print(feed.iamge);
     return Padding(
       padding: const EdgeInsets.only(
         top: 5.0,
@@ -215,23 +217,24 @@ class _FeedPageState extends State<FeedPage> {
                 Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          // Padding(
-                          //   padding: const EdgeInsets.only(
-                          //       left: 4.0, top: 4.0, bottom: 4.0, right: 8.0),
-                          //   child: CircleAvatar(
-                          //     child: Image(
-                          //       image: AdvancedNetworkImage(
-                          //         "https://source.unsplash.com/480x${300 + Random().nextInt(100)}/?user",
-                          //         useDiskCache: true,
-                          //       ),
-                          //     ),
-                          //   ),
-                          // ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 4.0, top: 4.0, bottom: 4.0, right: 8.0),
+                            child: CircleAvatar(
+                              child: Image(
+                                image: AdvancedNetworkImage(
+                                  "${ConstUtils.baseUrl}${feed.user}",
+                                  useDiskCache: true,
+                                ),
+                              ),
+                            ),
+                          ),
                           Expanded(
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
@@ -255,26 +258,34 @@ class _FeedPageState extends State<FeedPage> {
                           ),
                         ],
                       ),
-                      ClipRRect(
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(8.0),
-                          bottomRight: Radius.circular(8.0),
-                        ),
-                        child: Stack(
-                          children: <Widget>[
-                            AspectRatio(
-                              aspectRatio: 16 / 9,
-                              child: Image(
-                                fit: BoxFit.fill,
-                                image: AdvancedNetworkImage(
-                                  "https://source.unsplash.com/480x${300 + Random().nextInt(100)}/?food,veg",
-                                  useDiskCache: true,
-                                ),
-                              ),
-                            ),
-                          ],
+                      Text(
+                        feed.body,
+                        style: TextStyle(
+                          fontSize: 20.0,
                         ),
                       ),
+                      feed.iamge != null && feed.iamge != ""
+                          ? ClipRRect(
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(8.0),
+                                bottomRight: Radius.circular(8.0),
+                              ),
+                              child: Stack(
+                                children: <Widget>[
+                                  AspectRatio(
+                                    aspectRatio: 16 / 9,
+                                    child: Image(
+                                      fit: BoxFit.fill,
+                                      image: AdvancedNetworkImage(
+                                        "https://source.unsplash.com/480x${300 + Random().nextInt(100)}/?food,veg",
+                                        useDiskCache: true,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : Container(),
                     ],
                   ),
                 ),

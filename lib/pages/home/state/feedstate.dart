@@ -8,7 +8,7 @@ import 'package:swecha/pages/home/model/feedmodel.dart';
 
 class FeedState with ChangeNotifier {
   FeedState() {
-    fetchList();
+    // fetchList();
   }
 
   String _jsonResonse = "";
@@ -50,7 +50,7 @@ class FeedState with ChangeNotifier {
 
       if (_jsonResonse.isNotEmpty) {
         Map<String, dynamic> json = jsonDecode(_jsonResonse);
-
+        print(json);
         if (json["token_not_valid"] != null) {
           _error = 2;
         } else {
@@ -69,7 +69,7 @@ class FeedState with ChangeNotifier {
       }
     } else if (response.statusCode == 401) {
       _error = 2;
-      await Prefs.clear();
+      // await Prefs.clear();
     } else {
       _error = 3;
     }

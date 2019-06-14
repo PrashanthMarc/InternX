@@ -43,6 +43,7 @@ class _FeedPostWidgetState extends State<FeedPostWidget> {
     }
 
     int userId = await Prefs.getInt("userId");
+    print(userId);
     if (userId == 0) {
       await Prefs.clear();
       WidgetUtils.proceedToAuth(context, replaceAll: true);
@@ -57,7 +58,6 @@ class _FeedPostWidgetState extends State<FeedPostWidget> {
     };
 
     request.headers["Authorization"] = "Bearer $token";
-    print(request.headers);
 
     request.fields['body'] = _postController.text;
     if (currentPhoto != null) {
@@ -68,6 +68,7 @@ class _FeedPostWidgetState extends State<FeedPostWidget> {
     request.fields['user'] = userId.toString();
 
     request.send().then((response) {
+      print(response.statusCode);
       if (response.statusCode == 200) print("Uploaded!");
     });
   }

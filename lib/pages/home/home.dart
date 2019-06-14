@@ -214,9 +214,37 @@ class _FeedPageState extends State<FeedPage> {
               _scaffoldKey.currentState.openDrawer();
             },
           ),
+          actions: <Widget>[],
+        ),
+        body: _buildFeedList(),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(
+            Icons.add,
+            color: Colors.red,
+          ),
+          backgroundColor: Colors.green,
+          onPressed: () {
+            _showFeedPostPopup();
+          },
+        ),
+
 //           actions: <Widget>[],
 //         ),
-//         body: _buildFeedList(),
+//         body: RefreshIndicator(
+//           onRefresh: () async {
+//             await Future.delayed(Duration(seconds: 2), () {
+//               _refreshList();
+//             });
+//           },
+//           child: ListView.builder(
+// //                  padding: const EdgeInsets.all(10.0),
+//             physics: const AlwaysScrollableScrollPhysics(),
+//             shrinkWrap: true,
+//             itemBuilder: (context, index) {
+//               return _buildCardPost(context);
+//             },
+//           ),
+//         ),
 //         floatingActionButton: FloatingActionButton(
 //           child: Icon(
 //             Icons.add,
@@ -227,33 +255,6 @@ class _FeedPageState extends State<FeedPage> {
 //             _showFeedPostPopup();
 //           },
 //         ),
-
-        actions: <Widget>[],
-      ),
-      body: RefreshIndicator(
-        onRefresh: () async {
-          await Future.delayed(Duration(seconds: 2), () {
-            _refreshList();
-          });
-        },
-        child: ListView.builder(
-//                  padding: const EdgeInsets.all(10.0),
-          physics: const AlwaysScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemBuilder: (context, index) {
-            return _buildCardPost(context);
-          },
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(
-          Icons.add,
-          color: Colors.red,
-        ),
-        backgroundColor: Colors.green,
-        onPressed: () {
-          _showFeedPostPopup();
-        },
       ),
     );
   }

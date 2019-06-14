@@ -44,6 +44,7 @@ class FeedState with ChangeNotifier {
       "${ConstUtils.baseUrl}feed/",
       headers: headers,
     );
+    print(response.statusCode);
     if (response.statusCode == 200) {
       _jsonResonse = response.body;
 

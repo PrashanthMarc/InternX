@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:swecha/misc/prefs.dart';
 import 'package:swecha/pages/auth/login.dart';
 import 'package:swecha/pages/auth/moreinfo.dart';
+import 'package:swecha/pages/home/addfeed.dart';
 import 'package:swecha/pages/home/home.dart';
 import 'package:swecha/pages/home/request_mentor.dart';
 import 'package:swecha/pages/schedule/schedule.dart';
@@ -23,14 +24,14 @@ class WidgetUtils {
 //    tag = MeetupOwnerPage.TAG;
 //    page = MeetupOwnerPage();
 
-    // tag = LogInPage.TAG;
-    // page = LogInPage();
+    tag = LogInPage.TAG;
+    page = LogInPage();
 
-    tag = FeedPage.TAG;
-  page = FeedPage();
-  
+    // tag = FeedPage.TAG;
+    // page = FeedPage();
 
     String token = await Prefs.getString("token");
+    print(token);
 
     if (token != "") {
       tag = FeedPage.TAG;
@@ -87,6 +88,18 @@ class WidgetUtils {
       builder: (context) => page,
     );
     Navigator.of(context).pushAndRemoveUntil(route, (route) => false);
+  }
+
+  static void showAddFeedPage(BuildContext context) async {
+    String tag = AddFeedPage.TAG;
+    Widget page = AddFeedPage();
+
+    final route = CupertinoPageRoute<bool>(
+        maintainState: true,
+        settings: RouteSettings(name: tag),
+        builder: (context) => page,
+        fullscreenDialog: true);
+    Navigator.of(context).push(route);
   }
 
   static void showMoreInfoPage(BuildContext context) async {

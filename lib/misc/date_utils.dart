@@ -25,5 +25,5 @@ class DateUtils {
 
   static String getLocalizedTimeAgo(DateTime dateTime,
           {@required Locale locale}) =>
-      timeago.format(dateTime, locale: locale.toString());
+      timeago.format(dateTime, locale: locale.toString(), allowFromNow: true);
 }

@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:swecha/misc/palette.dart';
+import 'package:swecha/misc/prefs.dart';
 import 'package:swecha/misc/widget_utils.dart';
 // import 'package:flutter_advanced_networkimage/provider.dart';
 
@@ -13,7 +14,7 @@ class DrawerWidget extends StatefulWidget {
 }
 
 class _DrawerWidgetState extends State<DrawerWidget> {
-@override
+  @override
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView(
@@ -45,15 +46,15 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                         ),
                       ),
                       Text(
-                       "Python",
+                        "Python",
                         style: TextStyle(
                           fontSize: 14.0,
                           fontWeight: FontWeight.w600,
                           color: Palette.appBlack,
                         ),
                       ),
-                       Text(
-                       "Roll no",
+                      Text(
+                        "Roll no",
                         style: TextStyle(
                           fontSize: 14.0,
                           fontWeight: FontWeight.w600,
@@ -108,7 +109,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             ),
             onTap: () {
               Navigator.pop(context);
-              // WidgetUtils.showAddHostelPage(context);
+              WidgetUtils.showSchedulePage(context);
             },
           ),
           ListTile(
@@ -216,13 +217,13 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 fontFamily: "Nunito",
               ),
             ),
-            onTap: () {
-              WidgetUtils.showLogInPage(context);
+            onTap: () async {
+              await Prefs.clear();
+              WidgetUtils.proceedToAuth(context, replaceAll: true);
             },
           ),
         ],
       ),
     );
-                       
   }
 }

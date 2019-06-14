@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:swecha/misc/prefs.dart';
+import 'package:swecha/misc/widget_utils.dart';
+import 'package:swecha/pages/home/model/feedmodel.dart';
+import 'package:swecha/pages/home/state/feedstate.dart';
 // import 'package:flutter_advanced_networkimage/provider.dart';
 
 import 'package:swecha/pages/home/widgets/drawer_widget.dart';
+import 'package:swecha/widgets/full_app_logo.dart';
 import 'package:swecha/widgets/white_app_bar.dart';
 import 'package:swecha/misc/palette.dart';
 import 'package:swecha/pages/home/widgets/feedpost.dart';
@@ -16,19 +22,19 @@ class _FeedPageState extends State<FeedPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey =
       GlobalKey<ScaffoldState>(debugLabel: "feed_page");
 
+  FeedModel feedModel;
+
   _buildDrawerContent(BuildContext context) {
     return DrawerWidget();
   }
 
 // REVIEW WRITE
-
-_buildFeedPost() {
+  _buildFeedPost() {
     return FeedPostWidget(context: context);
   }
 
-
-// FEED POST 
-_showFeedPostPopup() {
+// FEED POST
+  _showFeedPostPopup() {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -60,7 +66,8 @@ _showFeedPostPopup() {
                               fontSize: 17.0,
                               fontWeight: FontWeight.w500,
                               color: Color(0xff0a57d2),
-                              fontFamily: "Nunito",                            ),
+                              fontFamily: "Nunito",
+                            ),
                           ),
                         ),
                       ),
@@ -69,7 +76,7 @@ _showFeedPostPopup() {
                       padding: const EdgeInsets.only(
                           top: 16.0, bottom: 8.0, left: 16.0, right: 16.0),
                       child: Text(
-                        "",//heading
+                        "", //heading
                         style: TextStyle(
                           fontSize: 17.0,
                           fontWeight: FontWeight.bold,
@@ -111,46 +118,101 @@ _showFeedPostPopup() {
     );
   }
 
+  _buildFeedList() {
+    return Consumer<FeedState>(builder: (context, fState, child) {
+      if (fState.isFetching) {
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      }
+      if (!fState.isFetching && fState.errorCode == 401) {
+        WidgetUtils.proceedToAuth(context);
+      }
+      if (fState.feedModel != null && fState.feedModel.feeds.length > 0) {
+        return ListView.builder(
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.only(
+                  top: 4.0, left: 8.0, right: 8.0, bottom: 4.0),
+              child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(fState.feedModel.feeds[index].body),
+                ),
+              ),
+            );
+          },
+          itemCount: fState.feedModel.feeds.length,
+          shrinkWrap: true,
+          physics: BouncingScrollPhysics(),
+        );
+      }
+      if (fState.feedModel != null && fState.feedModel.feeds.length == 0) {
+        return Center(
+          child: Text("Unable to fetch Feed"),
+        );
+      }
+      if (fState.feedModel == null) {
+        return Center(
+          child: Text("Unable to fetch Feed"),
+        );
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldKey,
-      backgroundColor: Colors.white,
-      drawer: _buildDrawerContent(context),
-      appBar: WhiteAppBar(
-        centerTitle: true,
-        title: Text("internX",
-        style: TextStyle(
-          color: Colors.black,
-          fontFamily: "Nunito",
-          fontSize: 24.0,
-          fontWeight: FontWeight.bold,
-        ),
-        ),
-        leading: IconButton(
-          icon: ImageIcon(
-            AssetImage("images/menu32.png"),
-            color: Palette.lightGrey,
-            size: 16.0,
+    return ChangeNotifierProvider<FeedState>(
+      builder: (_) {
+        FeedState feedstate = FeedState();
+        feedstate.fetchList();
+        return feedstate;
+      },
+      child: Scaffold(
+        key: _scaffoldKey,
+        backgroundColor: Colors.white,
+        drawer: _buildDrawerContent(context),
+        appBar: WhiteAppBar(
+          centerTitle: true,
+          title:
+              // SmallLogo(),
+              Text(
+            "internX",
+            style: TextStyle(
+              color: Colors.black,
+              fontFamily: "Nunito",
+              fontSize: 24.0,
+              fontWeight: FontWeight.bold,
+            ),
           ),
+          leading: IconButton(
+            icon: ImageIcon(
+              AssetImage("images/menu32.png"),
+              color: Palette.lightGrey,
+              size: 16.0,
+            ),
+            onPressed: () {
+              _scaffoldKey.currentState.openDrawer();
+            },
+          ),
+          actions: <Widget>[],
+        ),
+        body: _buildFeedList(),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(
+            Icons.add,
+            color: Colors.red,
+          ),
+          backgroundColor: Colors.green,
           onPressed: () {
-            _scaffoldKey.currentState.openDrawer();
+            _showFeedPostPopup();
           },
         ),
-        actions: <Widget>[],
-      ),
-      body: Center(
-        child: Text("Some data for you"),
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(
-          Icons.add,
-          color: Colors.red,
-        ),
-        backgroundColor: Colors.green,
-        onPressed: () {
-          _showFeedPostPopup();
-        },
       ),
     );
   }

@@ -5,6 +5,7 @@ import 'package:swecha/pages/auth/login.dart';
 import 'package:swecha/pages/auth/moreinfo.dart';
 import 'package:swecha/pages/home/home.dart';
 import 'package:swecha/pages/home/request_mentor.dart';
+import 'package:swecha/pages/schedule/schedule.dart';
 
 class WidgetUtils {
   static const String TAG = "WIDGET_UTILS";
@@ -31,10 +32,10 @@ class WidgetUtils {
 
     String token = await Prefs.getString("token");
 
-    // if (token != "") {
-    //   tag = FeedPage.TAG;
-    //   page = FeedPage();
-    // }
+    if (token != "") {
+      tag = FeedPage.TAG;
+      page = FeedPage();
+    }
 
     var route;
 
@@ -110,6 +111,18 @@ class WidgetUtils {
       builder: (context) => page,
     );
     Navigator.of(context).pushAndRemoveUntil(route, (route) => false);
+  }
+
+  static void showSchedulePage(BuildContext context) async {
+    String tag = SchedulePage.TAG;
+    Widget page = SchedulePage();
+
+    final route = CupertinoPageRoute<bool>(
+      maintainState: true,
+      settings: RouteSettings(name: tag),
+      builder: (context) => page,
+    );
+    Navigator.of(context).push(route);
   }
 
 // Drawer Items

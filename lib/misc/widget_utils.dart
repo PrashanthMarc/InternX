@@ -6,6 +6,7 @@ import 'package:swecha/pages/auth/moreinfo.dart';
 import 'package:swecha/pages/home/addfeed.dart';
 import 'package:swecha/pages/home/home.dart';
 import 'package:swecha/pages/home/request_mentor.dart';
+import 'package:swecha/pages/schedule/assignment.dart';
 import 'package:swecha/pages/schedule/schedule.dart';
 
 class WidgetUtils {
@@ -117,6 +118,22 @@ class WidgetUtils {
   static void showFeedPage(BuildContext context) async {
     String tag = FeedPage.TAG;
     Widget page = FeedPage();
+
+    final route = CupertinoPageRoute<bool>(
+      maintainState: true,
+      settings: RouteSettings(name: tag),
+      builder: (context) => page,
+    );
+    Navigator.of(context).pushAndRemoveUntil(route, (route) => false);
+  }
+
+  static void showAssignmentPage(
+      BuildContext context, int no, String data) async {
+    String tag = AssignmentPage.TAG;
+    Widget page = AssignmentPage(
+      no: no,
+      data: data,
+    );
 
     final route = CupertinoPageRoute<bool>(
       maintainState: true,

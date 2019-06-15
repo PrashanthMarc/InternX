@@ -25,7 +25,9 @@ class _SchedulePageState extends State<SchedulePage> {
       child: Scaffold(
         key: _scaffoldKey,
         appBar: WhiteAppBar(
-          title: SmallLogo(),
+          title: SmallLogo(
+            size: 24.0,
+          ),
         ),
         body: ScheduleWidget(),
       ),

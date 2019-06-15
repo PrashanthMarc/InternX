@@ -77,7 +77,8 @@ class ScheduleState with ChangeNotifier {
       }
     } else if (response.statusCode == 401) {
       _error = 2;
-      await Prefs.clear();
+      // await Prefs.clear();
+      refreshToken();
     } else {
       _error = 3;
     }

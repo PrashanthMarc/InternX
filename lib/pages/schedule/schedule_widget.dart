@@ -95,7 +95,13 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
                                     "Assignment ${fState.listScheduleModel[index].assigments[index].no}"),
                                 trailing: Icon(Icons.chevron_right),
                                 onTap: () {
-                                  WidgetUtils.showAssignmentPage(context, fState.listScheduleModel[index].assigments[index].no, fState.listScheduleModel[index].assigments[index].body,);
+                                  WidgetUtils.showAssignmentPage(
+                                    context,
+                                    fState.listScheduleModel[index]
+                                        .assigments[index].no,
+                                    fState.listScheduleModel[index]
+                                        .assigments[index].body,
+                                  );
                                 },
                               ),
                           ],

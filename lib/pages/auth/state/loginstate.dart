@@ -85,14 +85,15 @@ class LoginState with ChangeNotifier {
 
     if (response.statusCode == 200) {
       _jsonResonse = response.body;
+      print(_jsonResonse);
 
       if (_jsonResonse.isNotEmpty) {
         Map<String, dynamic> json = jsonDecode(_jsonResonse);
         if (json["detail"] != null) {
           _error = true;
         } else {
-          await Prefs.setInt("profilePic", json["user_id"]);
-          await Prefs.setInt("uid", json["exp"]);
+          await Prefs.setString("profilePic", json["profile_pic"]);
+          await Prefs.setString("uid", json["uid"]);
           await Prefs.setString("name", json["name"]);
           await Prefs.setString("track", json["track"]);
           _error = false;

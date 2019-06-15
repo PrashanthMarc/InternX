@@ -26,15 +26,83 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
           fState.listScheduleModel.length > 0) {
         return ListView.builder(
           itemBuilder: (context, index) {
+            print(fState.listScheduleModel[index].toJson());
             return Padding(
               padding: const EdgeInsets.only(
                   top: 4.0, left: 8.0, right: 8.0, bottom: 4.0),
               child: ExpansionTile(
                 key: PageStorageKey<ScheduleModel>(
                     fState.listScheduleModel[index]),
-                title: Text(fState.listScheduleModel[index].title),
+                title: Row(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0, right: 16.0),
+                      child: Column(
+                        children: <Widget>[
+                          Text(
+                            fState.listScheduleModel[index].day.toString(),
+                            style: TextStyle(
+                              fontSize: 24.0,
+                            ),
+                          ),
+                          Text(
+                            "Day",
+                            style: TextStyle(
+                              fontSize: 16.0,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    Text(fState.listScheduleModel[index].title)
+                  ],
+                ),
                 children: <Widget>[
-                  Text(fState.listScheduleModel[index].location),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          "Location: ${fState.listScheduleModel[index].location}",
+                          style: TextStyle(
+                            fontSize: 16.0,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 16.0,
+                        ),
+                        Text(
+                          "Assignments",
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 16.0,
+                        ),
+                        Column(
+                          children: <Widget>[
+                            for (int i = 0;
+                                i <
+                                    fState.listScheduleModel[index].assigments
+                                        .length;
+                                i++)
+                              ListTile(
+                                title: Text(
+                                    "Assignment ${fState.listScheduleModel[index].assigments[index].no}"),
+                                trailing: Icon(Icons.chevron_right),
+                                onTap: () {
+                                  WidgetUtils.showAssignmentPage(context, fState.listScheduleModel[index].assigments[index].no, fState.listScheduleModel[index].assigments[index].body,);
+                                },
+                              ),
+                          ],
+                        )
+                      ],
+                    ),
+                  )
                 ],
               ),
               // Card(

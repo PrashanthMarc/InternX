@@ -1,9 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_advanced_networkimage/provider.dart';
 import 'package:swecha/misc/palette.dart';
 import 'package:swecha/misc/prefs.dart';
 import 'package:swecha/misc/widget_utils.dart';
+import 'package:swecha/misc/const_utils.dart';
 // import 'package:flutter_advanced_networkimage/provider.dart';
 
 // import 'package:url_launcher/url_launcher.dart';
@@ -14,6 +16,27 @@ class DrawerWidget extends StatefulWidget {
 }
 
 class _DrawerWidgetState extends State<DrawerWidget> {
+  String name = "";
+  String track = "";
+  String uid = "";
+  String profilePic = "";
+
+  void fetchUserDetails() async {
+    name = await Prefs.getString("name");
+    track = await Prefs.getString("track");
+    uid = await Prefs.getString("uid");
+    profilePic =
+        "${ConstUtils.baseUrlNoSlash}${await Prefs.getString("profilePic")}";
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    // print(await Prefs.getString("user"));
+    fetchUserDetails();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -28,7 +51,9 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             child: Row(
               children: <Widget>[
                 CircleAvatar(
-                  backgroundImage: AssetImage("images/logo.png"),
+                  backgroundImage: profilePic == ""
+                      ? AssetImage("images/logo.png")
+                      : AdvancedNetworkImage(profilePic, useDiskCache: true),
                   backgroundColor: Colors.white,
                   maxRadius: 30.0,
                 ),
@@ -38,7 +63,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        "Prashanth Marc",
+                        name,
                         style: TextStyle(
                           fontSize: 18.0,
                           fontWeight: FontWeight.bold,
@@ -46,7 +71,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                         ),
                       ),
                       Text(
-                        "Python",
+                        track,
                         style: TextStyle(
                           fontSize: 14.0,
                           fontWeight: FontWeight.w600,
@@ -54,7 +79,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                         ),
                       ),
                       Text(
-                        "Roll no",
+                        uid,
                         style: TextStyle(
                           fontSize: 14.0,
                           fontWeight: FontWeight.w600,

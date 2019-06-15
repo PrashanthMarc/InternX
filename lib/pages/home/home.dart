@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:swecha/misc/const_utils.dart';
 import 'package:swecha/misc/date_utils.dart';
 import 'package:swecha/misc/prefs.dart';
 import 'package:swecha/misc/widget_utils.dart';
@@ -40,7 +41,12 @@ class _FeedPageState extends State<FeedPage> {
 
 // REVIEW WRITE
   _buildFeedPost() {
-    return FeedPostWidget(context: context);
+    return FeedPostWidget(
+      context: context,
+      onDone: () {
+        gloablFeedstate.fetchList();
+      },
+    );
   }
 
   _refreshList() {
@@ -77,16 +83,16 @@ class _FeedPageState extends State<FeedPage> {
         return ListView.builder(
           itemBuilder: (context, index) {
             return _buildCardPost(fState.feedModel.feeds[index]);
-            return Padding(
-              padding: const EdgeInsets.only(
-                  top: 4.0, left: 8.0, right: 8.0, bottom: 4.0),
-              child: Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(fState.feedModel.feeds[index].body),
-                ),
-              ),
-            );
+            // return Padding(
+            //   padding: const EdgeInsets.only(
+            //       top: 4.0, left: 8.0, right: 8.0, bottom: 4.0),
+            //   child: Card(
+            //     child: Padding(
+            //       padding: const EdgeInsets.all(8.0),
+            //       child: Text(fState.feedModel.feeds[index].body),
+            //     ),
+            //   ),
+            // );
           },
           itemCount: fState.feedModel.feeds.length,
           shrinkWrap: true,
@@ -111,12 +117,15 @@ class _FeedPageState extends State<FeedPage> {
     super.initState();
   }
 
+  FeedState gloablFeedstate;
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<FeedState>(
       builder: (_) {
         FeedState feedstate = FeedState();
         feedstate.fetchList();
+        gloablFeedstate = feedstate;
         return feedstate;
       },
       child: Scaffold(
@@ -148,13 +157,20 @@ class _FeedPageState extends State<FeedPage> {
           ),
           actions: <Widget>[],
         ),
-        body: _buildFeedList(),
+        body: Consumer<FeedState>(builder: (context, fState, child) {
+          return RefreshIndicator(
+              child: _buildFeedList(),
+              onRefresh: () async {
+                await fState.fetchList();
+                return;
+              });
+        }),
         floatingActionButton: FloatingActionButton(
           child: Icon(
             Icons.add,
-            color: Colors.red,
+            color: Colors.white,
           ),
-          backgroundColor: Colors.green,
+          backgroundColor: Colors.blue,
           onPressed: () {
             _showFeedPostPopup();
             // WidgetUtils.showAddFeedPage(context);
@@ -215,23 +231,22 @@ class _FeedPageState extends State<FeedPage> {
                 Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          // Padding(
-                          //   padding: const EdgeInsets.only(
-                          //       left: 4.0, top: 4.0, bottom: 4.0, right: 8.0),
-                          //   child: CircleAvatar(
-                          //     child: Image(
-                          //       image: AdvancedNetworkImage(
-                          //         "https://source.unsplash.com/480x${300 + Random().nextInt(100)}/?user",
-                          //         useDiskCache: true,
-                          //       ),
-                          //     ),
-                          //   ),
-                          // ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 4.0, top: 4.0, bottom: 4.0, right: 8.0),
+                            child: CircleAvatar(
+                              backgroundImage: AdvancedNetworkImage(
+                                "${ConstUtils.baseUrlNoSlash}${feed.userPic}",
+                                useDiskCache: true,
+                              ),
+                            ),
+                          ),
                           Expanded(
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
@@ -255,26 +270,34 @@ class _FeedPageState extends State<FeedPage> {
                           ),
                         ],
                       ),
-                      ClipRRect(
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(8.0),
-                          bottomRight: Radius.circular(8.0),
-                        ),
-                        child: Stack(
-                          children: <Widget>[
-                            AspectRatio(
-                              aspectRatio: 16 / 9,
-                              child: Image(
-                                fit: BoxFit.fill,
-                                image: AdvancedNetworkImage(
-                                  "https://source.unsplash.com/480x${300 + Random().nextInt(100)}/?food,veg",
-                                  useDiskCache: true,
-                                ),
-                              ),
-                            ),
-                          ],
+                      Text(
+                        feed.body,
+                        style: TextStyle(
+                          fontSize: 20.0,
                         ),
                       ),
+                      feed.iamge != null && feed.iamge != ""
+                          ? ClipRRect(
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(8.0),
+                                bottomRight: Radius.circular(8.0),
+                              ),
+                              child: Stack(
+                                children: <Widget>[
+                                  AspectRatio(
+                                    aspectRatio: 16 / 9,
+                                    child: Image(
+                                      fit: BoxFit.fill,
+                                      image: AdvancedNetworkImage(
+                                        "${ConstUtils.baseUrlNoSlash}${feed.iamge}",
+                                        useDiskCache: true,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : Container(),
                     ],
                   ),
                 ),

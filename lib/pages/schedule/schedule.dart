@@ -19,7 +19,7 @@ class _SchedulePageState extends State<SchedulePage> {
     return ChangeNotifierProvider<ScheduleState>(
       builder: (_) {
         ScheduleState schedulestate = ScheduleState();
-        schedulestate.fetchSchedule();
+        // schedulestate.fetchSchedule();
         return schedulestate;
       },
       child: Scaffold(

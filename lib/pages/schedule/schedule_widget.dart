@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:swecha/misc/widget_utils.dart';
+import 'package:swecha/pages/schedule/model/schedulemodel.dart';
 import 'package:swecha/pages/schedule/state/schedulestate.dart';
 
 class ScheduleWidget extends StatefulWidget {
@@ -28,12 +29,20 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
             return Padding(
               padding: const EdgeInsets.only(
                   top: 4.0, left: 8.0, right: 8.0, bottom: 4.0),
-              child: Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(fState.listScheduleModel[index].title),
-                ),
+              child: ExpansionTile(
+                key: PageStorageKey<ScheduleModel>(
+                    fState.listScheduleModel[index]),
+                title: Text(fState.listScheduleModel[index].title),
+                children: <Widget>[
+                  Text(fState.listScheduleModel[index].location),
+                ],
               ),
+              // Card(
+              //   child: Padding(
+              //     padding: const EdgeInsets.all(8.0),
+              //     child: Text(fState.listScheduleModel[index].title),
+              //   ),
+              // ),
             );
           },
           itemCount: fState.listScheduleModel.length,

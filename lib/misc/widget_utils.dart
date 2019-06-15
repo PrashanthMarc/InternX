@@ -90,17 +90,17 @@ class WidgetUtils {
     Navigator.of(context).pushAndRemoveUntil(route, (route) => false);
   }
 
-  static void showAddFeedPage(BuildContext context) async {
-    String tag = AddFeedPage.TAG;
-    Widget page = AddFeedPage();
+  // static void showAddFeedPage(BuildContext context) async {
+  //   String tag = AddFeedPage.TAG;
+  //   Widget page = AddFeedPage();
 
-    final route = CupertinoPageRoute<bool>(
-        maintainState: true,
-        settings: RouteSettings(name: tag),
-        builder: (context) => page,
-        fullscreenDialog: true);
-    Navigator.of(context).push(route);
-  }
+  //   final route = CupertinoPageRoute<bool>(
+  //       maintainState: true,
+  //       settings: RouteSettings(name: tag),
+  //       builder: (context) => page,
+  //       fullscreenDialog: true);
+  //   Navigator.of(context).push(route);
+  // }
 
   static void showMoreInfoPage(BuildContext context) async {
     String tag = MoreInfoPage.TAG;

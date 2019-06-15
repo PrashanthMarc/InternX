@@ -1,8 +1,9 @@
 import 'dart:convert';
 
 class ConstUtils {
-  static String baseUrl = "http://101.53.142.185/api/";
-  static String baseUrlNoSlash = "http://101.53.142.185";
+  static String baseUrl = "http://internx.xyz/api/";
+  static String baseUrlNoSlash = "http://internx.xyz";
+  static String version = "1.0.0";
 
   // Parse JWT
   static Map<String, dynamic> parseJwt(String token) {

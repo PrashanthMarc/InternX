@@ -69,8 +69,49 @@ class _FeedPageState extends State<FeedPage> {
     );
   }
 
+  _showAppUpdatePopup(String changeLog, String downloadUrl) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(
+            "Update Available",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          content: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text("We have an update"),
+              Text(changeLog),
+            ],
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text("Download"),
+              onPressed: () {
+                launch(downloadUrl);
+              },
+            )
+          ],
+        );
+      },
+    );
+  }
+
   _buildFeedList() {
     return Consumer<FeedState>(builder: (context, fState, child) {
+      try {
+        print(fState.feedModel.appData[0].versionNumber);
+        if (fState.feedModel.appData[0].versionNumber != ConstUtils.version) {
+          print("done showing pop");
+          Future.delayed(Duration(seconds: 3), () {
+            _showAppUpdatePopup(fState.feedModel.appData[0].changeLog,
+                fState.feedModel.appData[0].downloadUrl);
+          });
+        }
+      } catch (err) {}
       if (fState.isFetching) {
         return Center(
           child: CircularProgressIndicator(),
@@ -134,8 +175,7 @@ class _FeedPageState extends State<FeedPage> {
         drawer: _buildDrawerContent(context),
         appBar: WhiteAppBar(
           centerTitle: true,
-          title:  SmallAppLogo(),
-            
+          title: SmallAppLogo(),
           leading: IconButton(
             icon: ImageIcon(
               AssetImage("images/menu32.png"),

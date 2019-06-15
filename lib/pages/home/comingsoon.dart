@@ -30,7 +30,7 @@ class _ComingSoonPageState extends State<ComingSoonPage> {
           Padding(
             padding: const EdgeInsets.only(left: 20.0, right: 20.0),
             child: Text(
-              "Our engines are working behind, will get an update any moment, stay tuned!",
+              "Welcome to Swecha Internship Program - 2019",
               style: TextStyle(
                 color: Colors.green,
                 fontSize: 18.0,

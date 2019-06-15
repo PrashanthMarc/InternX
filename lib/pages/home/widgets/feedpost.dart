@@ -103,7 +103,7 @@ class _FeedPostWidgetState extends State<FeedPostWidget> {
               maxLines: 5,
               controller: _postController,
               decoration: InputDecoration.collapsed(
-                  hintText: "Give your opinion",
+                  hintText: "Write down your feelings...",
                   hintStyle: TextStyle(fontFamily: "Nunito")),
             ),
           ),

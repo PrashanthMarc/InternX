@@ -23,9 +23,16 @@ class _SchedulePageState extends State<SchedulePage> {
         return schedulestate;
       },
       child: Scaffold(
+        backgroundColor: Colors.white,
         key: _scaffoldKey,
         appBar: WhiteAppBar(
-          title: SmallLogo(),
+          title: Text("Schedule",
+          style: TextStyle(
+            color: Colors.green,
+            fontSize: 24.0,
+            fontFamily: "Nunito",
+          ),),
+          centerTitle: true,
         ),
         body: ScheduleWidget(),
       ),

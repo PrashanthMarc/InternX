@@ -32,39 +32,42 @@ class FullAppLogo extends StatelessWidget {
   }
 }
 
-class SmallLogo extends StatelessWidget {
+class SmallAppLogo extends StatelessWidget {
   static const String TAG = "SIZED_FULL_LOGO";
 
   double size = 30.0;
 
-  SmallLogo({Key key, this.size}) : super(key: key);
+  SmallAppLogo({Key key, this.size = 24.0}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return RichText(
-      textScaleFactor: 1.0,
-      text: new TextSpan(
-        children: <TextSpan>[
-          new TextSpan(
-            text: 'intern',
-            style: TextStyle(
-              fontSize: size,
-              fontFamily: "Nunito",
-              color: Colors.blue,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          TextSpan(
-            text: 'X',
-            style: TextStyle(
-              fontSize: size,
-              fontFamily: "Nunito",
-              color: Colors.green,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ],
-      ),
-    );
+                  text:  TextSpan(
+                    style:  TextStyle(
+                      fontSize: 14.0,
+                      color: Colors.black,
+                    ),
+                    children: <TextSpan>[
+                       TextSpan(
+                        text: 'Swecha',
+                        style: TextStyle(
+                          fontSize: size,
+                          fontFamily: "Nunito",
+                          color: Colors.blue,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      TextSpan(
+                        text: 'InternX',
+                        style: TextStyle(
+                          fontSize: size,
+                          fontFamily: "Nunito",
+                          color: Colors.green,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
   }
 }

@@ -71,13 +71,13 @@ class _LogInPageState extends State<LogInPage> {
                 top: 10.0,
                 left: 20.0,
                 child: RichText(
-                  text: new TextSpan(
-                    style: new TextStyle(
+                  text:  TextSpan(
+                    style:  TextStyle(
                       fontSize: 14.0,
                       color: Colors.black,
                     ),
                     children: <TextSpan>[
-                      new TextSpan(
+                       TextSpan(
                         text: 'Swecha',
                         style: TextStyle(
                           fontSize: 44.0,

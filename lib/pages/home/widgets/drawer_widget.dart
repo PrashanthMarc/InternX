@@ -82,7 +82,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               style: TextStyle(
                 fontSize: 16.0,
                 color: Palette.appBlack,
-                fontFamily: "Quicksand",
+                fontFamily: "Nunito",
                 // fontWeight: FontWeight.bold,
               ),
             ),
@@ -131,7 +131,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             ),
             onTap: () {
               Navigator.pop(context);
-              // WidgetUtils.showHostelsIAddedPage(context);
+              WidgetUtils.showComingSoonPage(context);
             },
           ),
           ListTile(
@@ -153,7 +153,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             ),
             onTap: () {
               Navigator.pop(context);
-              // WidgetUtils.showFavouritePage(context);
+              WidgetUtils.showComingSoonPage(context);
             },
           ),
           ListTile(
@@ -166,7 +166,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               ),
             ),
             title: Text(
-              'Request a Mentor',
+              'Request a mentor',
               style: TextStyle(
                 fontSize: 16.0,
                 color: Palette.appBlack,
@@ -175,7 +175,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             ),
             onTap: () {
               Navigator.pop(context);
-              // WidgetUtils.showMyCreditsPage(context);
+              WidgetUtils.showComingSoonPage(context);
             },
           ),
           ListTile(
@@ -188,7 +188,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               ),
             ),
             title: Text(
-              "FeedBack",
+              "Feedback",
               style: TextStyle(
                 fontSize: 16.0,
                 color: Palette.appBlack,
@@ -197,31 +197,10 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             ),
             onTap: () {
               Navigator.pop(context);
-              // WidgetUtils.showReferralPage(context, user);
+              WidgetUtils.showComingSoonPage(context,);
             },
           ),
-          ListTile(
-            leading: Padding(
-              padding: const EdgeInsets.only(left: 10.0),
-              child: ImageIcon(
-                AssetImage("images/logout.png"),
-                size: 16.0,
-                color: Palette.appBlack,
-              ),
-            ),
-            title: Text(
-              'Logout',
-              style: TextStyle(
-                fontSize: 16.0,
-                color: Palette.appBlack,
-                fontFamily: "Nunito",
-              ),
-            ),
-            onTap: () async {
-              await Prefs.clear();
-              WidgetUtils.proceedToAuth(context, replaceAll: true);
-            },
-          ),
+          
         ],
       ),
     );

@@ -4,6 +4,7 @@ import 'package:swecha/misc/prefs.dart';
 import 'package:swecha/pages/auth/login.dart';
 import 'package:swecha/pages/auth/moreinfo.dart';
 import 'package:swecha/pages/home/addfeed.dart';
+import 'package:swecha/pages/home/comingsoon.dart';
 import 'package:swecha/pages/home/home.dart';
 import 'package:swecha/pages/home/request_mentor.dart';
 import 'package:swecha/pages/schedule/schedule.dart';
@@ -152,17 +153,17 @@ class WidgetUtils {
     Navigator.of(context).push(route);
   }
 
-  // static void showMyCreditsPage(BuildContext context) async {
-  //   String tag = MyCreditsPage.TAG;
-  //   Widget page = MyCreditsPage();
+  static void showComingSoonPage(BuildContext context) async {
+    String tag = ComingSoonPage.TAG;
+    Widget page = ComingSoonPage();
 
-  //   final route = CupertinoPageRoute<bool>(
-  //     maintainState: true,
-  //     settings: RouteSettings(name: tag),
-  //     builder: (context) => page,
-  //   );
-  //   Navigator.of(context).push(route);
-  // }
+    final route = CupertinoPageRoute<bool>(
+      maintainState: true,
+      settings: RouteSettings(name: tag),
+      builder: (context) => page,
+    );
+    Navigator.of(context).push(route);
+  }
 
   // static void showContactUsPage(BuildContext context) async {
   //   String tag = ContactUs.TAG;

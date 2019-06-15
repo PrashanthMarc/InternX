@@ -134,17 +134,8 @@ class _FeedPageState extends State<FeedPage> {
         drawer: _buildDrawerContent(context),
         appBar: WhiteAppBar(
           centerTitle: true,
-          title:
-              // SmallLogo(),
-              Text(
-            "internX",
-            style: TextStyle(
-              color: Colors.black,
-              fontFamily: "Nunito",
-              fontSize: 24.0,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+          title:  SmallAppLogo(),
+            
           leading: IconButton(
             icon: ImageIcon(
               AssetImage("images/menu32.png"),

@@ -47,11 +47,9 @@ class ScheduleState with ChangeNotifier {
     );
     if (response.statusCode == 200) {
       _jsonResonse = response.body;
-
+      print(response.statusCode);
       if (_jsonResonse.isNotEmpty) {
         var json = jsonDecode(_jsonResonse);
-
-        print(json.runtimeType);
 
         if (json.runtimeType.toString() != "List<dynamic>") {
           _error = 2;

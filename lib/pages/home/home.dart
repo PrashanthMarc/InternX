@@ -41,7 +41,12 @@ class _FeedPageState extends State<FeedPage> {
 
 // REVIEW WRITE
   _buildFeedPost() {
-    return FeedPostWidget(context: context);
+    return FeedPostWidget(
+      context: context,
+      onDone: () {
+        gloablFeedstate.fetchList();
+      },
+    );
   }
 
   _refreshList() {
@@ -78,16 +83,16 @@ class _FeedPageState extends State<FeedPage> {
         return ListView.builder(
           itemBuilder: (context, index) {
             return _buildCardPost(fState.feedModel.feeds[index]);
-            return Padding(
-              padding: const EdgeInsets.only(
-                  top: 4.0, left: 8.0, right: 8.0, bottom: 4.0),
-              child: Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(fState.feedModel.feeds[index].body),
-                ),
-              ),
-            );
+            // return Padding(
+            //   padding: const EdgeInsets.only(
+            //       top: 4.0, left: 8.0, right: 8.0, bottom: 4.0),
+            //   child: Card(
+            //     child: Padding(
+            //       padding: const EdgeInsets.all(8.0),
+            //       child: Text(fState.feedModel.feeds[index].body),
+            //     ),
+            //   ),
+            // );
           },
           itemCount: fState.feedModel.feeds.length,
           shrinkWrap: true,
@@ -112,12 +117,15 @@ class _FeedPageState extends State<FeedPage> {
     super.initState();
   }
 
+  FeedState gloablFeedstate;
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<FeedState>(
       builder: (_) {
         FeedState feedstate = FeedState();
         feedstate.fetchList();
+        gloablFeedstate = feedstate;
         return feedstate;
       },
       child: Scaffold(
@@ -149,13 +157,20 @@ class _FeedPageState extends State<FeedPage> {
           ),
           actions: <Widget>[],
         ),
-        body: _buildFeedList(),
+        body: Consumer<FeedState>(builder: (context, fState, child) {
+          return RefreshIndicator(
+              child: _buildFeedList(),
+              onRefresh: () async {
+                await fState.fetchList();
+                return;
+              });
+        }),
         floatingActionButton: FloatingActionButton(
           child: Icon(
             Icons.add,
-            color: Colors.red,
+            color: Colors.white,
           ),
-          backgroundColor: Colors.green,
+          backgroundColor: Colors.blue,
           onPressed: () {
             _showFeedPostPopup();
             // WidgetUtils.showAddFeedPage(context);
@@ -194,7 +209,6 @@ class _FeedPageState extends State<FeedPage> {
   }
 
   Widget _buildCardPost(Feeds feed) {
-    print(feed.iamge);
     return Padding(
       padding: const EdgeInsets.only(
         top: 5.0,
@@ -227,11 +241,9 @@ class _FeedPageState extends State<FeedPage> {
                             padding: const EdgeInsets.only(
                                 left: 4.0, top: 4.0, bottom: 4.0, right: 8.0),
                             child: CircleAvatar(
-                              child: Image(
-                                image: AdvancedNetworkImage(
-                                  "${ConstUtils.baseUrl}${feed.user}",
-                                  useDiskCache: true,
-                                ),
+                              backgroundImage: AdvancedNetworkImage(
+                                "${ConstUtils.baseUrlNoSlash}${feed.userPic}",
+                                useDiskCache: true,
                               ),
                             ),
                           ),
@@ -277,7 +289,7 @@ class _FeedPageState extends State<FeedPage> {
                                     child: Image(
                                       fit: BoxFit.fill,
                                       image: AdvancedNetworkImage(
-                                        "https://source.unsplash.com/480x${300 + Random().nextInt(100)}/?food,veg",
+                                        "${ConstUtils.baseUrlNoSlash}${feed.iamge}",
                                         useDiskCache: true,
                                       ),
                                     ),

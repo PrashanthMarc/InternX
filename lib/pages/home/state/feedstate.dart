@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:swecha/misc/const_utils.dart';
 import 'package:swecha/misc/prefs.dart';
+import 'package:swecha/misc/widget_utils.dart';
 import 'package:swecha/pages/home/model/feedmodel.dart';
 
 class FeedState with ChangeNotifier {
@@ -23,6 +24,7 @@ class FeedState with ChangeNotifier {
 
   int get errorCode => _error;
 
+  int _refreshTry = 0;
   /*
    * error code
    * 1 - success
@@ -44,7 +46,7 @@ class FeedState with ChangeNotifier {
       "${ConstUtils.baseUrl}feed/",
       headers: headers,
     );
-    print(response.statusCode);
+
     if (response.statusCode == 200) {
       _jsonResonse = response.body;
 
@@ -53,8 +55,13 @@ class FeedState with ChangeNotifier {
         print(json);
         if (json["token_not_valid"] != null) {
           _error = 2;
+          _refreshTry += 1;
+          if (_refreshTry < 4) {
+            await refreshToken();
+          }
         } else {
           _feedModel = FeedModel.fromJson(json);
+          _refreshTry = 0;
           // try {
           //   Map<String, dynamic> payload = ConstUtils.parseJwt(json["access"]);
           //   await Prefs.setInt("userId", payload["user_id"]);
@@ -69,6 +76,10 @@ class FeedState with ChangeNotifier {
       }
     } else if (response.statusCode == 401) {
       _error = 2;
+      _refreshTry += 1;
+      if (_refreshTry < 4) {
+        await refreshToken();
+      }
       // await Prefs.clear();
     } else {
       _error = 3;
@@ -77,5 +88,45 @@ class FeedState with ChangeNotifier {
     _isFetching = false;
     notifyListeners();
     return _error;
+  }
+
+  Future<void> refreshToken() async {
+    String refreshToken = await Prefs.getString("refresh");
+
+    print(refreshToken);
+
+    Map<String, String> refreshData = {"refresh": refreshToken};
+    bool _error = false;
+
+    var response = await http.post(
+      "${ConstUtils.baseUrl}token/refresh/",
+      body: refreshData,
+    );
+
+    if (response.statusCode == 200) {
+      _jsonResonse = response.body;
+
+      if (_jsonResonse.isNotEmpty) {
+        Map<String, dynamic> json = jsonDecode(_jsonResonse);
+        if (json["detail"] != null) {
+          _error = true;
+          await Prefs.clear();
+        } else {
+          try {
+            Map<String, dynamic> payload = ConstUtils.parseJwt(json["access"]);
+            await Prefs.setInt("userId", payload["user_id"]);
+            await Prefs.setInt("exp", payload["exp"]);
+          } catch (er) {}
+          await Prefs.setString("token", json["access"]);
+          _error = false;
+        }
+      } else {
+        _error = true;
+      }
+    } else {
+      _error = true;
+    }
+
+    fetchList();
   }
 }

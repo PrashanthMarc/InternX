@@ -43,6 +43,8 @@ class LoginState with ChangeNotifier {
           } catch (er) {}
           await Prefs.setString("token", json["access"]);
           await Prefs.setString("refresh", json["refresh"]);
+
+          await fetchUserDetails();
           _error = false;
         }
       } else {
@@ -54,6 +56,54 @@ class LoginState with ChangeNotifier {
 
     _isFetching = false;
     notifyListeners();
+    return _error;
+  }
+
+  Future<bool> fetchUserDetails() async {
+    // http://101.53.142.185/api/get_user_details/
+
+    String token = await Prefs.getString("token");
+
+    Map<String, String> headers = {
+      "Authorization": "Bearer $token",
+    };
+
+    var response = await http.get(
+      "${ConstUtils.baseUrl}get_user_details/",
+      headers: headers,
+    );
+    print(response.body);
+
+    bool _error = false;
+
+    // {
+    // "profile_pic": "/media/profile_pics/avatar_IU8R8D6.png",
+    // "uid": "SUPER002",
+    // "track": "Dev",
+    // "name": "Karthik Ponnam"
+// }
+
+    if (response.statusCode == 200) {
+      _jsonResonse = response.body;
+
+      if (_jsonResonse.isNotEmpty) {
+        Map<String, dynamic> json = jsonDecode(_jsonResonse);
+        if (json["detail"] != null) {
+          _error = true;
+        } else {
+          await Prefs.setInt("profilePic", json["user_id"]);
+          await Prefs.setInt("uid", json["exp"]);
+          await Prefs.setString("name", json["name"]);
+          await Prefs.setString("track", json["track"]);
+          _error = false;
+        }
+      } else {
+        _error = true;
+      }
+    } else {
+      _error = true;
+    }
+
     return _error;
   }
 }

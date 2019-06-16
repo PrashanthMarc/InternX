@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:swecha/misc/const_utils.dart';
@@ -17,6 +18,7 @@ import 'package:swecha/widgets/white_app_bar.dart';
 import 'package:swecha/pages/home/widgets/feedpost.dart';
 import 'package:flutter_advanced_networkimage/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 import 'package:http/http.dart' as http;
 
@@ -27,6 +29,7 @@ class FeedPage extends StatelessWidget {
 
   FeedModel feedModel;
   DateFormat dateFormat = new DateFormat("dd/MM/yyyy, HH:mm:ss");
+  bool showChildOpacityTransition = false;
 
   _buildDrawerContent(BuildContext context) {
     return DrawerWidget();
@@ -195,13 +198,35 @@ class FeedPage extends StatelessWidget {
           body: Consumer<FeedState>(
             builder: (context, fState, child) {
               if (fState.bottomBarIndex == 0) {
-                return RefreshIndicator(
-                  child: _buildFeedList(),
+                return LiquidPullToRefresh(
+                  showChildOpacityTransition: showChildOpacityTransition =
+                      false,
+                  springAnimationDurationInMilliseconds: 100,
+
+                  key: Key("feed"),
+                  //  showChildOpacityTransition = false,
+
+                  // showChildOpacityTransition = false,
+
+                  child: ListView(
+                    children: <Widget>[
+                      _buildFeedList(),
+                    ],
+                  ),
                   onRefresh: () async {
                     await fState.fetchList();
+
                     return;
                   },
                 );
+
+                // RefreshIndicator(
+                //   child: _buildFeedList(),
+                //   onRefresh: () async {
+                //     await fState.fetchList();
+                //     return;
+                // },
+
               } else {
                 return ScheduleWidget();
               }

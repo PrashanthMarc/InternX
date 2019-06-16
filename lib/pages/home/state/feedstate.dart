@@ -148,6 +148,6 @@ class FeedState with ChangeNotifier {
     await Prefs.clear();
     _tokenError = true;
     notifyListeners();
-    return;
+    return null;
   }
 }

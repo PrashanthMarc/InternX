@@ -12,6 +12,15 @@ class FeedState with ChangeNotifier {
     // fetchList();
   }
 
+  int _bottomBarIndex = 0;
+
+  void setBottomBarIndex(int index) {
+    _bottomBarIndex = index;
+    notifyListeners();
+  }
+
+  int get bottomBarIndex => _bottomBarIndex;
+
   bool _tokenError = false;
 
   bool get tokenError => _tokenError;
@@ -99,7 +108,7 @@ class FeedState with ChangeNotifier {
   Future<void> refreshToken() async {
     String refreshToken = await Prefs.getString("refresh");
 
-    print(refreshToken);
+    print("refreshToken");
 
     Map<String, String> refreshData = {"refresh": refreshToken};
     bool _error = false;

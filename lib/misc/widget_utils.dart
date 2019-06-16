@@ -7,6 +7,7 @@ import 'package:swecha/pages/home/addfeed.dart';
 import 'package:swecha/pages/home/comingsoon.dart';
 import 'package:swecha/pages/home/home.dart';
 import 'package:swecha/pages/home/request_mentor.dart';
+import 'package:swecha/pages/repos/repo.dart';
 import 'package:swecha/pages/schedule/assignment.dart';
 import 'package:swecha/pages/schedule/schedule.dart';
 
@@ -129,10 +130,10 @@ class WidgetUtils {
   }
 
   static void showAssignmentPage(
-      BuildContext context, int no, String data) async {
+      BuildContext context, String title, String data) async {
     String tag = AssignmentPage.TAG;
     Widget page = AssignmentPage(
-      no: no,
+      title: title,
       data: data,
     );
 
@@ -141,7 +142,19 @@ class WidgetUtils {
       settings: RouteSettings(name: tag),
       builder: (context) => page,
     );
-    Navigator.of(context).pushAndRemoveUntil(route, (route) => false);
+    Navigator.of(context).push(route);
+  }
+
+  static void showRepoPage(BuildContext context) async {
+    String tag = RepoPage.TAG;
+    Widget page = RepoPage();
+
+    final route = CupertinoPageRoute<bool>(
+      maintainState: true,
+      settings: RouteSettings(name: tag),
+      builder: (context) => page,
+    );
+    Navigator.of(context).push(route);
   }
 
   static void showSchedulePage(BuildContext context) async {

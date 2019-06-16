@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:swecha/misc/const_utils.dart';
 import 'package:swecha/misc/date_utils.dart';
+import 'package:swecha/misc/palette.dart';
 import 'package:swecha/misc/widget_utils.dart';
 import 'package:swecha/pages/home/model/feedmodel.dart';
 import 'package:swecha/pages/home/state/feedstate.dart';
@@ -179,16 +180,16 @@ class FeedPage extends StatelessWidget {
           appBar: WhiteAppBar(
             centerTitle: true,
             title: SmallAppLogo(),
-            // leading: IconButton(
-            //   icon: ImageIcon(
-            //     AssetImage("images/menu32.png"),
-            //     color: Palette.lightGrey,
-            //     size: 16.0,
-            //   ),
-            //   onPressed: () {
-            //     _scaffoldKey.currentState.openDrawer();
-            //   },
-            // ),
+            leading: IconButton(
+              icon: ImageIcon(
+                AssetImage("images/menu32.png"),
+                color: Palette.appBlack,
+                size: 16.0,
+              ),
+              onPressed: () {
+                _scaffoldKey.currentState.openDrawer();
+              },
+            ),
             actions: <Widget>[],
           ),
           body: Consumer<FeedState>(

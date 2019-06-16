@@ -39,21 +39,22 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
                       child: Column(
                         children: <Widget>[
                           Text(
-                            fState.listScheduleModel[index].day.toString(),
-                            style: TextStyle(
-                              fontSize: 24.0,
-                            ),
-                          ),
-                          Text(
-                            "Day",
+                            "Day ${fState.listScheduleModel[index].day}",
                             style: TextStyle(
                               fontSize: 16.0,
                             ),
-                          )
+                          ),
+                          // Text(
+                          //   fState..toString(),
+                          //   style: TextStyle(
+                          //     fontSize: 24.0,
+                          //   ),
+                          // ),
                         ],
                       ),
                     ),
-                    Text(fState.listScheduleModel[index].title)
+                    Text(fState.listScheduleModel[index].title +
+                        " ${fState.listScheduleModel[index].assigments.length > 0 ? '*' : ''}")
                   ],
                 ),
                 children: <Widget>[
@@ -63,49 +64,61 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text(
-                          "Location: ${fState.listScheduleModel[index].location}",
-                          style: TextStyle(
-                            fontSize: 16.0,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 16.0,
-                        ),
-                        if (fState.listScheduleModel[index].assigments.length >
-                            0)
-                          Text(
-                            "Assignments",
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.bold,
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Text.rich(
+                            TextSpan(
+                              children: <TextSpan>[
+                                TextSpan(
+                                  text: "Location: ",
+                                  style: TextStyle(
+                                    fontSize: 16.0,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text:
+                                      "${fState.listScheduleModel[index].location}",
+                                  style: TextStyle(
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                )
+                              ],
                             ),
                           ),
-                        SizedBox(
-                          height: 16.0,
                         ),
-                        Column(
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
-                            for (int i = 0;
-                                i <
-                                    fState.listScheduleModel[index].assigments
-                                        .length;
-                                i++)
-                              ListTile(
-                                title: Text(
-                                    "Assignment ${fState.listScheduleModel[index].assigments[i].no}"),
-                                trailing: Icon(Icons.chevron_right),
-                                onTap: () {
+                            if (fState.listScheduleModel[index].assigments
+                                    .length >
+                                0)
+                              OutlineButton(
+                                highlightColor: Colors.blue,
+                                child: Text("Assignment"),
+                                onPressed: () {
                                   WidgetUtils.showAssignmentPage(
                                     context,
-                                    "Assignment ${fState.listScheduleModel[index].assigments[i].no}",
+                                    "Assignment",
                                     fState.listScheduleModel[index]
-                                        .assigments[i].body,
+                                        .assigments[0].body,
                                   );
                                 },
                               ),
+                            OutlineButton(
+                              highlightColor: Colors.blue,
+                              child: Text("Feedback"),
+                              onPressed: () {
+                                // WidgetUtils.showAssignmentPage(
+                                //   context,
+                                //   "Feedback",
+                                //   fState.listScheduleModel[index].assigments[0]
+                                //       .body,
+                                // );
+                              },
+                            ),
                           ],
-                        )
+                        ),
                       ],
                     ),
                   )

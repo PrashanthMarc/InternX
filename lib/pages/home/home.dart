@@ -22,25 +22,20 @@ import 'package:url_launcher/url_launcher.dart';
 
 import 'package:http/http.dart' as http;
 
-class FeedPage extends StatefulWidget {
-  @override
-  _FeedPageState createState() => _FeedPageState();
+class FeedPage extends StatelessWidget {
   static String TAG = "FEEDPAGE";
-}
-
-class _FeedPageState extends State<FeedPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey =
       GlobalKey<ScaffoldState>(debugLabel: "feed_page");
 
   FeedModel feedModel;
-  DateFormat dateFormat = new DateFormat("dd/MM/yyyy, HH:mm:ss a");
+  DateFormat dateFormat = new DateFormat("dd/MM/yyyy, HH:mm:ss");
 
   _buildDrawerContent(BuildContext context) {
     return DrawerWidget();
   }
 
 // REVIEW WRITE
-  _buildFeedPost() {
+  _buildFeedPost(context) {
     return FeedPostWidget(
       context: context,
       onDone: () {
@@ -49,12 +44,8 @@ class _FeedPageState extends State<FeedPage> {
     );
   }
 
-  _refreshList() {
-    setState(() {});
-  }
-
 // FEED POST
-  _showFeedPostPopup() {
+  _showFeedPostPopup(context) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -63,13 +54,14 @@ class _FeedPageState extends State<FeedPage> {
           backgroundColor: Colors.white,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
-          child: _buildFeedPost(),
+          child: _buildFeedPost(context),
         );
       },
     );
   }
 
-  _showAppUpdatePopup(String changeLog, String downloadUrl) {
+  _showAppUpdatePopup(
+      BuildContext context, String changeLog, String downloadUrl) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -106,11 +98,15 @@ class _FeedPageState extends State<FeedPage> {
         if (fState.feedModel.appData[0].versionNumber != ConstUtils.version) {
           print("done showing pop");
           Future.delayed(Duration(seconds: 3), () {
-            _showAppUpdatePopup(fState.feedModel.appData[0].changeLog,
+            _showAppUpdatePopup(context, fState.feedModel.appData[0].changeLog,
                 fState.feedModel.appData[0].downloadUrl);
           });
         }
       } catch (err) {}
+
+      if (fState.tokenError) {
+        WidgetUtils.proceedToAuth(context, replaceAll: true);
+      }
       if (fState.isFetching) {
         return Center(
           child: CircularProgressIndicator(),
@@ -122,7 +118,7 @@ class _FeedPageState extends State<FeedPage> {
       if (fState.feedModel != null && fState.feedModel.feeds.length > 0) {
         return ListView.builder(
           itemBuilder: (context, index) {
-            return _buildCardPost(fState.feedModel.feeds[index]);
+            return _buildCardPost(context, fState.feedModel.feeds[index]);
             // return Padding(
             //   padding: const EdgeInsets.only(
             //       top: 4.0, left: 8.0, right: 8.0, bottom: 4.0),
@@ -152,10 +148,10 @@ class _FeedPageState extends State<FeedPage> {
     });
   }
 
-  @override
-  void initState() {
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  // }
 
   FeedState gloablFeedstate;
 
@@ -202,7 +198,7 @@ class _FeedPageState extends State<FeedPage> {
           ),
           backgroundColor: Colors.blue,
           onPressed: () {
-            _showFeedPostPopup();
+            _showFeedPostPopup(context);
             // WidgetUtils.showAddFeedPage(context);
           },
         ),
@@ -238,7 +234,7 @@ class _FeedPageState extends State<FeedPage> {
     );
   }
 
-  Widget _buildCardPost(Feeds feed) {
+  Widget _buildCardPost(BuildContext context, Feeds feed) {
     return Padding(
       padding: const EdgeInsets.only(
         top: 5.0,

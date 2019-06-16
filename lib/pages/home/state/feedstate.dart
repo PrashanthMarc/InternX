@@ -12,6 +12,10 @@ class FeedState with ChangeNotifier {
     // fetchList();
   }
 
+  bool _tokenError = false;
+
+  bool get tokenError => _tokenError;
+
   String _jsonResonse = "";
   bool _isFetching = false;
 
@@ -52,7 +56,7 @@ class FeedState with ChangeNotifier {
 
       if (_jsonResonse.isNotEmpty) {
         Map<String, dynamic> json = jsonDecode(_jsonResonse);
-        print(json);
+
         if (json["token_not_valid"] != null) {
           _error = 2;
           _refreshTry += 1;
@@ -79,8 +83,10 @@ class FeedState with ChangeNotifier {
       _refreshTry += 1;
       if (_refreshTry < 4) {
         await refreshToken();
+      } else {
+        await Prefs.clear();
+        _tokenError = true;
       }
-      // await Prefs.clear();
     } else {
       _error = 3;
     }

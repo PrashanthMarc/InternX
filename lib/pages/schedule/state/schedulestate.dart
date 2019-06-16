@@ -62,6 +62,8 @@ class ScheduleState with ChangeNotifier {
           // _listScheduleModel =
           //     json.map((i) => ScheduleModel.fromJson(i)).toList();
           print(_listScheduleModel.length);
+          _listScheduleModel.sort((a, b) => b.day.compareTo(a.day));
+          // _listScheduleModel.reversed;
           // _feedModel = FeedModel.fromJson(json);
           // try {
           //   Map<String, dynamic> payload = ConstUtils.parseJwt(json["access"]);

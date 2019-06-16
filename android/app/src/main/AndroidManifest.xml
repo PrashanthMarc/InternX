@@ -10,9 +10,8 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="swecha"
+        android:label="Swecha InternX"
         android:usesCleartextTraffic="true"
-        android:debuggable="true"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

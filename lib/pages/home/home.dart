@@ -103,7 +103,6 @@ class _FeedPageState extends State<FeedPage> {
   _buildFeedList() {
     return Consumer<FeedState>(builder: (context, fState, child) {
       try {
-        print(fState.feedModel.appData[0].versionNumber);
         if (fState.feedModel.appData[0].versionNumber != ConstUtils.version) {
           print("done showing pop");
           Future.delayed(Duration(seconds: 3), () {
@@ -142,7 +141,7 @@ class _FeedPageState extends State<FeedPage> {
       }
       if (fState.feedModel != null && fState.feedModel.feeds.length == 0) {
         return Center(
-          child: Text("Unable to fetch Feed"),
+          child: Text("Feed list is empty."),
         );
       }
       if (fState.feedModel == null) {

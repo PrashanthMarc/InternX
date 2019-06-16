@@ -306,6 +306,9 @@ class FeedPage extends StatelessWidget {
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
+                                SizedBox(
+                                  height: 4.0,
+                                ),
                                 Text(
                                   DateUtils.getLocalizedTimeAgo(
                                     dateFormat.parse(feed.info),
@@ -319,7 +322,7 @@ class FeedPage extends StatelessWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(
-                          left: 8.0,
+                          left: 4.0,
                           right: 8.0,
                           bottom: 4.0,
                           top: 4.0,

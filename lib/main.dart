@@ -7,6 +7,8 @@ import 'package:swecha/pages/splash_screen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:swecha/i18n/translation.dart';
 
+import 'package:onesignal/onesignal.dart';
+
 void main() {
   runApp(App());
 }
@@ -20,6 +22,23 @@ class _AppState extends State<App> {
   @override
   void initState() {
     super.initState();
+
+    String appId = "595277b7-3bde-4b1e-9728-fb620c142822";
+    Map<OSiOSSettings, dynamic> none = {
+      OSiOSSettings.autoPrompt: true,
+      OSiOSSettings.inAppLaunchUrl: true,
+    };
+    OneSignal.shared.init(appId, iOSSettings: none);
+    OneSignal.shared
+        .promptUserForPushNotificationPermission(fallbackToSettings: true);
+    OneSignal.shared
+        .setInFocusDisplayType(OSNotificationDisplayType.notification);
+
+    OneSignal.shared
+        .setSubscriptionObserver((OSSubscriptionStateChanges changes) {
+      print(changes.to.userId);
+      //will be called whenever the OS subscription changes
+    });
   }
 
   @override

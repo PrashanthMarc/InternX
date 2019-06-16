@@ -46,6 +46,7 @@ dependencies:
   webview_flutter: ^0.3.9+1
   dio: 2.1.7
   liquid_pull_to_refresh: ^1.1.1
+  onesignal: ^1.1.0
   # zefyr: any
   # zefyr:
   #   git:

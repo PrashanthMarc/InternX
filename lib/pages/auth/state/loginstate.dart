@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:onesignal/onesignal.dart';
 import 'dart:convert';
 
 import 'package:swecha/misc/const_utils.dart';
@@ -45,6 +46,7 @@ class LoginState with ChangeNotifier {
           await Prefs.setString("refresh", json["refresh"]);
 
           await fetchUserDetails();
+          await updateOneSignalToken();
           _error = false;
         }
       } else {
@@ -60,8 +62,6 @@ class LoginState with ChangeNotifier {
   }
 
   Future<bool> fetchUserDetails() async {
-    // http://101.53.142.185/api/get_user_details/
-
     String token = await Prefs.getString("token");
 
     Map<String, String> headers = {
@@ -75,13 +75,6 @@ class LoginState with ChangeNotifier {
     print(response.body);
 
     bool _error = false;
-
-    // {
-    // "profile_pic": "/media/profile_pics/avatar_IU8R8D6.png",
-    // "uid": "SUPER002",
-    // "track": "Dev",
-    // "name": "Karthik Ponnam"
-// }
 
     if (response.statusCode == 200) {
       _jsonResonse = response.body;
@@ -106,5 +99,14 @@ class LoginState with ChangeNotifier {
     }
 
     return _error;
+  }
+
+  Future<void> updateOneSignalToken() {
+    OneSignal.shared
+        .setSubscriptionObserver((OSSubscriptionStateChanges changes) {
+      print(changes.to.userId);
+      //will be called whenever the OS subscription changes
+    });
+    return null;
   }
 }

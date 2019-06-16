@@ -118,7 +118,7 @@ class _FeedPostWidgetState extends State<FeedPostWidget> {
               maxLines: 5,
               controller: _postController,
               decoration: InputDecoration.collapsed(
-                  hintText: "Write down your feelings...",
+                  hintText: "Type something...",
                   hintStyle: TextStyle(fontFamily: "Nunito")),
             ),
           ),
@@ -139,6 +139,17 @@ class _FeedPostWidgetState extends State<FeedPostWidget> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Text(
+              "Status Update",
+              style: TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          Divider(),
           Container(
             padding: const EdgeInsets.only(
               left: 16.0,
@@ -152,7 +163,6 @@ class _FeedPostWidgetState extends State<FeedPostWidget> {
                 SizedBox(
                   height: 8.0,
                 ),
-                Divider(),
                 // StarRating(
                 //   size: 35.0,
                 //   color: Palette.starBlack,
@@ -167,24 +177,27 @@ class _FeedPostWidgetState extends State<FeedPostWidget> {
               ],
             ),
           ),
+          Divider(
+            height: 1.0,
+          ),
           Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               Expanded(
-                child: GestureDetector(
+                child: InkWell(
                   onTap: () {
                     Navigator.of(context).pop();
                   },
                   child: Container(
-                    alignment: Alignment.centerLeft,
+                    alignment: Alignment.center,
                     padding: const EdgeInsets.only(
-                        top: 16.0, bottom: 8.0, left: 16.0, right: 16.0),
+                        top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),
                     child: Text(
                       "Cancel",
                       style: TextStyle(
                         fontSize: 17.0,
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w600,
                         color: Color(0xff0a57d2),
                         fontFamily: "Nunito",
                       ),
@@ -192,42 +205,30 @@ class _FeedPostWidgetState extends State<FeedPostWidget> {
                   ),
                 ),
               ),
-              Container(
-                padding: const EdgeInsets.only(
-                    top: 16.0, bottom: 8.0, left: 16.0, right: 16.0),
-                child: Text(
-                  "", //heading
-                  style: TextStyle(
-                    fontSize: 17.0,
-                    fontWeight: FontWeight.bold,
-                    color: Palette.appBlack,
-                  ),
-                ),
-              ),
               Expanded(
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: Container(
-                    padding: const EdgeInsets.only(
-                        top: 16.0, bottom: 8.0, left: 16.0, right: 16.0),
-                    child: isUpdating
-                        ? CircularProgressIndicator()
-                        : GestureDetector(
-                            child: Text(
+                child: InkWell(
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                      padding: const EdgeInsets.only(
+                          top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),
+                      child: isUpdating
+                          ? CircularProgressIndicator()
+                          : Text(
                               "Post",
                               style: TextStyle(
                                 fontSize: 17.0,
-                                fontWeight: FontWeight.w500,
+                                fontWeight: FontWeight.w600,
                                 color: Color(0xff0a57d2),
                                 fontFamily: "Nunito",
                               ),
                             ),
-                            onTap: () {
-                              _postFeed();
-                              // Navigator.of(context).pop();
-                            },
-                          ),
+                    ),
                   ),
+                  onTap: () {
+                    _postFeed();
+                    // Navigator.of(context).pop();
+                  },
                 ),
               ),
             ],

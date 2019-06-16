@@ -104,11 +104,24 @@ class RepoState with ChangeNotifier {
         }
       } else {
         _error = true;
+        tokenErrorHome();
       }
     } else {
       _error = true;
+      tokenErrorHome();
     }
 
     fetchRepos();
+  }
+
+  bool _tokenError = false;
+
+  bool get tokenError => _tokenError;
+
+  Future<void> tokenErrorHome() async {
+    await Prefs.clear();
+    _tokenError = true;
+    notifyListeners();
+    return;
   }
 }

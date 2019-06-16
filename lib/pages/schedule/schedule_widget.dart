@@ -127,7 +127,7 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
       if (fState.listScheduleModel != null &&
           fState.listScheduleModel.length == 0) {
         return Center(
-          child: Text("Unable to fetch Schedule"),
+          child: Text("Schedule is empty."),
         );
       }
       if (fState.listScheduleModel == null) {

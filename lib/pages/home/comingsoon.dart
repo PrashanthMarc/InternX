@@ -35,6 +35,7 @@ class _ComingSoonPageState extends State<ComingSoonPage> {
                 color: Colors.green,
                 fontSize: 18.0,
               ),
+              textAlign: TextAlign.center,
             ),
           ),
         ],

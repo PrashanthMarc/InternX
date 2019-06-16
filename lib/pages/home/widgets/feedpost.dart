@@ -48,6 +48,7 @@ class _FeedPostWidgetState extends State<FeedPostWidget> {
         gravity: ToastGravity.CENTER,
         timeInSecForIos: 1,
       );
+      return;
     }
 
     int userId = await Prefs.getInt("userId");

@@ -26,7 +26,6 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
           fState.listScheduleModel.length > 0) {
         return ListView.builder(
           itemBuilder: (context, index) {
-            print(fState.listScheduleModel[index].toJson());
             return Padding(
               padding: const EdgeInsets.only(
                   top: 4.0, left: 8.0, right: 8.0, bottom: 4.0),
@@ -73,13 +72,15 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
                         SizedBox(
                           height: 16.0,
                         ),
-                        Text(
-                          "Assignments",
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.bold,
+                        if (fState.listScheduleModel[index].assigments.length >
+                            0)
+                          Text(
+                            "Assignments",
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
                         SizedBox(
                           height: 16.0,
                         ),
@@ -92,15 +93,14 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
                                 i++)
                               ListTile(
                                 title: Text(
-                                    "Assignment ${fState.listScheduleModel[index].assigments[index].no}"),
+                                    "Assignment ${fState.listScheduleModel[index].assigments[i].no}"),
                                 trailing: Icon(Icons.chevron_right),
                                 onTap: () {
                                   WidgetUtils.showAssignmentPage(
                                     context,
+                                    "Assignment ${fState.listScheduleModel[index].assigments[i].no}",
                                     fState.listScheduleModel[index]
-                                        .assigments[index].no,
-                                    fState.listScheduleModel[index]
-                                        .assigments[index].body,
+                                        .assigments[i].body,
                                   );
                                 },
                               ),

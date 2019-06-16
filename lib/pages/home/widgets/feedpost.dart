@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
@@ -16,6 +17,7 @@ import 'package:swecha/widgets/modal_picker.dart';
 import 'package:rounded_modal/rounded_modal.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:dio/dio.dart';
 
 class FeedPostWidget extends StatefulWidget {
   final Function onDone;
@@ -36,8 +38,10 @@ class _FeedPostWidgetState extends State<FeedPostWidget> {
 
   bool isUpdating = false;
 
+  File currentPhoto;
+
   _postFeed() async {
-    if (_postController.text.isEmpty) {
+    if (_postController.text.trim().isEmpty) {
       Fluttertoast.showToast(
         msg: "Invalid Post Content.",
         toastLength: Toast.LENGTH_LONG,
@@ -57,31 +61,41 @@ class _FeedPostWidgetState extends State<FeedPostWidget> {
       isUpdating = true;
     });
 
-    Uri postUri = Uri.parse("${ConstUtils.baseUrl}feed/");
-    http.MultipartRequest request = new http.MultipartRequest("POST", postUri);
-
     String token = await Prefs.getString("token");
 
-    request.headers["Authorization"] = "Bearer $token";
+    Uri postUri = Uri.parse("${ConstUtils.baseUrl}feed/");
 
-    request.fields['body'] = _postController.text;
-    // if (currentPhoto != null) {
-    //   request.files.add(new http.MultipartFile.fromBytes(
-    //       'image', await currentPhoto.readAsBytes(),
-    //       contentType: new MediaType('image', '*')));
-    // }
-    // print(currentPhoto != null);
-    request.fields['user'] = userId.toString();
-
-    request.send().then((response) async {
-      print(response.statusCode);
-      print(response.reasonPhrase);
-      if (response.statusCode == 201) {
-        isUpdating = false;
-        widget.onDone();
-        Navigator.of(context).pop(true);
-      }
+    FormData formData = new FormData.from({
+      "body": _postController.text,
+      "user": userId.toString(),
+      "image": new UploadFileInfo(
+          currentPhoto, "${DateTime.now().millisecondsSinceEpoch}.png"),
     });
+
+    var response = await Dio().post(
+      "${ConstUtils.baseUrl}feed/",
+      data: formData,
+      options: Options(
+        headers: {
+          "Authorization": "Bearer $token", // set content-length
+        },
+      ),
+      onSendProgress: (int sent, int total) {
+        // print("$sent $total");
+      },
+    );
+
+    if (response.statusCode == 201) {
+      isUpdating = false;
+      widget.onDone();
+      Navigator.of(context).pop(true);
+    } else {
+      Fluttertoast.showToast(
+        msg: "Error posting feed",
+        timeInSecForIos: 1,
+        toastLength: Toast.LENGTH_LONG,
+      );
+    }
 
     setState(() {
       isUpdating = false;
@@ -107,12 +121,12 @@ class _FeedPostWidgetState extends State<FeedPostWidget> {
                   hintStyle: TextStyle(fontFamily: "Nunito")),
             ),
           ),
-          // AddPhotoBlankWidget(
-          //   onChanged: (photo) {
-          //     currentPhoto = photo;
-          //     print(currentPhoto == null);
-          //   },
-          // ),
+          AddPhotoBlankWidget(
+            onChanged: (photo) {
+              currentPhoto = photo;
+              print(currentPhoto == null);
+            },
+          ),
         ],
       ),
     );

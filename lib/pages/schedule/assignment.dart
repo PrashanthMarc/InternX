@@ -5,10 +5,10 @@ import 'package:webview_flutter/webview_flutter.dart';
 class AssignmentPage extends StatefulWidget {
   static String TAG = "ASSIGNMENT_PAGE";
 
-  final int no;
+  final String title;
   final String data;
 
-  AssignmentPage({@required this.no, @required this.data});
+  AssignmentPage({@required this.title, @required this.data});
 
   @override
   _AssignmentPageState createState() => _AssignmentPageState();
@@ -17,13 +17,19 @@ class AssignmentPage extends StatefulWidget {
 class _AssignmentPageState extends State<AssignmentPage> {
   @override
   Widget build(BuildContext context) {
+    String data = widget.data.replaceAll("/media", "http://internx.xyz/media") +
+        "<style>img {width: 100%  !important;}</style>";
     return Scaffold(
       appBar: WhiteAppBar(
-        title: Text("Assignment ${widget.no}"),
+        title: Text("${widget.title}"),
       ),
-      body: WebView(
-        initialUrl:
-            Uri.dataFromString(widget.data, mimeType: 'text/html').toString(),
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: WebView(
+          initialUrl:
+              Uri.dataFromString(data, mimeType: 'text/html').toString(),
+        ),
       ),
     );
   }

@@ -21,10 +21,6 @@ class FeedState with ChangeNotifier {
 
   int get bottomBarIndex => _bottomBarIndex;
 
-  bool _tokenError = false;
-
-  bool get tokenError => _tokenError;
-
   String _jsonResonse = "";
   bool _isFetching = false;
 
@@ -93,8 +89,7 @@ class FeedState with ChangeNotifier {
       if (_refreshTry < 4) {
         await refreshToken();
       } else {
-        await Prefs.clear();
-        _tokenError = true;
+        await tokenErrorHome();
       }
     } else {
       _error = 3;
@@ -143,5 +138,16 @@ class FeedState with ChangeNotifier {
     }
 
     fetchList();
+  }
+
+  bool _tokenError = false;
+
+  bool get tokenError => _tokenError;
+
+  Future<void> tokenErrorHome() async {
+    await Prefs.clear();
+    _tokenError = true;
+    notifyListeners();
+    return;
   }
 }

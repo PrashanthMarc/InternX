@@ -14,6 +14,9 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
 
   _buildScheduleList() {
     return Consumer<ScheduleState>(builder: (context, fState, child) {
+      if (fState.tokenError) {
+        WidgetUtils.proceedToAuth(context, replaceAll: true);
+      }
       if (fState.isFetching) {
         return Center(
           child: CircularProgressIndicator(),

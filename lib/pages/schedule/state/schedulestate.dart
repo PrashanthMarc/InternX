@@ -24,16 +24,13 @@ class ScheduleState with ChangeNotifier {
 
   int get errorCode => _error;
 
-  bool _tokenError = false;
-
-  bool get tokenError => true;
-
   /*
    * error code
    * 1 - success
    * 2 - token_not_valid
    * 3 - unknwon
    */
+
   Future<int> fetchSchedule() async {
     _isFetching = true;
     notifyListeners();
@@ -126,13 +123,24 @@ class ScheduleState with ChangeNotifier {
         }
       } else {
         _error = true;
-        await Prefs.clear();
-        _tokenError = true;
+        tokenErrorHome();
       }
     } else {
       _error = true;
+      tokenErrorHome();
     }
 
     fetchSchedule();
+  }
+
+  bool _tokenError = false;
+
+  bool get tokenError => _tokenError;
+
+  Future<void> tokenErrorHome() async {
+    await Prefs.clear();
+    _tokenError = true;
+    notifyListeners();
+    return;
   }
 }

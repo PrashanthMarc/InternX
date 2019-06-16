@@ -148,7 +148,7 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
       }
       if (fState.listScheduleModel == null) {
         return Center(
-          child: Text("Unable to fetch Schedule"),
+          child: Text("Loading..."),
         );
       }
     });

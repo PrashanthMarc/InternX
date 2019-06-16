@@ -12,6 +12,8 @@ import 'package:swecha/pages/home/state/feedstate.dart';
 // import 'package:flutter_advanced_networkimage/provider.dart';
 
 import 'package:swecha/pages/home/widgets/drawer_widget.dart';
+import 'package:swecha/pages/schedule/schedule_widget.dart';
+import 'package:swecha/pages/schedule/state/schedulestate.dart';
 import 'package:swecha/widgets/full_app_logo.dart';
 import 'package:swecha/widgets/white_app_bar.dart';
 import 'package:swecha/misc/palette.dart';
@@ -157,79 +159,98 @@ class FeedPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<FeedState>(
+    return
+        // MultiProvider(
+        //   providers: [
+        //     Provider<FeedState>.value(value: FeedState()),
+        //     Provider<ScheduleState>.value(value: ScheduleState()),
+        //   ],
+        ChangeNotifierProvider<FeedState>(
       builder: (_) {
         FeedState feedstate = FeedState();
         feedstate.fetchList();
         gloablFeedstate = feedstate;
         return feedstate;
       },
-      child: Scaffold(
-        key: _scaffoldKey,
-        backgroundColor: Colors.white,
-        drawer: _buildDrawerContent(context),
-        appBar: WhiteAppBar(
-          centerTitle: true,
-          title: SmallAppLogo(),
-          leading: IconButton(
-            icon: ImageIcon(
-              AssetImage("images/menu32.png"),
-              color: Palette.lightGrey,
-              size: 16.0,
-            ),
-            onPressed: () {
-              _scaffoldKey.currentState.openDrawer();
+      child: ChangeNotifierProvider<ScheduleState>(
+        builder: (_) {
+          ScheduleState scheduleState = ScheduleState();
+          return scheduleState;
+        },
+        child: Scaffold(
+          key: _scaffoldKey,
+          backgroundColor: Colors.white,
+          drawer: _buildDrawerContent(context),
+          appBar: WhiteAppBar(
+            centerTitle: true,
+            title: SmallAppLogo(),
+            // leading: IconButton(
+            //   icon: ImageIcon(
+            //     AssetImage("images/menu32.png"),
+            //     color: Palette.lightGrey,
+            //     size: 16.0,
+            //   ),
+            //   onPressed: () {
+            //     _scaffoldKey.currentState.openDrawer();
+            //   },
+            // ),
+            actions: <Widget>[],
+          ),
+          body: Consumer<FeedState>(
+            builder: (context, fState, child) {
+              if (fState.bottomBarIndex == 0) {
+                return RefreshIndicator(
+                  child: _buildFeedList(),
+                  onRefresh: () async {
+                    await fState.fetchList();
+                    return;
+                  },
+                );
+              } else {
+                return ScheduleWidget();
+              }
             },
           ),
-          actions: <Widget>[],
-        ),
-        body: Consumer<FeedState>(builder: (context, fState, child) {
-          return RefreshIndicator(
-              child: _buildFeedList(),
-              onRefresh: () async {
-                await fState.fetchList();
-                return;
-              });
-        }),
-        floatingActionButton: FloatingActionButton(
-          child: Icon(
-            Icons.add,
-            color: Colors.white,
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+          bottomNavigationBar: Consumer<FeedState>(
+            builder: (context, fState, child) {
+              return BottomNavigationBar(
+                backgroundColor: Colors.white,
+                currentIndex: fState.bottomBarIndex,
+                onTap: (index) {
+                  fState.setBottomBarIndex(index);
+                },
+                items: <BottomNavigationBarItem>[
+                  BottomNavigationBarItem(
+                    icon: Icon(
+                      Icons.home,
+                    ),
+                    title: Text("Home"),
+                  ),
+                  BottomNavigationBarItem(
+                    icon: ImageIcon(
+                      AssetImage("images/schedule.png"),
+                      size: 16.0,
+                    ),
+                    title: Text("Schedule"),
+                  ),
+                ],
+              );
+            },
           ),
-          backgroundColor: Colors.blue,
-          onPressed: () {
-            _showFeedPostPopup(context);
-            // WidgetUtils.showAddFeedPage(context);
-          },
+          floatingActionButton: FloatingActionButton(
+            child: Icon(
+              Icons.add,
+              color: Colors.white,
+            ),
+            backgroundColor: Colors.blue,
+            onPressed: () {
+              _showFeedPostPopup(context);
+              // WidgetUtils.showAddFeedPage(context);
+            },
+          ),
         ),
-
-//           actions: <Widget>[],
-//         ),
-//         body: RefreshIndicator(
-//           onRefresh: () async {
-//             await Future.delayed(Duration(seconds: 2), () {
-//               _refreshList();
-//             });
-//           },
-//           child: ListView.builder(
-// //                  padding: const EdgeInsets.all(10.0),
-//             physics: const AlwaysScrollableScrollPhysics(),
-//             shrinkWrap: true,
-//             itemBuilder: (context, index) {
-//               return _buildCardPost(context);
-//             },
-//           ),
-//         ),
-//         floatingActionButton: FloatingActionButton(
-//           child: Icon(
-//             Icons.add,
-//             color: Colors.red,
-//           ),
-//           backgroundColor: Colors.green,
-//           onPressed: () {
-//             _showFeedPostPopup();
-//           },
-//         ),
       ),
     );
   }
@@ -246,7 +267,7 @@ class FeedPage extends StatelessWidget {
       child: GestureDetector(
         child: Container(
           child: Card(
-            elevation: 5.0,
+            elevation: 0.0,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8.0),
             ),
@@ -296,10 +317,18 @@ class FeedPage extends StatelessWidget {
                           ),
                         ],
                       ),
-                      Text(
-                        feed.body,
-                        style: TextStyle(
-                          fontSize: 20.0,
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          left: 8.0,
+                          right: 8.0,
+                          bottom: 4.0,
+                          top: 4.0,
+                        ),
+                        child: Text(
+                          feed.body,
+                          style: TextStyle(
+                            fontSize: 20.0,
+                          ),
                         ),
                       ),
                       feed.iamge != null && feed.iamge != ""

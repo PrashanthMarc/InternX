@@ -24,6 +24,10 @@ class ScheduleState with ChangeNotifier {
 
   int get errorCode => _error;
 
+  bool _tokenError = false;
+
+  bool get tokenError => true;
+
   /*
    * error code
    * 1 - success
@@ -122,6 +126,8 @@ class ScheduleState with ChangeNotifier {
         }
       } else {
         _error = true;
+        await Prefs.clear();
+        _tokenError = true;
       }
     } else {
       _error = true;

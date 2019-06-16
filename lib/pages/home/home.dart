@@ -5,21 +5,16 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:swecha/misc/const_utils.dart';
 import 'package:swecha/misc/date_utils.dart';
-import 'package:swecha/misc/prefs.dart';
 import 'package:swecha/misc/widget_utils.dart';
 import 'package:swecha/pages/home/model/feedmodel.dart';
 import 'package:swecha/pages/home/state/feedstate.dart';
-// import 'package:flutter_advanced_networkimage/provider.dart';
-
 import 'package:swecha/pages/home/widgets/drawer_widget.dart';
 import 'package:swecha/pages/schedule/schedule_widget.dart';
 import 'package:swecha/pages/schedule/state/schedulestate.dart';
 import 'package:swecha/widgets/full_app_logo.dart';
 import 'package:swecha/widgets/white_app_bar.dart';
-import 'package:swecha/misc/palette.dart';
 import 'package:swecha/pages/home/widgets/feedpost.dart';
 import 'package:flutter_advanced_networkimage/provider.dart';
-// import 'package:fudy/pages/meetme/widget/star_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:http/http.dart' as http;

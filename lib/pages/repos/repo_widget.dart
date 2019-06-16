@@ -54,7 +54,7 @@ class _RepoWidgetState extends State<RepoWidget> {
       }
       if (fState.repoModel == null) {
         return Center(
-          child: Text("Unable to fetch Repo"),
+          child: Text("Loading..."),
         );
       }
     });

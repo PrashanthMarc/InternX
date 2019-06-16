@@ -97,7 +97,6 @@ class FeedPage extends StatelessWidget {
     return Consumer<FeedState>(builder: (context, fState, child) {
       try {
         if (fState.feedModel.appData[0].versionNumber != ConstUtils.version) {
-          print("done showing pop");
           Future.delayed(Duration(seconds: 3), () {
             _showAppUpdatePopup(context, fState.feedModel.appData[0].changeLog,
                 fState.feedModel.appData[0].downloadUrl);
@@ -143,7 +142,7 @@ class FeedPage extends StatelessWidget {
       }
       if (fState.feedModel == null) {
         return Center(
-          child: Text("Unable to fetch Feed"),
+          child: Text("Loading..."),
         );
       }
     });
@@ -247,7 +246,7 @@ class FeedPage extends StatelessWidget {
                     icon: Icon(
                       Icons.home,
                     ),
-                    title: Text("Home"),
+                    title: Text("Feed"),
                   ),
                   BottomNavigationBarItem(
                     icon: ImageIcon(
@@ -317,6 +316,7 @@ class FeedPage extends StatelessWidget {
                           ),
                           Expanded(
                             child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
@@ -340,7 +340,7 @@ class FeedPage extends StatelessWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(
-                          left: 8.0,
+                          left: 4.0,
                           right: 8.0,
                           bottom: 4.0,
                           top: 4.0,

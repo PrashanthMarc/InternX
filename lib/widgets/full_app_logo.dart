@@ -14,17 +14,20 @@ class FullAppLogo extends StatelessWidget {
       tag: TAG,
       child: Material(
         color: Colors.transparent,
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Image.asset(
-                "images/logo.png",
-                height: 300.0,
-              ),
-              SizedBox(height: 8.0),
-            ],
+        child: Container(
+          padding: const EdgeInsets.all(16.0),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Image.asset(
+                  "images/app_logo_splash.png",
+                  height: 300.0,
+                ),
+                SizedBox(height: 8.0),
+              ],
+            ),
           ),
         ),
       ),
@@ -42,32 +45,32 @@ class SmallAppLogo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RichText(
-                  text:  TextSpan(
-                    style:  TextStyle(
-                      fontSize: 14.0,
-                      color: Colors.black,
-                    ),
-                    children: <TextSpan>[
-                       TextSpan(
-                        text: 'Swecha',
-                        style: TextStyle(
-                          fontSize: size,
-                          fontFamily: "Nunito",
-                          color: Colors.blue,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      TextSpan(
-                        text: 'InternX',
-                        style: TextStyle(
-                          fontSize: size,
-                          fontFamily: "Nunito",
-                          color: Colors.green,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                );
+      text: TextSpan(
+        style: TextStyle(
+          fontSize: 14.0,
+          color: Colors.black,
+        ),
+        children: <TextSpan>[
+          TextSpan(
+            text: 'Swecha',
+            style: TextStyle(
+              fontSize: size,
+              fontFamily: "Nunito",
+              color: Colors.blue,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          TextSpan(
+            text: 'InternX',
+            style: TextStyle(
+              fontSize: size,
+              fontFamily: "Nunito",
+              color: Colors.green,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

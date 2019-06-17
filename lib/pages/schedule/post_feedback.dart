@@ -18,39 +18,52 @@ import 'package:rounded_modal/rounded_modal.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:dio/dio.dart';
+import 'package:smooth_star_rating/smooth_star_rating.dart';
 
-class FeedPostWidget extends StatefulWidget {
+class FeedbackPostWidget extends StatefulWidget {
   final Function onDone;
-  const FeedPostWidget({
+  final int sid;
+
+  const FeedbackPostWidget({
     Key key,
     this.onDone,
+    this.sid,
     @required this.context,
   }) : super(key: key);
 
   final BuildContext context;
 
   @override
-  _FeedPostWidgetState createState() => _FeedPostWidgetState();
+  _FeedbackPostWidgetState createState() => _FeedbackPostWidgetState();
 }
 
-class _FeedPostWidgetState extends State<FeedPostWidget> {
+class _FeedbackPostWidgetState extends State<FeedbackPostWidget> {
   TextEditingController _postController = TextEditingController();
 
   bool isUpdating = false;
 
-  File currentPhoto;
+  double rating = 0.0;
 
   _postFeed() async {
-    if (_postController.text.trim().isEmpty) {
+    // if (_postController.text.trim().isEmpty) {
+    // Fluttertoast.showToast(
+    //   msg: "Please type something.",
+    //   toastLength: Toast.LENGTH_LONG,
+    //   gravity: ToastGravity.CENTER,
+    //   timeInSecForIos: 1,
+    // );
+    // return;
+    // }
+
+    if (rating == 0.0) {
       Fluttertoast.showToast(
-        msg: "Please type something.",
+        msg: "Please rate.",
         toastLength: Toast.LENGTH_LONG,
         gravity: ToastGravity.CENTER,
         timeInSecForIos: 1,
       );
       return;
     }
-
     int userId = await Prefs.getInt("userId");
 
     if (userId == 0) {
@@ -64,34 +77,43 @@ class _FeedPostWidgetState extends State<FeedPostWidget> {
 
     String token = await Prefs.getString("token");
 
-    Uri postUri = Uri.parse("${ConstUtils.baseUrl}feed/");
+    // Map<String, dynamic> uploadData = {
+    //   "body": _postController.text,
+    //   "rating": rating,
+    //   "sid": widget.sid
+    // };
 
-    Map<String, dynamic> uploadData = {
-      "body": _postController.text,
-      "user": userId.toString(),
+    Map<String, String> headers = {
+      "Authorization": "Bearer $token",
     };
 
-    if (currentPhoto != null) {
-      uploadData["image"] = new UploadFileInfo(
-          currentPhoto, "${DateTime.now().millisecondsSinceEpoch}.png");
-    }
+    Map<String, dynamic> postData = {
+      "body": _postController.text,
+      "rating": rating.toInt().toString(),
+      "sid": widget.sid.toString()
+    };
 
-    FormData formData = new FormData.from(uploadData);
+    var response = await http.post("${ConstUtils.baseUrl}send_feedback/",
+        headers: headers, body: postData);
 
-    var response = await Dio().post(
-      "${ConstUtils.baseUrl}feed/",
-      data: formData,
-      options: Options(
-        headers: {
-          "Authorization": "Bearer $token", // set content-length
-        },
-      ),
-      onSendProgress: (int sent, int total) {
-        // print("$sent $total");
-      },
-    );
+    print(response.body);
 
-    if (response.statusCode == 201) {
+    // FormData formData = new FormData.from(uploadData);
+
+    // var response = await Dio().post(
+    //   "${ConstUtils.baseUrl}send_feedback/",
+    //   data: formData,
+    //   options: Options(
+    //     headers: {
+    //       "Authorization": "Bearer $token",
+    //     },
+    //   ),
+    //   onSendProgress: (int sent, int total) {
+    //     // print("$sent $total");
+    //   },
+    // );
+
+    if (response.statusCode == 200) {
       isUpdating = false;
       widget.onDone();
       Navigator.of(context).pop(true);
@@ -127,12 +149,6 @@ class _FeedPostWidgetState extends State<FeedPostWidget> {
                   hintStyle: TextStyle(fontFamily: "Nunito")),
             ),
           ),
-          AddPhotoBlankWidget(
-            onChanged: (photo) {
-              currentPhoto = photo;
-              print(currentPhoto == null);
-            },
-          ),
         ],
       ),
     );
@@ -147,7 +163,7 @@ class _FeedPostWidgetState extends State<FeedPostWidget> {
           Padding(
             padding: const EdgeInsets.all(12.0),
             child: Text(
-              "Status Update",
+              "Feedback",
               style: TextStyle(
                 fontSize: 20.0,
                 fontWeight: FontWeight.bold,
@@ -162,9 +178,25 @@ class _FeedPostWidgetState extends State<FeedPostWidget> {
               top: 8.0,
             ),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 _buildAddComentBox(),
+                SizedBox(
+                  height: 8.0,
+                ),
+                SmoothStarRating(
+                  allowHalfRating: false,
+                  onRatingChanged: (v) {
+                    rating = v;
+                    setState(() {});
+                  },
+                  starCount: 5,
+                  rating: rating,
+                  size: 35.0,
+                  color: Colors.blue,
+                  borderColor: Palette.lightGrey,
+                  spacing: 8.0,
+                ),
                 SizedBox(
                   height: 8.0,
                 ),
@@ -220,7 +252,7 @@ class _FeedPostWidgetState extends State<FeedPostWidget> {
                       child: isUpdating
                           ? CircularProgressIndicator()
                           : Text(
-                              "Post",
+                              "Submit",
                               style: TextStyle(
                                 fontSize: 17.0,
                                 fontWeight: FontWeight.w600,

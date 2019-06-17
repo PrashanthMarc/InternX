@@ -3,7 +3,7 @@ import 'dart:convert';
 class ConstUtils {
   static String baseUrl = "http://internx.xyz/api/";
   static String baseUrlNoSlash = "http://internx.xyz";
-  static String version = "1.0.0";
+  static String version = "1.0.1";
 
   // Parse JWT
   static Map<String, dynamic> parseJwt(String token) {

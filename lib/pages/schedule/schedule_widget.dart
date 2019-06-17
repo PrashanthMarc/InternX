@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:swecha/misc/widget_utils.dart';
 import 'package:swecha/pages/schedule/model/schedulemodel.dart';
+import 'package:swecha/pages/schedule/post_feedback.dart';
 import 'package:swecha/pages/schedule/state/schedulestate.dart';
 
 class ScheduleWidget extends StatefulWidget {
@@ -11,6 +12,25 @@ class ScheduleWidget extends StatefulWidget {
 
 class _ScheduleWidgetState extends State<ScheduleWidget> {
   ScheduleState scheduleState;
+
+  _showFeedbackPopup(context, int sid) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return Dialog(
+          backgroundColor: Colors.white,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+          child: FeedbackPostWidget(
+            context: context,
+            onDone: () {},
+            sid: sid,
+          ),
+        );
+      },
+    );
+  }
 
   _buildScheduleList() {
     return Consumer<ScheduleState>(builder: (context, fState, child) {
@@ -47,12 +67,6 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
                               fontSize: 16.0,
                             ),
                           ),
-                          // Text(
-                          //   fState..toString(),
-                          //   style: TextStyle(
-                          //     fontSize: 24.0,
-                          //   ),
-                          // ),
                         ],
                       ),
                     ),
@@ -112,6 +126,8 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
                               highlightColor: Colors.blue,
                               child: Text("Feedback"),
                               onPressed: () {
+                                _showFeedbackPopup(context,
+                                    fState.listScheduleModel[index].sidId);
                                 // WidgetUtils.showAssignmentPage(
                                 //   context,
                                 //   "Feedback",

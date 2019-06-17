@@ -22,7 +22,7 @@ class ScheduleModel {
         assigments.add(new Assigments.fromJson(v));
       });
     }
-    weight = json['weight'] ?? 0;
+    weight = json['weight'];
     sidId = json['sid_id'];
     title = json['title'];
     day = json['day'];

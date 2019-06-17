@@ -50,7 +50,7 @@ class _LogInPageState extends State<LogInPage> {
       return;
     } else {
       _showSnackBar("Login Success");
-      WidgetUtils.showFeedPage(context);
+      WidgetUtils.showFeedPage(context, isReplace: true);
     }
   }
 
@@ -71,13 +71,13 @@ class _LogInPageState extends State<LogInPage> {
                 top: 10.0,
                 left: 20.0,
                 child: RichText(
-                  text:  TextSpan(
-                    style:  TextStyle(
+                  text: TextSpan(
+                    style: TextStyle(
                       fontSize: 14.0,
                       color: Colors.black,
                     ),
                     children: <TextSpan>[
-                       TextSpan(
+                      TextSpan(
                         text: 'Swecha',
                         style: TextStyle(
                           fontSize: 44.0,

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:swecha/misc/prefs.dart';
 import 'package:swecha/pages/auth/login.dart';
 import 'package:swecha/pages/auth/moreinfo.dart';
-import 'package:swecha/pages/home/addfeed.dart';
 import 'package:swecha/pages/home/comingsoon.dart';
 import 'package:swecha/pages/home/home.dart';
 import 'package:swecha/pages/home/request_mentor.dart';

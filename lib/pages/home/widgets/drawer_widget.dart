@@ -129,7 +129,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               leading: Padding(
                 padding: const EdgeInsets.only(left: 10.0),
                 child: ImageIcon(
-                  AssetImage("images/home.png"),
+                  AssetImage("images/plan.png"),
                   size: 16.0,
                   color: Palette.appBlack,
                 ),

@@ -1,7 +1,7 @@
 class ScheduleModel {
   String location;
   List<Assigments> assigments;
-  Null weight;
+  int weight;
   int sidId;
   String title;
   int day;
@@ -22,7 +22,7 @@ class ScheduleModel {
         assigments.add(new Assigments.fromJson(v));
       });
     }
-    weight = json['weight'];
+    weight = json['weight'] ?? 0;
     sidId = json['sid_id'];
     title = json['title'];
     day = json['day'];

@@ -19,9 +19,9 @@ import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:dio/dio.dart';
 
-class FeedPostWidget extends StatefulWidget {
+class VolFeedPostWidget extends StatefulWidget {
   final Function onDone;
-  const FeedPostWidget({
+  const VolFeedPostWidget({
     Key key,
     this.onDone,
     @required this.context,
@@ -30,17 +30,17 @@ class FeedPostWidget extends StatefulWidget {
   final BuildContext context;
 
   @override
-  _FeedPostWidgetState createState() => _FeedPostWidgetState();
+  _VolFeedPostWidgetState createState() => _VolFeedPostWidgetState();
 }
 
-class _FeedPostWidgetState extends State<FeedPostWidget> {
+class _VolFeedPostWidgetState extends State<VolFeedPostWidget> {
   TextEditingController _postController = TextEditingController();
 
   bool isUpdating = false;
 
   File currentPhoto;
 
-  _postFeed() async {
+  _postVolFeed() async {
     if (_postController.text.trim().isEmpty) {
       Fluttertoast.showToast(
         msg: "Please type something.",
@@ -64,8 +64,6 @@ class _FeedPostWidgetState extends State<FeedPostWidget> {
 
     String token = await Prefs.getString("token");
 
-    Uri postUri = Uri.parse("${ConstUtils.baseUrl}feed/");
-
     Map<String, dynamic> uploadData = {
       "body": _postController.text,
       "user": userId.toString(),
@@ -79,7 +77,7 @@ class _FeedPostWidgetState extends State<FeedPostWidget> {
     FormData formData = new FormData.from(uploadData);
 
     var response = await Dio().post(
-      "${ConstUtils.baseUrl}feed/",
+      "${ConstUtils.baseUrl}voluntee_feed/",
       data: formData,
       options: Options(
         headers: {
@@ -231,7 +229,7 @@ class _FeedPostWidgetState extends State<FeedPostWidget> {
                     ),
                   ),
                   onTap: () {
-                    _postFeed();
+                    _postVolFeed();
                     // Navigator.of(context).pop();
                   },
                 ),

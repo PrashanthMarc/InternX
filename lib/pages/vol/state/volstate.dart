@@ -6,10 +6,10 @@ import 'dart:convert';
 import 'package:swecha/misc/const_utils.dart';
 import 'package:swecha/misc/prefs.dart';
 import 'package:swecha/misc/widget_utils.dart';
-import 'package:swecha/pages/home/model/feedmodel.dart';
+import 'package:swecha/pages/vol/model/volmodel.dart';
 
-class FeedState with ChangeNotifier {
-  FeedState() {
+class VolFeedState with ChangeNotifier {
+  VolFeedState() {
     // fetchList();
   }
 
@@ -27,9 +27,9 @@ class FeedState with ChangeNotifier {
 
   bool get isFetching => _isFetching;
 
-  FeedModel _feedModel;
+  VolFeedModel _feedModel;
 
-  FeedModel get feedModel => _feedModel;
+  VolFeedModel get feedModel => _feedModel;
   int _error = 1;
 
   int get errorCode => _error;
@@ -55,7 +55,7 @@ class FeedState with ChangeNotifier {
     _error = 1;
 
     var response = await http.get(
-      "${ConstUtils.baseUrl}feed/",
+      "${ConstUtils.baseUrl}voluntee_feed/",
       headers: headers,
     );
 
@@ -73,7 +73,7 @@ class FeedState with ChangeNotifier {
             await refreshToken();
           }
         } else {
-          _feedModel = FeedModel.fromJson(json);
+          _feedModel = VolFeedModel.fromJson(json);
           _refreshTry = 0;
           // try {
           //   Map<String, dynamic> payload = ConstUtils.parseJwt(json["access"]);

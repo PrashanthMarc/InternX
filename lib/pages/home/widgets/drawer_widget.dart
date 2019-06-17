@@ -21,12 +21,19 @@ class _DrawerWidgetState extends State<DrawerWidget> {
   String uid = "";
   String profilePic = "";
 
+  bool isVol = false;
+
   void fetchUserDetails() async {
     name = await Prefs.getString("name");
     track = await Prefs.getString("track");
     uid = await Prefs.getString("uid");
     profilePic =
         "${ConstUtils.baseUrlNoSlash}${await Prefs.getString("profilePic")}";
+
+    if (uid.toLowerCase().contains("vol") ||
+        uid.toLowerCase().contains("super")) {
+      isVol = true;
+    }
     setState(() {});
   }
 
@@ -34,6 +41,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
   void initState() {
     // print(await Prefs.getString("user"));
     fetchUserDetails();
+
     super.initState();
   }
 
@@ -113,8 +121,33 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             ),
             onTap: () {
               Navigator.pop(context);
+              WidgetUtils.showFeedPage(context, isReplace: false);
             },
           ),
+          if (isVol)
+            ListTile(
+              leading: Padding(
+                padding: const EdgeInsets.only(left: 10.0),
+                child: ImageIcon(
+                  AssetImage("images/home.png"),
+                  size: 16.0,
+                  color: Palette.appBlack,
+                ),
+              ),
+              title: Text(
+                "Voluntee Feed",
+                style: TextStyle(
+                  fontSize: 16.0,
+                  color: Palette.appBlack,
+                  fontFamily: "Nunito",
+                  // fontWeight: FontWeight.bold,
+                ),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+                WidgetUtils.showVolnteeFeed(context);
+              },
+            ),
           ListTile(
             leading: Padding(
               padding: const EdgeInsets.only(left: 10.0),
@@ -135,6 +168,28 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             onTap: () {
               Navigator.pop(context);
               WidgetUtils.showSchedulePage(context);
+            },
+          ),
+          ListTile(
+            leading: Padding(
+              padding: const EdgeInsets.only(left: 10.0),
+              child: ImageIcon(
+                AssetImage("images/news.png"),
+                size: 16.0,
+                color: Palette.appBlack,
+              ),
+            ),
+            title: Text(
+              'News',
+              style: TextStyle(
+                fontSize: 16.0,
+                color: Palette.appBlack,
+                fontFamily: "Nunito",
+              ),
+            ),
+            onTap: () {
+              Navigator.pop(context);
+              WidgetUtils.showNewsPage(context);
             },
           ),
           ListTile(
@@ -163,28 +218,6 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             leading: Padding(
               padding: const EdgeInsets.only(left: 10.0),
               child: ImageIcon(
-                AssetImage("images/excercise.png"),
-                size: 16.0,
-                color: Palette.appBlack,
-              ),
-            ),
-            title: Text(
-              'Excercise',
-              style: TextStyle(
-                fontSize: 16.0,
-                color: Palette.appBlack,
-                fontFamily: "Nunito",
-              ),
-            ),
-            onTap: () {
-              Navigator.pop(context);
-              WidgetUtils.showComingSoonPage(context);
-            },
-          ),
-          ListTile(
-            leading: Padding(
-              padding: const EdgeInsets.only(left: 10.0),
-              child: ImageIcon(
                 AssetImage("images/mentor.png"),
                 size: 16.0,
                 color: Palette.appBlack,
@@ -201,30 +234,6 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             onTap: () {
               Navigator.pop(context);
               WidgetUtils.showComingSoonPage(context);
-            },
-          ),
-          ListTile(
-            leading: Padding(
-              padding: const EdgeInsets.only(left: 10.0),
-              child: ImageIcon(
-                AssetImage("images/feedback.png"),
-                size: 16.0,
-                color: Palette.appBlack,
-              ),
-            ),
-            title: Text(
-              "Feedback",
-              style: TextStyle(
-                fontSize: 16.0,
-                color: Palette.appBlack,
-                fontFamily: "Nunito",
-              ),
-            ),
-            onTap: () {
-              Navigator.pop(context);
-              WidgetUtils.showComingSoonPage(
-                context,
-              );
             },
           ),
         ],

@@ -7,9 +7,11 @@ import 'package:swecha/pages/home/addfeed.dart';
 import 'package:swecha/pages/home/comingsoon.dart';
 import 'package:swecha/pages/home/home.dart';
 import 'package:swecha/pages/home/request_mentor.dart';
+import 'package:swecha/pages/news/news.dart';
 import 'package:swecha/pages/repos/repo.dart';
 import 'package:swecha/pages/schedule/assignment.dart';
 import 'package:swecha/pages/schedule/schedule.dart';
+import 'package:swecha/pages/vol/volfeed.dart';
 
 class WidgetUtils {
   static const String TAG = "WIDGET_UTILS";
@@ -114,10 +116,10 @@ class WidgetUtils {
       settings: RouteSettings(name: tag),
       builder: (context) => page,
     );
-    Navigator.of(context).pushAndRemoveUntil(route, (route) => false);
+    Navigator.of(context).push(route);
   }
 
-  static void showFeedPage(BuildContext context) async {
+  static void showFeedPage(BuildContext context, {isReplace = false}) async {
     String tag = FeedPage.TAG;
     Widget page = FeedPage();
 
@@ -126,7 +128,23 @@ class WidgetUtils {
       settings: RouteSettings(name: tag),
       builder: (context) => page,
     );
-    Navigator.of(context).pushAndRemoveUntil(route, (route) => false);
+    if (isReplace) {
+      Navigator.of(context).pushAndRemoveUntil(route, (route) => false);
+    } else {
+      Navigator.of(context).push(route);
+    }
+  }
+
+  static void showVolnteeFeed(BuildContext context) async {
+    String tag = VolFeedPage.TAG;
+    Widget page = VolFeedPage();
+
+    final route = CupertinoPageRoute<bool>(
+      maintainState: true,
+      settings: RouteSettings(name: tag),
+      builder: (context) => page,
+    );
+    Navigator.of(context).push(route);
   }
 
   static void showAssignmentPage(
@@ -148,6 +166,18 @@ class WidgetUtils {
   static void showRepoPage(BuildContext context) async {
     String tag = RepoPage.TAG;
     Widget page = RepoPage();
+
+    final route = CupertinoPageRoute<bool>(
+      maintainState: true,
+      settings: RouteSettings(name: tag),
+      builder: (context) => page,
+    );
+    Navigator.of(context).push(route);
+  }
+
+  static void showNewsPage(BuildContext context) async {
+    String tag = NewsPage.TAG;
+    Widget page = NewsPage();
 
     final route = CupertinoPageRoute<bool>(
       maintainState: true,

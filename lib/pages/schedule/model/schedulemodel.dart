@@ -1,34 +1,42 @@
 class ScheduleModel {
   String location;
-  int weight;
-  String title;
   List<Assigments> assigments;
+  Null weight;
+  int sidId;
+  String title;
   int day;
 
   ScheduleModel(
-      {this.location, this.weight, this.title, this.assigments, this.day});
+      {this.location,
+      this.assigments,
+      this.weight,
+      this.sidId,
+      this.title,
+      this.day});
 
   ScheduleModel.fromJson(Map<String, dynamic> json) {
     location = json['location'];
-    weight = json['weight'];
-    title = json['title'];
     if (json['assigments'] != null) {
       assigments = new List<Assigments>();
       json['assigments'].forEach((v) {
         assigments.add(new Assigments.fromJson(v));
       });
     }
+    weight = json['weight'];
+    sidId = json['sid_id'];
+    title = json['title'];
     day = json['day'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['location'] = this.location;
-    data['weight'] = this.weight;
-    data['title'] = this.title;
     if (this.assigments != null) {
       data['assigments'] = this.assigments.map((v) => v.toJson()).toList();
     }
+    data['weight'] = this.weight;
+    data['sid_id'] = this.sidId;
+    data['title'] = this.title;
     data['day'] = this.day;
     return data;
   }

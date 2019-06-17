@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 // import 'package:swecha/i18n/translation.dart';
 import 'package:swecha/misc/palette.dart';
+import 'package:swecha/misc/prefs.dart';
 import 'package:swecha/pages/auth/login.dart';
 import 'package:swecha/pages/splash_screen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -35,8 +36,8 @@ class _AppState extends State<App> {
         .setInFocusDisplayType(OSNotificationDisplayType.notification);
 
     OneSignal.shared
-        .setSubscriptionObserver((OSSubscriptionStateChanges changes) {
-      print(changes.to.userId);
+        .setSubscriptionObserver((OSSubscriptionStateChanges changes) async {
+      await Prefs.setString("playerId", changes.to.userId);
       //will be called whenever the OS subscription changes
     });
   }

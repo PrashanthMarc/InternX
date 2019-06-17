@@ -8,11 +8,12 @@ import 'package:swecha/misc/const_utils.dart';
 import 'package:swecha/misc/date_utils.dart';
 import 'package:swecha/misc/palette.dart';
 import 'package:swecha/misc/widget_utils.dart';
-import 'package:swecha/pages/home/model/feedmodel.dart';
-import 'package:swecha/pages/home/state/feedstate.dart';
+import 'package:swecha/pages/vol/model/volmodel.dart';
+import 'package:swecha/pages/vol/state/volstate.dart';
 import 'package:swecha/pages/home/widgets/drawer_widget.dart';
 import 'package:swecha/pages/schedule/schedule_widget.dart';
 import 'package:swecha/pages/schedule/state/schedulestate.dart';
+import 'package:swecha/pages/vol/widget/volpost.dart';
 import 'package:swecha/widgets/full_app_logo.dart';
 import 'package:swecha/widgets/white_app_bar.dart';
 import 'package:swecha/pages/home/widgets/feedpost.dart';
@@ -22,12 +23,12 @@ import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 import 'package:http/http.dart' as http;
 
-class FeedPage extends StatelessWidget {
-  static String TAG = "FEEDPAGE";
+class VolFeedPage extends StatelessWidget {
+  static String TAG = "VOLFEEDPAGE";
   final GlobalKey<ScaffoldState> _scaffoldKey =
       GlobalKey<ScaffoldState>(debugLabel: "feed_page");
 
-  FeedModel feedModel;
+  VolFeedModel feedModel;
   DateFormat dateFormat = new DateFormat("dd/MM/yyyy, HH:mm:ss");
   bool showChildOpacityTransition = false;
 
@@ -36,17 +37,17 @@ class FeedPage extends StatelessWidget {
   }
 
 // REVIEW WRITE
-  _buildFeedPost(context) {
-    return FeedPostWidget(
+  _buildVolFeedPost(context) {
+    return VolFeedPostWidget(
       context: context,
       onDone: () {
-        gloablFeedstate.fetchList();
+        gloablVolFeedstate.fetchList();
       },
     );
   }
 
 // FEED POST
-  _showFeedPostPopup(context) {
+  _showVolFeedPostPopup(context) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -55,7 +56,7 @@ class FeedPage extends StatelessWidget {
           backgroundColor: Colors.white,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
-          child: _buildFeedPost(context),
+          child: _buildVolFeedPost(context),
         );
       },
     );
@@ -76,17 +77,13 @@ class FeedPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
+              Text("We have an update"),
               Text(changeLog),
             ],
           ),
           actions: <Widget>[
             FlatButton(
-              child: Text(
-                "Download",
-                style: TextStyle(
-                  fontSize: 18.0,
-                ),
-              ),
+              child: Text("Download"),
               onPressed: () {
                 launch(downloadUrl);
               },
@@ -97,8 +94,8 @@ class FeedPage extends StatelessWidget {
     );
   }
 
-  _buildFeedList() {
-    return Consumer<FeedState>(builder: (context, fState, child) {
+  _buildVolFeedList() {
+    return Consumer<VolFeedState>(builder: (context, fState, child) {
       try {
         if (fState.feedModel.appData[0].versionNumber != ConstUtils.version) {
           Future.delayed(Duration(seconds: 3), () {
@@ -139,7 +136,7 @@ class FeedPage extends StatelessWidget {
         return Container(
           height: MediaQuery.of(context).size.height - 140.0,
           child: Center(
-            child: Text("Feed list is empty."),
+            child: Text("Volunteers Feed list is empty."),
           ),
         );
       }
@@ -159,21 +156,21 @@ class FeedPage extends StatelessWidget {
   //   super.initState();
   // }
 
-  FeedState gloablFeedstate;
+  VolFeedState gloablVolFeedstate;
 
   @override
   Widget build(BuildContext context) {
     return
         // MultiProvider(
         //   providers: [
-        //     Provider<FeedState>.value(value: FeedState()),
+        //     Provider<VolFeedState>.value(value: VolFeedState()),
         //     Provider<ScheduleState>.value(value: ScheduleState()),
         //   ],
-        ChangeNotifierProvider<FeedState>(
+        ChangeNotifierProvider<VolFeedState>(
       builder: (_) {
-        FeedState feedstate = FeedState();
+        VolFeedState feedstate = VolFeedState();
         feedstate.fetchList();
-        gloablFeedstate = feedstate;
+        gloablVolFeedstate = feedstate;
         return feedstate;
       },
       child: ChangeNotifierProvider<ScheduleState>(
@@ -200,64 +197,30 @@ class FeedPage extends StatelessWidget {
             ),
             actions: <Widget>[],
           ),
-          body: Consumer<FeedState>(
+          body: Consumer<VolFeedState>(
             builder: (context, fState, child) {
-              if (fState.bottomBarIndex == 0) {
-                return LiquidPullToRefresh(
-                  showChildOpacityTransition: showChildOpacityTransition =
-                      false,
-                  springAnimationDurationInMilliseconds: 100,
-                  key: Key("feed"),
-                  child: ListView(
-                    children: <Widget>[
-                      _buildFeedList(),
-                    ],
-                  ),
-                  onRefresh: () async {
-                    await fState.fetchList(isRefresh: true);
+              return LiquidPullToRefresh(
+                showChildOpacityTransition: showChildOpacityTransition = false,
+                springAnimationDurationInMilliseconds: 100,
+                key: Key("feed"),
+                child: ListView(
+                  children: <Widget>[
+                    _buildVolFeedList(),
+                  ],
+                ),
+                onRefresh: () async {
+                  await fState.fetchList(isRefresh: true);
 
-                    return;
-                  },
-                );
-
-                // RefreshIndicator(
-                //   child: _buildFeedList(),
-                //   onRefresh: () async {
-                //     await fState.fetchList();
-                //     return;
-                // },
-
-              } else {
-                return ScheduleWidget();
-              }
-            },
-          ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
-          bottomNavigationBar: Consumer<FeedState>(
-            builder: (context, fState, child) {
-              return BottomNavigationBar(
-                backgroundColor: Colors.white,
-                currentIndex: fState.bottomBarIndex,
-                onTap: (index) {
-                  fState.setBottomBarIndex(index);
+                  return;
                 },
-                items: <BottomNavigationBarItem>[
-                  BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.home,
-                    ),
-                    title: Text("Feed"),
-                  ),
-                  BottomNavigationBarItem(
-                    icon: ImageIcon(
-                      AssetImage("images/schedule.png"),
-                      size: 16.0,
-                    ),
-                    title: Text("Schedule"),
-                  ),
-                ],
               );
+
+              // RefreshIndicator(
+              //   child: _buildVolFeedList(),
+              //   onRefresh: () async {
+              //     await fState.fetchList();
+              //     return;
+              // },
             },
           ),
           floatingActionButton: FloatingActionButton(
@@ -267,8 +230,8 @@ class FeedPage extends StatelessWidget {
             ),
             backgroundColor: Colors.blue,
             onPressed: () {
-              _showFeedPostPopup(context);
-              // WidgetUtils.showAddFeedPage(context);
+              _showVolFeedPostPopup(context);
+              // WidgetUtils.showAddVolFeedPage(context);
             },
           ),
         ),
@@ -276,7 +239,7 @@ class FeedPage extends StatelessWidget {
     );
   }
 
-  Widget _buildCardPost(BuildContext context, Feeds feed) {
+  Widget _buildCardPost(BuildContext context, VolFeeds feed) {
     return Padding(
       padding: const EdgeInsets.only(
         top: 5.0,

@@ -184,7 +184,14 @@ class VolFeedPage extends StatelessWidget {
           drawer: _buildDrawerContent(context),
           appBar: WhiteAppBar(
             centerTitle: true,
-            title: SmallAppLogo(),
+            title: Text(
+              "Volunteer's Feed",
+              style: TextStyle(
+                color: Colors.green,
+                fontSize: 24.0,
+                fontFamily: "Nunito",
+              ),
+            ),
             leading: IconButton(
               icon: ImageIcon(
                 AssetImage("images/menu32.png"),

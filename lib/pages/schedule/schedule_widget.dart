@@ -70,8 +70,10 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
                         ],
                       ),
                     ),
-                    Text(fState.listScheduleModel[index].title +
-                        " ${fState.listScheduleModel[index].assigments.length > 0 ? '*' : ''}")
+                    Expanded(
+                      child: Text(fState.listScheduleModel[index].title +
+                          " ${fState.listScheduleModel[index].assigments.length > 0 ? '*' : ''}"),
+                    )
                   ],
                 ),
                 children: <Widget>[

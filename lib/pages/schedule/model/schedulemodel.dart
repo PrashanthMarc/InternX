@@ -1,7 +1,7 @@
 class ScheduleModel {
   String location;
   List<Assigments> assigments;
-  Null weight;
+  int weight;
   int sidId;
   String title;
   int day;

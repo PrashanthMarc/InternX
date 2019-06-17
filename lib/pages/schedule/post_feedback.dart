@@ -48,7 +48,7 @@ class _FeedbackPostWidgetState extends State<FeedbackPostWidget> {
     // if (_postController.text.trim().isEmpty) {
     // Fluttertoast.showToast(
     //   msg: "Please type something.",
-    //   toastLength: Toast.LENGTH_LONG,
+    //   toastLength: Toast.LENGTH_SHORT,
     //   gravity: ToastGravity.CENTER,
     //   timeInSecForIos: 1,
     // );
@@ -58,7 +58,7 @@ class _FeedbackPostWidgetState extends State<FeedbackPostWidget> {
     if (rating == 0.0) {
       Fluttertoast.showToast(
         msg: "Please rate.",
-        toastLength: Toast.LENGTH_LONG,
+        toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.CENTER,
         timeInSecForIos: 1,
       );
@@ -121,7 +121,7 @@ class _FeedbackPostWidgetState extends State<FeedbackPostWidget> {
       Fluttertoast.showToast(
         msg: "Error posting feed",
         timeInSecForIos: 1,
-        toastLength: Toast.LENGTH_LONG,
+        toastLength: Toast.LENGTH_SHORT,
       );
     }
 

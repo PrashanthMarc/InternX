@@ -135,7 +135,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 ),
               ),
               title: Text(
-                "Voluntee Feed",
+                "Volunteers Feed",
                 style: TextStyle(
                   fontSize: 16.0,
                   color: Palette.appBlack,

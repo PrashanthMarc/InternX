@@ -46,15 +46,16 @@ class ScheduleState with ChangeNotifier {
       "${ConstUtils.baseUrl}schedule/",
       headers: headers,
     );
+
     if (response.statusCode == 200) {
       _jsonResonse = response.body;
-      print(response.statusCode);
       if (_jsonResonse.isNotEmpty) {
         var json = jsonDecode(_jsonResonse);
 
-        if (json.runtimeType.toString() != "List<dynamic>") {
+        if (!json.runtimeType.toString().contains("List<dynamic>")) {
           _error = 2;
         } else {
+          print("inside ealse");
           _listScheduleModel.clear();
           // List<dynamic> json;
           json.forEach(
@@ -62,7 +63,7 @@ class ScheduleState with ChangeNotifier {
           // print(json.map((i) => ScheduleModel.fromJson(i)).runtimeType);
           // _listScheduleModel =
           //     json.map((i) => ScheduleModel.fromJson(i)).toList();
-          print(_listScheduleModel.length);
+
           _listScheduleModel.sort((a, b) => b.day.compareTo(a.day));
           // _listScheduleModel.reversed;
           // _feedModel = FeedModel.fromJson(json);
@@ -104,6 +105,7 @@ class ScheduleState with ChangeNotifier {
       body: refreshData,
     );
 
+    print("Schedule");
     if (response.statusCode == 200) {
       _jsonResonse = response.body;
 

@@ -44,7 +44,7 @@ class _FeedPostWidgetState extends State<FeedPostWidget> {
     if (_postController.text.trim().isEmpty) {
       Fluttertoast.showToast(
         msg: "Please type something.",
-        toastLength: Toast.LENGTH_LONG,
+        toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.CENTER,
         timeInSecForIos: 1,
       );
@@ -99,7 +99,7 @@ class _FeedPostWidgetState extends State<FeedPostWidget> {
       Fluttertoast.showToast(
         msg: "Error posting feed",
         timeInSecForIos: 1,
-        toastLength: Toast.LENGTH_LONG,
+        toastLength: Toast.LENGTH_SHORT,
       );
     }
 

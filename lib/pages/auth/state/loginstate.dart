@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:onesignal/onesignal.dart';
@@ -98,6 +101,8 @@ class LoginState with ChangeNotifier {
       _error = true;
     }
 
+    await registerDevice();
+
     return _error;
   }
 
@@ -107,6 +112,50 @@ class LoginState with ChangeNotifier {
       print(changes.to.userId);
       //will be called whenever the OS subscription changes
     });
+    return null;
+  }
+
+  Future<void> registerDevice() async {
+    String username = 'admin@internx.xyz';
+    String password = 'J35u5777#';
+    String basicAuth =
+        'Basic ' + base64Encode(utf8.encode('$username:$password'));
+    print(basicAuth);
+
+    String uid = await Prefs.getString("uid");
+    String name = await Prefs.getString("name");
+
+    Map<String, String> headers = {
+      'Content-Type': 'application/json',
+      'Authorization': "Basic YWRtaW5AaW50ZXJueC54eXo6SjM1dTU3Nzcj"
+    };
+
+    Map<String, dynamic> body = {"name": name, "uniqueId": uid};
+
+    var response = await Dio().post(
+      "${ConstUtils.baseUrl8080}devices/",
+      data: body,
+      options: Options(
+        headers: headers,
+      ),
+      onSendProgress: (int sent, int total) {
+        print("$sent $total");
+      },
+    ).catchError((onError) {
+      print(onError);
+      if (onError.toString().contains("Duplicate entry ")) {
+        Prefs.setBool("lr", true);
+      }
+    });
+
+    if (response != null) {
+      if (response.statusCode == 400 || response.statusCode == 200) {
+        Prefs.setBool("lr", true);
+      } else {
+        Prefs.setBool("lr", false);
+      }
+    }
+
     return null;
   }
 }

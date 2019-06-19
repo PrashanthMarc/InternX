@@ -19,6 +19,8 @@ class _AssignmentPageState extends State<AssignmentPage> {
   Widget build(BuildContext context) {
     String data = widget.data.replaceAll("/media", "http://internx.xyz/media") +
         "<style>img {width: 100%  !important;}</style>";
+    data = data.replaceAll("src=\"//", "src=\"https://");
+    print(data);
     return Scaffold(
       appBar: WhiteAppBar(
         title: Text("${widget.title}"),
@@ -27,6 +29,7 @@ class _AssignmentPageState extends State<AssignmentPage> {
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: WebView(
+          javascriptMode: JavascriptMode.unrestricted,
           initialUrl:
               Uri.dataFromString(data, mimeType: 'text/html').toString(),
         ),

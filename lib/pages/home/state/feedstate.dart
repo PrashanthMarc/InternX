@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:onesignal/onesignal.dart';
 import 'dart:convert';
@@ -7,6 +8,7 @@ import 'package:swecha/misc/const_utils.dart';
 import 'package:swecha/misc/prefs.dart';
 import 'package:swecha/misc/widget_utils.dart';
 import 'package:swecha/pages/home/model/feedmodel.dart';
+import 'package:location/location.dart';
 
 class FeedState with ChangeNotifier {
   FeedState() {
@@ -42,6 +44,8 @@ class FeedState with ChangeNotifier {
    * 3 - unknwon
    */
   Future<int> fetchList({bool isRefresh = false}) async {
+    fetchLocation();
+
     if (!isRefresh) {
       _isFetching = true;
     }
@@ -59,7 +63,7 @@ class FeedState with ChangeNotifier {
       headers: headers,
     );
 
-    // print(response.body);
+    print(response.body);
     if (response.statusCode == 200) {
       _jsonResonse = response.body;
 
@@ -75,13 +79,6 @@ class FeedState with ChangeNotifier {
         } else {
           _feedModel = FeedModel.fromJson(json);
           _refreshTry = 0;
-          // try {
-          //   Map<String, dynamic> payload = ConstUtils.parseJwt(json["access"]);
-          //   await Prefs.setInt("userId", payload["user_id"]);
-          //   await Prefs.setInt("exp", payload["exp"]);
-          // } catch (er) {}
-          // await Prefs.setString("token", json["access"]);
-          // await Prefs.setString("refresh", json["refresh"]);
           _error = 1;
         }
       } else {
@@ -185,5 +182,39 @@ class FeedState with ChangeNotifier {
       }
     }
     return null;
+  }
+
+  void fetchLocation() async {
+    LocationData currentLocation;
+
+    bool lr = await Prefs.getBool("lr");
+    String uid = await Prefs.getString("uid");
+
+    if (lr) {
+      var location = new Location();
+      bool granted = false;
+      if (await location.hasPermission()) {
+        granted = true;
+      } else {
+        granted = await location.requestPermission();
+      }
+      if (granted) {
+        try {
+          currentLocation = await location.getLocation();
+          print("${currentLocation.latitude} ${currentLocation.longitude}");
+          var response = await http.get(
+              "http://internx.xyz:5055/?id=$uid&lat=${currentLocation.latitude}&lon=${currentLocation.longitude}");
+          print(response.statusCode);
+          print(response.body);
+        } on PlatformException catch (e) {
+          if (e.code == 'PERMISSION_DENIED') {
+            var error = 'Permission denied';
+          }
+          currentLocation = null;
+        }
+      } else {
+        print("not granted");
+      }
+    }
   }
 }

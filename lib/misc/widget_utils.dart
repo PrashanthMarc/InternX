@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:swecha/misc/prefs.dart';
 import 'package:swecha/pages/auth/login.dart';
 import 'package:swecha/pages/auth/moreinfo.dart';
+import 'package:swecha/pages/auth/profile.dart';
 import 'package:swecha/pages/home/comingsoon.dart';
 import 'package:swecha/pages/home/home.dart';
 import 'package:swecha/pages/home/request_mentor.dart';
 import 'package:swecha/pages/news/news.dart';
 import 'package:swecha/pages/repos/repo.dart';
+import 'package:swecha/pages/requestmentor/mentor.dart';
 import 'package:swecha/pages/schedule/assignment.dart';
 import 'package:swecha/pages/schedule/schedule.dart';
 import 'package:swecha/pages/vol/volfeed.dart';
@@ -118,6 +120,18 @@ class WidgetUtils {
     Navigator.of(context).push(route);
   }
 
+  static void showProfilePage(BuildContext context) async {
+    String tag = ProfilePage.TAG;
+    Widget page = ProfilePage();
+
+    final route = CupertinoPageRoute<bool>(
+      maintainState: true,
+      settings: RouteSettings(name: tag),
+      builder: (context) => page,
+    );
+    Navigator.of(context).push(route);
+  }
+
   static void showFeedPage(BuildContext context, {isReplace = false}) async {
     String tag = FeedPage.TAG;
     Widget page = FeedPage();
@@ -201,8 +215,8 @@ class WidgetUtils {
 // Drawer Items
 
   static void showRequestMentorPage(BuildContext context) async {
-    String tag = RequestMentorPage.TAG;
-    Widget page = RequestMentorPage();
+    String tag = MentorPage.TAG;
+    Widget page = MentorPage();
 
     final route = CupertinoPageRoute<bool>(
       maintainState: true,

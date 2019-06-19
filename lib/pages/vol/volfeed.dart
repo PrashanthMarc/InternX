@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -317,7 +318,7 @@ class VolFeedPage extends StatelessWidget {
                           top: 4.0,
                         ),
                         child: Text(
-                          feed.body,
+                          utf8.decode(feed.body.codeUnits),
                           style: TextStyle(
                             fontSize: 18.0,
                           ),
@@ -331,14 +332,11 @@ class VolFeedPage extends StatelessWidget {
                               ),
                               child: Stack(
                                 children: <Widget>[
-                                  AspectRatio(
-                                    aspectRatio: 16 / 9,
-                                    child: Image(
-                                      fit: BoxFit.fill,
-                                      image: AdvancedNetworkImage(
-                                        "${ConstUtils.baseUrlNoSlash}${feed.iamge}",
-                                        useDiskCache: true,
-                                      ),
+                                  Image(
+                                    fit: BoxFit.fitWidth,
+                                    image: AdvancedNetworkImage(
+                                      "${ConstUtils.baseUrlNoSlash}${feed.iamge}",
+                                      useDiskCache: true,
                                     ),
                                   ),
                                 ],

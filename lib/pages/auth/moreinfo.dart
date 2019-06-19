@@ -14,7 +14,7 @@ class _MoreInfoPageState extends State<MoreInfoPage> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
   // TapGestureRecognizer _tapGestureRecognizer;
-  // TextEditingController _smsController = TextEditingController();
+  TextEditingController _nameController = TextEditingController();
   // TextEditingController _phoneNumberController = TextEditingController();
 
   final hintStyle = TextStyle(color: Colors.white24);
@@ -185,7 +185,9 @@ class _MoreInfoPageState extends State<MoreInfoPage> {
                       ),
                       color: Colors.blue,
                       onPressed: () {
-                        WidgetUtils.showFeedPage(context,);
+                        WidgetUtils.showFeedPage(
+                          context,
+                        );
                       },
                     ),
                   ),

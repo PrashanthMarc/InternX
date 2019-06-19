@@ -54,50 +54,56 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           SizedBox(
             height: 40.0,
           ),
-          Container(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              children: <Widget>[
-                CircleAvatar(
-                  backgroundImage: profilePic == ""
-                      ? AssetImage("images/logo.png")
-                      : AdvancedNetworkImage(profilePic, useDiskCache: true),
-                  backgroundColor: Colors.white,
-                  maxRadius: 30.0,
-                ),
-                Container(
-                  padding: const EdgeInsets.only(left: 16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        name,
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold,
-                          color: Palette.appBlack,
-                        ),
-                      ),
-                      Text(
-                        track,
-                        style: TextStyle(
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.w600,
-                          color: Palette.appBlack,
-                        ),
-                      ),
-                      Text(
-                        uid,
-                        style: TextStyle(
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.w600,
-                          color: Palette.appBlack,
-                        ),
-                      ),
-                    ],
+          InkWell(
+            onTap: () {
+              Navigator.of(context).pop();
+              WidgetUtils.showProfilePage(context);
+            },
+            child: Container(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                children: <Widget>[
+                  CircleAvatar(
+                    backgroundImage: profilePic == ""
+                        ? AssetImage("images/logo.png")
+                        : AdvancedNetworkImage(profilePic, useDiskCache: true),
+                    backgroundColor: Colors.white,
+                    maxRadius: 30.0,
                   ),
-                )
-              ],
+                  Container(
+                    padding: const EdgeInsets.only(left: 16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          name,
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                            color: Palette.appBlack,
+                          ),
+                        ),
+                        Text(
+                          track,
+                          style: TextStyle(
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.w600,
+                            color: Palette.appBlack,
+                          ),
+                        ),
+                        Text(
+                          uid,
+                          style: TextStyle(
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.w600,
+                            color: Palette.appBlack,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
           Divider(),
@@ -233,7 +239,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             ),
             onTap: () {
               Navigator.pop(context);
-              WidgetUtils.showComingSoonPage(context);
+              WidgetUtils.showRequestMentorPage(context);
             },
           ),
         ],

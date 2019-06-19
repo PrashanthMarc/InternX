@@ -204,48 +204,48 @@ class _ProfilePageState extends State<ProfilePage> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Stack(
-                          children: <Widget>[
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(50.0),
-                              child: Padding(
-                                padding: const EdgeInsets.only(right: 0.0),
-                                child: Image(
-                                  // color: Colors.red,
-                                  height: 80.0,
-                                  width: 80.0,
-                                  fit: BoxFit.cover,
-                                  image: AdvancedNetworkImage(
-                                    image,
-                                    useDiskCache: true,
+                        InkWell(
+                          onTap: _openImagePicker,
+                          child: Stack(
+                            children: <Widget>[
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(50.0),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(right: 0.0),
+                                  child: Image(
+                                    // color: Colors.red,
+                                    height: 80.0,
+                                    width: 80.0,
+                                    fit: BoxFit.cover,
+                                    image: AdvancedNetworkImage(
+                                      image,
+                                      useDiskCache: true,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            Positioned(
-                              bottom: 0.0,
-                              right: 0.0,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(50.0),
-                                child: Material(
-                                  type: MaterialType.canvas,
-                                  elevation: 10.0,
-                                  child: Container(
-                                    padding: const EdgeInsets.all(5.0),
-                                    color: Colors.white,
-                                    child: GestureDetector(
+                              Positioned(
+                                bottom: 0.0,
+                                right: 0.0,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(50.0),
+                                  child: Material(
+                                    type: MaterialType.canvas,
+                                    elevation: 10.0,
+                                    child: Container(
+                                      padding: const EdgeInsets.all(5.0),
+                                      color: Colors.white,
                                       child: ImageIcon(
                                         AssetImage("images/camera.png"),
                                         color: Palette.lightGrey,
                                         size: 16.0,
                                       ),
-                                      onTap: _openImagePicker,
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ],
                     ),

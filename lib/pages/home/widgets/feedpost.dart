@@ -284,7 +284,9 @@ class _AddPhotoBlankWidgetState extends State<AddPhotoBlankWidget> {
                     _croppedImage = null;
                   });
                 }
+                print(_selectedImage);
                 widget.onChanged(_croppedImage);
+                setState(() {});
               }
             },
           ),
@@ -308,7 +310,10 @@ class _AddPhotoBlankWidgetState extends State<AddPhotoBlankWidget> {
                   AssetImage("images/icon_plus.png"),
                   size: 20.0,
                 )
-              : Image.file(_croppedImage),
+              : Image.file(
+                  _croppedImage,
+                  fit: BoxFit.contain,
+                ),
         ),
       ),
     );

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "295729133150",
+    "firebase_url": "https://internx-8e82b.firebaseio.com",
+    "project_id": "internx-8e82b",
+    "storage_bucket": "internx-8e82b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:295729133150:android:d2d46f2d48ea7873",
+        "android_client_info": {
+          "package_name": "com.swecha.internx"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "295729133150-j7jphhtkk58te2bmhfo62thotju7if52.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsgN8UR3l2ARrStq4vWavf7TKX-ThycB0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "295729133150-j7jphhtkk58te2bmhfo62thotju7if52.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

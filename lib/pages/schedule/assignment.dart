@@ -1,6 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:swecha/widgets/white_app_bar.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 class AssignmentPage extends StatefulWidget {
   static String TAG = "ASSIGNMENT_PAGE";
@@ -21,19 +23,37 @@ class _AssignmentPageState extends State<AssignmentPage> {
         "<style>img {width: 100%  !important;}</style>";
     data = data.replaceAll("src=\"//", "src=\"https://");
     print(data);
-    return Scaffold(
+    return WebviewScaffold(
+      url: Uri.dataFromString(utf8.decode(data.codeUnits),
+              mimeType: 'text/html', encoding: utf8)
+          .toString(),
       appBar: WhiteAppBar(
         title: Text("${widget.title}"),
       ),
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: WebView(
-          javascriptMode: JavascriptMode.unrestricted,
-          initialUrl:
-              Uri.dataFromString(data, mimeType: 'text/html').toString(),
+      withZoom: true,
+      withJavascript: true,
+      withLocalStorage: true,
+      hidden: true,
+      initialChild: Container(
+        color: Colors.white,
+        child: const Center(
+          child: CircularProgressIndicator(),
         ),
       ),
     );
+    // return Scaffold(
+    // appBar: WhiteAppBar(
+    //   title: Text("${widget.title}"),
+    // ),
+    //   body: Container(
+    //     width: MediaQuery.of(context).size.width,
+    //     height: MediaQuery.of(context).size.height,
+    //     child: WebView(
+    //       javascriptMode: JavascriptMode.unrestricted,
+    //       initialUrl:
+    //           Uri.dataFromString(data, mimeType: 'text/html').toString(),
+    //     ),
+    //   ),
+    // );
   }
 }

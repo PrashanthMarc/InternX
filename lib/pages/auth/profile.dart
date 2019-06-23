@@ -9,9 +9,11 @@ import 'package:rounded_modal/rounded_modal.dart';
 import 'package:swecha/misc/const_utils.dart';
 import 'package:swecha/misc/palette.dart';
 import 'package:swecha/misc/prefs.dart';
+import 'package:swecha/misc/widget_utils.dart';
 import 'package:swecha/widgets/modal_picker.dart';
 import 'package:swecha/widgets/white_app_bar.dart';
 import 'package:http/http.dart' as http;
+import 'package:swecha/misc/retoken.dart';
 
 class ProfilePage extends StatefulWidget {
   static String TAG = "PROFILE";
@@ -93,9 +95,32 @@ class _ProfilePageState extends State<ProfilePage> {
         },
       ),
       onSendProgress: (int sent, int total) {
-        // print("$sent $total");
+        print("$sent $total");
       },
     );
+
+    if (response.statusCode == 401) {
+      if (await refreshToken()) {
+        token = await Prefs.getString("token");
+
+        response = await Dio().post(
+          "${ConstUtils.baseUrl}update_details/",
+          data: formData,
+          options: Options(
+            headers: {
+              "Authorization": "Bearer $token", // set content-length
+            },
+          ),
+          onSendProgress: (int sent, int total) {
+            print("$sent $total");
+          },
+        );
+      } else {
+        await Prefs.clear();
+        WidgetUtils.proceedToAuth(context);
+        return;
+      }
+    }
 
     if (response.statusCode == 200) {
       isUploadingProfilePic = false;
@@ -122,7 +147,6 @@ class _ProfilePageState extends State<ProfilePage> {
       "${ConstUtils.baseUrl}get_user_details/",
       headers: headers,
     );
-    print(response.body);
 
     bool _error = false;
     String _jsonResonse = "";

@@ -42,7 +42,9 @@ class _MentorWidgetState extends State<MentorWidget> {
                   icon: Icon(
                     Icons.check,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    _resolveQuery(fState.mentorModel.results[index].id);
+                  },
                 ),
               ),
             );
@@ -76,6 +78,10 @@ class _MentorWidgetState extends State<MentorWidget> {
     await mentorState.postQuery(_queryController.text);
   }
 
+  _resolveQuery(int id) async {
+    await mentorState.resolveQuery(id);
+  }
+
   @override
   Widget build(BuildContext context) {
     mentorState = Provider.of<MentorState>(context);
@@ -88,11 +94,13 @@ class _MentorWidgetState extends State<MentorWidget> {
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
                   controller: _queryController,
+                  maxLength: 120,
+                  keyboardType: TextInputType.text,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(25.0)),
-                    hintText: "Have a query?",
-                    labelText: "Query",
+                    labelText: "Notes",
+                    hintText: "eg: I need explanation for python classes",
                     suffixIcon: mentorState.isQueryPosting
                         ? SizedBox(
                             height: 10.0,

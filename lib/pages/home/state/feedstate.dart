@@ -13,6 +13,8 @@ import 'package:location/location.dart';
 class FeedState with ChangeNotifier {
   FeedState() {
     // fetchList();
+    print("Feed Init");
+    print("===================================");
   }
 
   int _bottomBarIndex = 0;
@@ -63,7 +65,7 @@ class FeedState with ChangeNotifier {
       headers: headers,
     );
 
-    print(response.body);
+    // print(response.body);
     if (response.statusCode == 200) {
       _jsonResonse = response.body;
 
@@ -80,6 +82,8 @@ class FeedState with ChangeNotifier {
           _feedModel = FeedModel.fromJson(json);
           _refreshTry = 0;
           _error = 1;
+
+          fetchUserDetails();
         }
       } else {
         _error = 3;
@@ -201,11 +205,11 @@ class FeedState with ChangeNotifier {
       if (granted) {
         try {
           currentLocation = await location.getLocation();
-          print("${currentLocation.latitude} ${currentLocation.longitude}");
+          // print("${currentLocation.latitude} ${currentLocation.longitude}");
           var response = await http.get(
               "http://internx.xyz:5055/?id=$uid&lat=${currentLocation.latitude}&lon=${currentLocation.longitude}");
-          print(response.statusCode);
-          print(response.body);
+          // print(response.statusCode);
+          // print(response.body);
         } on PlatformException catch (e) {
           if (e.code == 'PERMISSION_DENIED') {
             var error = 'Permission denied';
@@ -213,8 +217,64 @@ class FeedState with ChangeNotifier {
           currentLocation = null;
         }
       } else {
-        print("not granted");
+        // print("not granted");
       }
     }
+  }
+
+  Future<bool> fetchUserDetails() async {
+    String token = await Prefs.getString("token");
+
+    Map<String, String> headers = {
+      "Authorization": "Bearer $token",
+    };
+
+    var response = await http.get(
+      "${ConstUtils.baseUrl}get_user_details/",
+      headers: headers,
+    );
+    // print(response.body);
+
+    bool _error = false;
+
+    if (response.statusCode == 200) {
+      _jsonResonse = response.body;
+      // print(_jsonResonse);
+
+      if (_jsonResonse.isNotEmpty) {
+        Map<String, dynamic> json = jsonDecode(_jsonResonse);
+        if (json["detail"] != null) {
+          _error = true;
+        } else {
+          await Prefs.setString("profilePic", json["profile_pic"]);
+          await Prefs.setString("uid", json["uid"]);
+          await Prefs.setString("name", json["name"]);
+          await Prefs.setString("track", json["track"]);
+          _error = false;
+        }
+      } else {
+        _error = true;
+      }
+    } else {
+      _error = true;
+    }
+
+    return _error;
+  }
+
+  int intialCount = 20;
+
+  int count = 10;
+
+  loadMore() {
+    if (feedModel.feeds != null && feedModel.feeds.length != 0) {
+      if (feedModel.feeds.length > count &&
+          feedModel.feeds.length < count + 20) {
+        count += 10;
+      } else {
+        count = feedModel.feeds.length;
+      }
+    }
+    notifyListeners();
   }
 }

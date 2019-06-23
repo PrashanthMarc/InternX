@@ -4,14 +4,12 @@ import 'package:swecha/misc/widget_utils.dart';
 import 'package:swecha/misc/palette.dart';
 
 class RequestMentorPage extends StatefulWidget {
-
   static String TAG = "REQUEST MENTOR";
   @override
   _RequestMentorPageState createState() => _RequestMentorPageState();
 }
 
 class _RequestMentorPageState extends State<RequestMentorPage> {
-
   TextEditingController _rollnumberController = TextEditingController();
   TextEditingController _trackController = TextEditingController();
   TextEditingController _batchnumberController = TextEditingController();
@@ -77,31 +75,29 @@ class _RequestMentorPageState extends State<RequestMentorPage> {
               ),
             ),
             Padding(
-                  padding: const EdgeInsets.only(
-                    top: 14.0,
-                  ),
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.7,
-                    child: RaisedButton(
-                      shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(30.0)),
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 14.0, bottom: 14.0),
-                        child: Text(
-                          "CONTINUE", //I'm In
-                          style: TextStyle(
-                              fontSize: 14.0,
-                              color: Color(0xFFFFFFFF),
-                              fontFamily: "RobotoSlab"),
-                        ),
-                      ),
-                      color: Palette.textBlack,
-                      onPressed: () { },
-                        
-                      
+              padding: const EdgeInsets.only(
+                top: 14.0,
+              ),
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.7,
+                child: RaisedButton(
+                  shape: new RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(30.0)),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 14.0, bottom: 14.0),
+                    child: Text(
+                      "CONTINUE", //I'm In
+                      style: TextStyle(
+                          fontSize: 14.0,
+                          color: Color(0xFFFFFFFF),
+                          fontFamily: "RobotoSlab"),
                     ),
                   ),
+                  color: Palette.textBlack,
+                  onPressed: () {},
                 ),
+              ),
+            ),
           ],
         ),
       ),

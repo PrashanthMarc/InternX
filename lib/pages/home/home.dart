@@ -131,7 +131,7 @@ class FeedPage extends StatelessWidget {
           itemBuilder: (context, index) {
             return _buildCardPost(context, fState.feedModel.feeds[index]);
           },
-          itemCount: fState.feedModel.feeds.length,
+          itemCount: fState.count,
           shrinkWrap: true,
           physics: BouncingScrollPhysics(),
         );
@@ -164,13 +164,7 @@ class FeedPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return
-        // MultiProvider(
-        //   providers: [
-        //     Provider<FeedState>.value(value: FeedState()),
-        //     Provider<ScheduleState>.value(value: ScheduleState()),
-        //   ],
-        ChangeNotifierProvider<FeedState>(
+    return ChangeNotifierProvider<FeedState>(
       builder: (_) {
         FeedState feedstate = FeedState();
         feedstate.fetchList();
@@ -204,21 +198,30 @@ class FeedPage extends StatelessWidget {
           body: Consumer<FeedState>(
             builder: (context, fState, child) {
               if (fState.bottomBarIndex == 0) {
-                return LiquidPullToRefresh(
-                  showChildOpacityTransition: showChildOpacityTransition =
-                      false,
-                  springAnimationDurationInMilliseconds: 100,
-                  key: Key("feed"),
-                  child: ListView(
-                    children: <Widget>[
-                      _buildFeedList(),
-                    ],
-                  ),
-                  onRefresh: () async {
-                    await fState.fetchList(isRefresh: true);
-
-                    return;
+                return NotificationListener<ScrollNotification>(
+                  onNotification: (ScrollNotification scrollInfo) {
+                    print(scrollInfo.metrics.maxScrollExtent);
+                    if (scrollInfo.metrics.pixels ==
+                        scrollInfo.metrics.maxScrollExtent) {
+                      fState.loadMore();
+                    }
                   },
+                  child: LiquidPullToRefresh(
+                    showChildOpacityTransition: showChildOpacityTransition =
+                        false,
+                    springAnimationDurationInMilliseconds: 100,
+                    key: Key("feed"),
+                    child: ListView(
+                      children: <Widget>[
+                        _buildFeedList(),
+                      ],
+                    ),
+                    onRefresh: () async {
+                      await fState.fetchList(isRefresh: true);
+
+                      return;
+                    },
+                  ),
                 );
 
                 // RefreshIndicator(
@@ -278,6 +281,10 @@ class FeedPage extends StatelessWidget {
   }
 
   Widget _buildCardPost(BuildContext context, Feeds feed) {
+    String info = feed.info.replaceAll(" AM", "");
+    info = info.replaceAll(" PM", "");
+    print(info);
+    print(feed.user);
     return Padding(
       padding: const EdgeInsets.only(
         top: 5.0,
@@ -331,7 +338,7 @@ class FeedPage extends StatelessWidget {
                                 ),
                                 Text(
                                   DateUtils.getLocalizedTimeAgo(
-                                    dateFormat.parse(feed.info),
+                                    dateFormat.parse(info),
                                     locale: Localizations.localeOf(context),
                                   ),
                                 ),

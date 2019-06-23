@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -166,6 +168,47 @@ class MentorState with ChangeNotifier {
       _error = true;
     }
     _isQueryPosting = false;
+    notifyListeners();
+    return _error;
+  }
+
+  bool _isQueryResolving = false;
+
+  bool get isQueryResolving => _isQueryResolving;
+
+  Future<void> resolveQuery(int id) async {
+    _isQueryResolving = true;
+    notifyListeners();
+
+    await fetchNewToken();
+
+    String token = await Prefs.getString("token");
+
+    Map<String, String> headers = {
+      "Authorization": "Bearer $token",
+    };
+
+    Map<String, String> queryData = {
+      "is_resolved": "true",
+      "id": id.toString()
+    };
+    bool _error = false;
+
+    var response = await http.put(
+      "${ConstUtils.baseUrl}request_mentor_put/$id/",
+      headers: headers,
+      body: queryData,
+    );
+
+    print(response.statusCode);
+    print(response.body);
+    if (response.statusCode == 201) {
+      _error = false;
+      await fetchMentors();
+    } else {
+      _error = true;
+    }
+    _isQueryResolving = false;
     notifyListeners();
     return _error;
   }

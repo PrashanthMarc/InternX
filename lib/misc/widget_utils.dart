@@ -47,7 +47,6 @@ class WidgetUtils {
     var route;
 
     route = CupertinoPageRoute(
-      maintainState: true,
       settings: RouteSettings(name: tag),
       builder: (context) => page,
     );
@@ -77,7 +76,7 @@ class WidgetUtils {
   //   Widget page = MapPage();
 
   //   final route = CupertinoPageRoute<bool>(
-  //     maintainState: true,
+  //
   //     settings: RouteSettings(name: tag),
   //     builder: (context) => page,
   //   );
@@ -89,7 +88,6 @@ class WidgetUtils {
     Widget page = LogInPage();
 
     final route = CupertinoPageRoute<bool>(
-      maintainState: true,
       settings: RouteSettings(name: tag),
       builder: (context) => page,
     );
@@ -101,7 +99,7 @@ class WidgetUtils {
   //   Widget page = AddFeedPage();
 
   //   final route = CupertinoPageRoute<bool>(
-  //       maintainState: true,
+  //
   //       settings: RouteSettings(name: tag),
   //       builder: (context) => page,
   //       fullscreenDialog: true);
@@ -113,7 +111,6 @@ class WidgetUtils {
     Widget page = MoreInfoPage();
 
     final route = CupertinoPageRoute<bool>(
-      maintainState: true,
       settings: RouteSettings(name: tag),
       builder: (context) => page,
     );
@@ -125,7 +122,6 @@ class WidgetUtils {
     Widget page = ProfilePage();
 
     final route = CupertinoPageRoute<bool>(
-      maintainState: true,
       settings: RouteSettings(name: tag),
       builder: (context) => page,
     );
@@ -137,7 +133,6 @@ class WidgetUtils {
     Widget page = FeedPage();
 
     final route = CupertinoPageRoute<bool>(
-      maintainState: true,
       settings: RouteSettings(name: tag),
       builder: (context) => page,
     );
@@ -153,7 +148,6 @@ class WidgetUtils {
     Widget page = VolFeedPage();
 
     final route = CupertinoPageRoute<bool>(
-      maintainState: true,
       settings: RouteSettings(name: tag),
       builder: (context) => page,
     );
@@ -169,7 +163,6 @@ class WidgetUtils {
     );
 
     final route = CupertinoPageRoute<bool>(
-      maintainState: true,
       settings: RouteSettings(name: tag),
       builder: (context) => page,
     );
@@ -181,7 +174,6 @@ class WidgetUtils {
     Widget page = RepoPage();
 
     final route = CupertinoPageRoute<bool>(
-      maintainState: true,
       settings: RouteSettings(name: tag),
       builder: (context) => page,
     );
@@ -193,7 +185,6 @@ class WidgetUtils {
     Widget page = NewsPage();
 
     final route = CupertinoPageRoute<bool>(
-      maintainState: true,
       settings: RouteSettings(name: tag),
       builder: (context) => page,
     );
@@ -205,7 +196,6 @@ class WidgetUtils {
     Widget page = SchedulePage();
 
     final route = CupertinoPageRoute<bool>(
-      maintainState: true,
       settings: RouteSettings(name: tag),
       builder: (context) => page,
     );
@@ -219,7 +209,6 @@ class WidgetUtils {
     Widget page = MentorPage();
 
     final route = CupertinoPageRoute<bool>(
-      maintainState: true,
       settings: RouteSettings(name: tag),
       builder: (context) => page,
     );
@@ -231,7 +220,6 @@ class WidgetUtils {
     Widget page = ComingSoonPage();
 
     final route = CupertinoPageRoute<bool>(
-      maintainState: true,
       settings: RouteSettings(name: tag),
       builder: (context) => page,
     );
@@ -243,7 +231,7 @@ class WidgetUtils {
   //   Widget page = ContactUs();
 
   //   final route = CupertinoPageRoute<bool>(
-  //     maintainState: true,
+  //
   //     settings: RouteSettings(name: tag),
   //     builder: (context) => page,
   //   );
@@ -255,7 +243,7 @@ class WidgetUtils {
   //   Widget page = AddHostelPage();
 
   //   final route = CupertinoPageRoute<bool>(
-  //     maintainState: true,
+  //
   //     settings: RouteSettings(name: tag),
   //     builder: (context) => page,
   //   );
@@ -267,7 +255,7 @@ class WidgetUtils {
   //   Widget page = ReferralPage(user: user);
 
   //   final route = CupertinoPageRoute<bool>(
-  //     maintainState: true,
+  //
   //     settings: RouteSettings(name: tag),
   //     builder: (context) => page,
   //   );
@@ -280,7 +268,7 @@ class WidgetUtils {
   //   Widget page = HostelPage(modelHostel);
 
   //   final route = CupertinoPageRoute<bool>(
-  //     maintainState: true,
+  //
   //     settings: RouteSettings(name: tag),
   //     builder: (context) => page,
   //   );
@@ -292,7 +280,7 @@ class WidgetUtils {
   //   Widget page = FavouritePage();
 
   //   final route = CupertinoPageRoute<bool>(
-  //     maintainState: true,
+  //
   //     settings: RouteSettings(name: tag),
   //     builder: (context) => page,
   //   );
@@ -304,7 +292,7 @@ class WidgetUtils {
   //   Widget page = ComingSoonPage();
 
   //   final route = CupertinoPageRoute<bool>(
-  //     maintainState: true,
+  //
   //     settings: RouteSettings(name: tag),
   //     builder: (context) => page,
   //   );

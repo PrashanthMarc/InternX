@@ -61,7 +61,7 @@ class FeedState with ChangeNotifier {
     _error = 1;
 
     var response = await http.get(
-      "${ConstUtils.baseUrl}feed/",
+      "${ConstUtils.baseUrl}feedv1?page=$page",
       headers: headers,
     );
 
@@ -83,6 +83,7 @@ class FeedState with ChangeNotifier {
           _refreshTry = 0;
           _error = 1;
 
+          page += 1;
           fetchUserDetails();
         }
       } else {
@@ -262,19 +263,86 @@ class FeedState with ChangeNotifier {
     return _error;
   }
 
-  int intialCount = 20;
+  int page = 0;
+  bool feedEnd = false;
+  bool isLoadingMore = false;
 
-  int count = 10;
-
-  loadMore() {
-    if (feedModel.feeds != null && feedModel.feeds.length != 0) {
-      if (feedModel.feeds.length > count &&
-          feedModel.feeds.length < count + 20) {
-        count += 10;
-      } else {
-        count = feedModel.feeds.length;
+  loadMore() async {
+    if (!isLoadingMore) {
+      if (feedModel.feeds != null && feedModel.feeds.length != 0) {
+        if (int.parse(feedModel.totalPages) >= page) {
+          await fetchNextPage(isRefresh: true);
+        } else {
+          feedEnd = true;
+        }
       }
     }
     notifyListeners();
+  }
+
+  Future<int> fetchNextPage({bool isRefresh = false}) async {
+    print(page);
+    isLoadingMore = true;
+    if (!isRefresh) {
+      _isFetching = true;
+    }
+    notifyListeners();
+
+    String token = await Prefs.getString("token");
+
+    Map<String, String> headers = {
+      "Authorization": "Bearer $token",
+    };
+    _error = 1;
+
+    var response = await http.get(
+      "${ConstUtils.baseUrl}feedv1?page=$page",
+      headers: headers,
+    );
+
+    // print(response.body);
+    if (response.statusCode == 200) {
+      _jsonResonse = response.body;
+
+      if (_jsonResonse.isNotEmpty) {
+        Map<String, dynamic> json = jsonDecode(_jsonResonse);
+
+        if (json["token_not_valid"] != null) {
+          _error = 2;
+          _refreshTry += 1;
+          if (_refreshTry < 4) {
+            await refreshToken();
+          }
+        } else {
+          _feedModel.feeds.addAll(FeedModel.fromJson(json).feeds);
+          _refreshTry = 0;
+          _error = 1;
+          page += 1;
+
+          fetchUserDetails();
+        }
+      } else {
+        _error = 3;
+      }
+    } else if (response.statusCode == 401) {
+      _error = 2;
+      _refreshTry += 1;
+      if (_refreshTry < 4) {
+        await refreshToken();
+      } else {
+        await tokenErrorHome();
+      }
+    } else {
+      _error = 3;
+    }
+
+    if (!isRefresh) {
+      _isFetching = false;
+    }
+    notifyListeners();
+
+    isLoadingMore = false;
+
+    return _error;
   }
 }

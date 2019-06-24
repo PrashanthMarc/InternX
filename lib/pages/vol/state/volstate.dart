@@ -186,4 +186,87 @@ class VolFeedState with ChangeNotifier {
     }
     return null;
   }
+
+  int page = 0;
+  bool feedEnd = false;
+  bool isLoadingMore = false;
+
+  loadMore() async {
+    if (!isLoadingMore) {
+      if (_feedModel.feeds != null && feedModel.feeds.length != 0) {
+        // if (int.parse(feedModel.totalPages) >= page) {
+        //   await fetchNextPage(isRefresh: true);
+        // } else {
+        //   feedEnd = true;
+        // }
+      }
+    }
+    notifyListeners();
+  }
+
+  Future<int> fetchLoadMoreList({bool isRefresh = false}) async {
+    if (!isRefresh) {
+      _isFetching = true;
+    }
+    notifyListeners();
+
+    String token = await Prefs.getString("token");
+
+    Map<String, String> headers = {
+      "Authorization": "Bearer $token",
+    };
+    _error = 1;
+
+    var response = await http.get(
+      "${ConstUtils.baseUrl}voluntee_feed/",
+      headers: headers,
+    );
+
+    // print(response.body);
+    if (response.statusCode == 200) {
+      _jsonResonse = response.body;
+
+      if (_jsonResonse.isNotEmpty) {
+        Map<String, dynamic> json = jsonDecode(_jsonResonse);
+
+        if (json["token_not_valid"] != null) {
+          _error = 2;
+          _refreshTry += 1;
+          if (_refreshTry < 4) {
+            await refreshToken();
+          }
+        } else {
+          _feedModel = VolFeedModel.fromJson(json);
+          _refreshTry = 0;
+          // try {
+          //   Map<String, dynamic> payload = ConstUtils.parseJwt(json["access"]);
+          //   await Prefs.setInt("userId", payload["user_id"]);
+          //   await Prefs.setInt("exp", payload["exp"]);
+          // } catch (er) {}
+          // await Prefs.setString("token", json["access"]);
+          // await Prefs.setString("refresh", json["refresh"]);
+          _error = 1;
+        }
+      } else {
+        _error = 3;
+      }
+    } else if (response.statusCode == 401) {
+      _error = 2;
+      _refreshTry += 1;
+      if (_refreshTry < 4) {
+        await refreshToken();
+      } else {
+        await tokenErrorHome();
+      }
+    } else {
+      _error = 3;
+    }
+
+    if (!isRefresh) {
+      _isFetching = false;
+    }
+    notifyListeners();
+    await oneSignalUpdate();
+    return _error;
+  }
 }

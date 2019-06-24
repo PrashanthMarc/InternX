@@ -4,7 +4,7 @@ class ConstUtils {
   static String baseUrl = "http://internx.xyz/api/";
   static String baseUrl8080 = "http://internx.xyz:8080/api/";
   static String baseUrlNoSlash = "http://internx.xyz";
-  static String version = "1.0.5";
+  static String version = "1.0.6";
 
   // Parse JWT
   static Map<String, dynamic> parseJwt(String token) {

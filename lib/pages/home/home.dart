@@ -131,7 +131,7 @@ class FeedPage extends StatelessWidget {
           itemBuilder: (context, index) {
             return _buildCardPost(context, fState.feedModel.feeds[index]);
           },
-          itemCount: fState.count,
+          itemCount: fState.feedModel.feeds.length,
           shrinkWrap: true,
           physics: BouncingScrollPhysics(),
         );
@@ -200,7 +200,6 @@ class FeedPage extends StatelessWidget {
               if (fState.bottomBarIndex == 0) {
                 return NotificationListener<ScrollNotification>(
                   onNotification: (ScrollNotification scrollInfo) {
-                    print(scrollInfo.metrics.maxScrollExtent);
                     if (scrollInfo.metrics.pixels ==
                         scrollInfo.metrics.maxScrollExtent) {
                       fState.loadMore();
@@ -283,8 +282,8 @@ class FeedPage extends StatelessWidget {
   Widget _buildCardPost(BuildContext context, Feeds feed) {
     String info = feed.info.replaceAll(" AM", "");
     info = info.replaceAll(" PM", "");
-    print(info);
-    print(feed.user);
+    // print(info);
+    // print(feed.user);
     return Padding(
       padding: const EdgeInsets.only(
         top: 5.0,

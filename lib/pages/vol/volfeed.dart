@@ -121,16 +121,24 @@ class VolFeedPage extends StatelessWidget {
         WidgetUtils.proceedToAuth(context);
       }
       if (fState.feedModel != null && fState.feedModel.feeds.length > 0) {
-        return ListView.separated(
-          separatorBuilder: (context, index) {
-            return Divider();
+        return NotificationListener<ScrollNotification>(
+          onNotification: (ScrollNotification scrollInfo) {
+            if (scrollInfo.metrics.pixels ==
+                scrollInfo.metrics.maxScrollExtent) {
+              fState.loadMore();
+            }
           },
-          itemBuilder: (context, index) {
-            return _buildCardPost(context, fState.feedModel.feeds[index]);
-          },
-          itemCount: fState.feedModel.feeds.length,
-          shrinkWrap: true,
-          physics: BouncingScrollPhysics(),
+          child: ListView.separated(
+            separatorBuilder: (context, index) {
+              return Divider();
+            },
+            itemBuilder: (context, index) {
+              return _buildCardPost(context, fState.feedModel.feeds[index]);
+            },
+            itemCount: fState.feedModel.feeds.length,
+            shrinkWrap: true,
+            physics: BouncingScrollPhysics(),
+          ),
         );
       }
       if (fState.feedModel != null && fState.feedModel.feeds.length == 0) {

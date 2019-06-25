@@ -47,6 +47,7 @@ class FeedState with ChangeNotifier {
    */
   Future<int> fetchList({bool isRefresh = false}) async {
     fetchLocation();
+    page = 0;
 
     if (!isRefresh) {
       _isFetching = true;
@@ -109,7 +110,7 @@ class FeedState with ChangeNotifier {
     return _error;
   }
 
-  Future<void> refreshToken() async {
+  Future<void> refreshToken({isLoadMore: false}) async {
     String refreshToken = await Prefs.getString("refresh");
 
     // print("refreshToken");
@@ -146,7 +147,11 @@ class FeedState with ChangeNotifier {
       _error = true;
     }
 
-    fetchList();
+    if (isLoadMore) {
+      fetchNextPage();
+    } else {
+      fetchList();
+    }
   }
 
   bool _tokenError = false;
@@ -311,7 +316,7 @@ class FeedState with ChangeNotifier {
           _error = 2;
           _refreshTry += 1;
           if (_refreshTry < 4) {
-            await refreshToken();
+            await refreshToken(isLoadMore: true);
           }
         } else {
           _feedModel.feeds.addAll(FeedModel.fromJson(json).feeds);
@@ -328,7 +333,7 @@ class FeedState with ChangeNotifier {
       _error = 2;
       _refreshTry += 1;
       if (_refreshTry < 4) {
-        await refreshToken();
+        await refreshToken(isLoadMore: true);
       } else {
         await tokenErrorHome();
       }

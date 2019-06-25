@@ -21,6 +21,19 @@ class FullAppLogo extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 20.0, right: 20.0, top: 8.0, bottom: 8.0),
+                  child: Text(
+                    "Production in Progress, Distribution in Democracy",
+                    style: TextStyle(
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.bold,
+                      fontStyle: FontStyle.italic,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
                 Image.asset(
                   "images/app_logo_splash.png",
                   height: 300.0,

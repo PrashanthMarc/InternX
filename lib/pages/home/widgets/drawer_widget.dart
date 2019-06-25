@@ -239,7 +239,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             ),
             onTap: () {
               Navigator.pop(context);
-              WidgetUtils.showRequestMentorPage(context);
+              // WidgetUtils.showRequestMentorPage(context);
+              WidgetUtils.showComingSoonPage(context);
             },
           ),
         ],

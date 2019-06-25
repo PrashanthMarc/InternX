@@ -45,10 +45,7 @@ class _SplashScreenState extends State<SplashScreen> {
       key: _scaffoldKey,
       backgroundColor: Colors.white,
       body: Center(
-        child: FullAppLogo(
-            // key: ValueKey("image-logo"),
-
-            ),
+        child: FullAppLogo(),
       ),
     );
   }

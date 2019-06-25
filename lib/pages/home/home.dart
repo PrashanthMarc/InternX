@@ -98,61 +98,63 @@ class FeedPage extends StatelessWidget {
     );
   }
 
-  _buildFeedList() {
-    return Consumer<FeedState>(builder: (context, fState, child) {
-      try {
-        if (fState.feedModel.appData[0].versionNumber != ConstUtils.version) {
-          Future.delayed(Duration(seconds: 3), () {
-            _showAppUpdatePopup(context, fState.feedModel.appData[0].changeLog,
-                fState.feedModel.appData[0].downloadUrl);
-          });
-        }
-      } catch (err) {}
+  _buildFeedList(FeedState fState, context) {
+    // return
+    // Consumer<FeedState>(builder: (context, fState, child) {
+    try {
+      if (fState.feedModel.appData[0].versionNumber != ConstUtils.version) {
+        return Future.delayed(Duration(seconds: 3), () {
+          _showAppUpdatePopup(context, fState.feedModel.appData[0].changeLog,
+              fState.feedModel.appData[0].downloadUrl);
+        });
+      }
+    } catch (err) {}
 
-      if (fState.tokenError) {
-        WidgetUtils.proceedToAuth(context, replaceAll: true);
-      }
-      if (fState.isFetching) {
-        return Container(
-          height: MediaQuery.of(context).size.height - 140.0,
-          child: Center(
-            child: CircularProgressIndicator(),
-          ),
-        );
-      }
-      if (!fState.isFetching && fState.errorCode == 401) {
-        WidgetUtils.proceedToAuth(context);
-      }
-      if (fState.feedModel != null && fState.feedModel.feeds.length > 0) {
-        return ListView.separated(
-          separatorBuilder: (context, index) {
-            return Divider();
-          },
-          itemBuilder: (context, index) {
-            return _buildCardPost(context, fState.feedModel.feeds[index]);
-          },
-          itemCount: fState.feedModel.feeds.length,
-          shrinkWrap: true,
-          physics: BouncingScrollPhysics(),
-        );
-      }
-      if (fState.feedModel != null && fState.feedModel.feeds.length == 0) {
-        return Container(
-          height: MediaQuery.of(context).size.height - 140.0,
-          child: Center(
-            child: Text("Feed list is empty."),
-          ),
-        );
-      }
-      if (fState.feedModel == null) {
-        return Container(
-          height: MediaQuery.of(context).size.height - 140.0,
-          child: Center(
-            child: Text("Loading..."),
-          ),
-        );
-      }
-    });
+    if (fState.tokenError) {
+      WidgetUtils.proceedToAuth(context, replaceAll: true);
+    }
+    if (fState.isFetching) {
+      return Container(
+        height: MediaQuery.of(context).size.height - 140.0,
+        child: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+    if (!fState.isFetching && fState.errorCode == 401) {
+      WidgetUtils.proceedToAuth(context);
+    }
+    print("rebuilding");
+    if (fState.feedModel != null && fState.feedModel.feeds.length > 0) {
+      return ListView.separated(
+        separatorBuilder: (context, index) {
+          return Divider();
+        },
+        itemBuilder: (context, index) {
+          return _buildCardPost(context, fState.feedModel.feeds[index]);
+        },
+        itemCount: fState.feedModel.feeds.length,
+        shrinkWrap: true,
+        physics: BouncingScrollPhysics(),
+      );
+    }
+    if (fState.feedModel != null && fState.feedModel.feeds.length == 0) {
+      return Container(
+        height: MediaQuery.of(context).size.height - 140.0,
+        child: Center(
+          child: Text("Feed list is empty."),
+        ),
+      );
+    }
+    if (fState.feedModel == null) {
+      return Container(
+        height: MediaQuery.of(context).size.height - 140.0,
+        child: Center(
+          child: Text("Loading..."),
+        ),
+      );
+    }
+    // } );
   }
 
   // @override
@@ -212,7 +214,7 @@ class FeedPage extends StatelessWidget {
                     key: Key("feed"),
                     child: ListView(
                       children: <Widget>[
-                        _buildFeedList(),
+                        _buildFeedList(fState, context),
                       ],
                     ),
                     onRefresh: () async {
